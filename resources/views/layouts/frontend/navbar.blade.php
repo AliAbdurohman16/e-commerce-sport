@@ -92,7 +92,7 @@
             @guest
                 @if (Route::has('login'))
                 <li class="list-inline-item mb-0">
-                    <a href="" class="btn btn-primary">Masuk</a>
+                    <a href="{{ route('login') }}" class="btn btn-primary">Masuk</a>
                 </li>
                 @endif
             @else
