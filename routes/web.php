@@ -17,3 +17,10 @@ Route::get('/', [App\Http\Controllers\Frontend\HomeController::class, 'index'])-
 
 Auth::routes();
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('dashboard', [App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('dashboard');
+    // Route::resources([
+    //     'category' => App\Http\Controllers\Backend\CategoryController::class,
+    // ]);
+});
+
