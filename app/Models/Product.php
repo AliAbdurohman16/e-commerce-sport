@@ -9,12 +9,17 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'price', 'stock', 'colors', 'sizes'];
+    protected $fillable = ['name', 'description', 'price', 'stock', 'colors', 'sizes', 'category_id'];
 
     protected $casts = [
         'colors' => 'json',
         'sizes' => 'json',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     public function orderDetails()
     {
