@@ -40,6 +40,21 @@
 
                                 <div class="col-md-12">
                                     <div class="mb-3">
+                                        <label class="form-label">Telepon <span class="text-danger">*</span></label>
+                                        <div class="form-icon position-relative">
+                                            <i data-feather="phone" class="fea icon-sm icons"></i>
+                                            <input type="number" class="form-control ps-5 @error('telephone') is-invalid @enderror" placeholder="Telepon" name="telephone" required autocomplete="telephone">
+                                            @error('telephone')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div><!--end col-->
+
+                                <div class="col-md-12">
+                                    <div class="mb-3">
                                         <label class="form-label">Email <span class="text-danger">*</span></label>
                                         <div class="form-icon position-relative">
                                             <i data-feather="mail" class="fea icon-sm icons"></i>
@@ -74,6 +89,16 @@
                                         <div class="form-icon position-relative">
                                             <i data-feather="key" class="fea icon-sm icons"></i>
                                             <input type="password" class="form-control ps-5" placeholder="Konfirmasi kata sandi" name="password_confirmation" required autocomplete="new-password">
+                                        </div>
+                                    </div>
+                                </div><!--end col-->
+
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Alamat Lengkap <span class="text-danger">*</span></label>
+                                        <div class="form-icon position-relative">
+                                            <i data-feather="map-pin" class="fea icon-sm icons"></i>
+                                            <textarea class="form-control ps-5" placeholder="Alamat Lengkap" name="address" required autocomplete="address"></textarea>
                                         </div>
                                     </div>
                                 </div><!--end col-->
