@@ -1,5 +1,7 @@
 @extends('layouts.auth.main')
 
+@section('title', 'Masuk')
+
 @section('content')
 <div class="back-to-home">
     <a href="{{ route('/') }}" class="back-button btn btn-icon btn-primary"><i data-feather="arrow-left" class="icons"></i></a>
