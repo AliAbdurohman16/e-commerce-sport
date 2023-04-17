@@ -19,6 +19,7 @@
                     <div class="card-body">
                         <h4 class="card-title text-center">Masuk</h4>
                         <form class="login-form mt-4" action="{{ route('login') }}" method="POST">
+                            @csrf
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="mb-3">
@@ -64,7 +65,7 @@
 
                                 <div class="col-lg-12 mb-0">
                                     <div class="d-grid">
-                                        <button class="btn btn-primary">Masuk</button>
+                                        <button type="submit" class="btn btn-primary">Masuk</button>
                                     </div>
                                 </div><!--end col-->
 
