@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-12 mt-4">
                 <div class="d-grid gap-2 d-md-flex">
-                    <button href="javascript:void(0)" class="btn btn-primary mb-3 btn-sm" data-bs-toggle="modal" data-bs-target="#add-modal">
+                    <button class="btn btn-primary mb-3 btn-sm" data-bs-toggle="modal" data-bs-target="#add-modal">
                         Tambah Data +
                     </button>
                 </div>
