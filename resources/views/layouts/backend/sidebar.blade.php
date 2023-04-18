@@ -13,7 +13,7 @@
 
         <ul class="sidebar-menu">
             <li><a href="{{ route('dashboard') }}"><i class="ti ti-home me-2"></i>Dashboard</a></li>
-            <li><a href=""><i class="ti ti-clock me-2"></i>Log Aktivitas</a></li>
+            <li><a href="{{ route('categories.index') }}"><i class="ti ti-apps me-2"></i>Kategori</a></li>
             <li><a href=""><i class="ti ti-list me-2"></i>Data Gunung</a></li>
             <li><a href=""><i class="ti ti-ticket me-2"></i>Booking</a></li>
             <li><a href=""><i class="ti ti-shopping-cart me-2"></i>Transaksi</a></li>

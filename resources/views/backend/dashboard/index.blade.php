@@ -524,3 +524,7 @@
     </div><!--end col-->
 </div><!--end row-->
 @endsection
+
+@section('javascript')
+<script src="{{ asset('backend') }}/libs/apexcharts/apexcharts.min.js"></script>
+@endsection
