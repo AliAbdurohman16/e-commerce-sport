@@ -76,7 +76,7 @@
                 <h5 class="modal-title" id="LoginForm-title">Tambah Data</h5>
                 <button type="button" class="btn btn-icon btn-close" data-bs-dismiss="modal" id="close-modal"><i class="uil uil-times fs-4 text-dark"></i></button>
             </div>
-            <Form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
+            <Form action="{{ route('categories.store') }}" method="POST" id="form-add" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
@@ -189,7 +189,19 @@
 <script src="{{ asset('backend') }}/libs/data-tables/js/dataTables.responsive.min.js"></script>
 <script src="{{ asset('backend') }}/libs/data-tables/js/responsive.bootstrap5.min.js"></script>
 <script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
-
+@if (Session::has('message'))
+<script>
+    swal.fire({
+        icon: "success",
+        title: "Berhasil",
+        text: "{{ Session::get('message') }}",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            location.reload();
+        }
+    });
+</script>
+@endif
 <script>
     // show datatable with search and pagination
     $(document).ready(function() {
@@ -206,19 +218,6 @@
             imgPreview.src = e.target.result;
         }
     }
-
-    // show dialog success
-    @if (Session::has('message'))
-        swal.fire({
-            icon: "success",
-            title: "Berhasil",
-            text: "{{ Session::get('message') }}",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                location.reload();
-            }
-        });
-    @endif
 
     // function delete
     $(".btn-delete").click(function() {

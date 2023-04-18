@@ -19,6 +19,11 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'name' => 'required|max:255',
+        ]);
+
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/categories');
             $imageName = basename($imagePath);
@@ -37,6 +42,11 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'name' => 'required|max:255',
+        ]);
+
         $category = Category::findOrFail($id);
 
         if ($request->hasFile('image')) {
@@ -66,6 +76,6 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return response()->json(['message' => 'Data berhasil dihapus!']);
+        return response()->json(['message' => 'Kategori berhasil dihapus!']);
     }
 }
