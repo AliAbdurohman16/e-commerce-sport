@@ -57,16 +57,16 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Kategori <span class="text-danger">*</span></label>
-                                        <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
+                                        <select name="category" id="category" class="form-control @error('category') is-invalid @enderror">
                                             <option value="">Pilih Kategori</option>
                                             @foreach ($categories as $category)
-                                                <option id="categories_data" value="{{ $category->id }}"
-                                                    {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                <option value="{{ $category->id }}"
+                                                    {{ old('category') == $category->id ? 'selected' : '' }}>
                                                     {{ $category->name }}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        @error('category_id')
+                                        @error('category')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
