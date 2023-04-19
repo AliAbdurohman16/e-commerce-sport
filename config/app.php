@@ -186,6 +186,7 @@ return [
          * Package Service Providers...
          */
         Spatie\Permission\PermissionServiceProvider::class,
+        Conner\Tagging\Providers\TaggingServiceProvider::class,
 
         /*
          * Application Service Providers...

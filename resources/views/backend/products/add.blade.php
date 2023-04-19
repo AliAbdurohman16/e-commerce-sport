@@ -29,7 +29,7 @@
             <div class="card">
                 <div class="container">
                     <div class="card-body">
-                        <form action="{{ route('products.store') }}" method="POST">
+                        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
@@ -46,7 +46,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Nama Produk <span class="text-danger">*</span></label>
-                                        <input name="name" id="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Nama Produk">
+                                        <input name="name" id="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Nama Produk" value="{{ old('name') }}">
                                         @error('name')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -78,7 +78,7 @@
                                         <label class="form-label">Berat Barang <span class="text-danger">*</span></label>
                                         <div class="row">
                                             <div class="col-7 col-sm-8 mb-2">
-                                                <input name="weight" id="weight" type="number" class="form-control @error('weight') is-invalid @enderror" placeholder="Berat Barang">
+                                                <input name="weight" id="weight" type="number" class="form-control @error('weight') is-invalid @enderror" placeholder="Berat Barang" value="{{ old('weight') }}">
                                                 @error('weight')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -88,12 +88,12 @@
                                             <div class="col-5 col-sm-4">
                                                 <select name="unit" id="unit" class="form-control @error('unit') is-invalid @enderror">
                                                     <option value="">Pilih Satuan</option>
-                                                    <option value="g">g</option>
-                                                    <option value="kg">kg</option>
-                                                    <option value="ons">ons</option>
-                                                    <option value="pon">pon</option>
-                                                    <option value="lb">lb</option>
-                                                    <option value="oz">oz</option>
+                                                    <option value="g" {{ old('unit') == 'g' ? 'selected' : '' }}>g</option>
+                                                    <option value="kg" {{ old('unit') == 'kg' ? 'selected' : '' }}>kg</option>
+                                                    <option value="ons" {{ old('unit') == 'ons' ? 'selected' : '' }}>ons</option>
+                                                    <option value="pon" {{ old('unit') == 'pon' ? 'selected' : '' }}>pon</option>
+                                                    <option value="lb" {{ old('unit') == 'lb' ? 'selected' : '' }}>lb</option>
+                                                    <option value="oz" {{ old('unit') == 'oz' ? 'selected' : '' }}>oz</option>
                                                 </select>
                                             </div>
                                             @error('unit')
@@ -107,7 +107,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Harga <span class="text-danger">*</span></label>
-                                        <input name="price" id="price" type="number" class="form-control @error('price') is-invalid @enderror" placeholder="Harga">
+                                        <input name="price" id="price" type="number" class="form-control @error('price') is-invalid @enderror" placeholder="Harga" value="{{ old('price') }}">
                                         @error('price')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -118,7 +118,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Stok <span class="text-danger">*</span></label>
-                                        <input name="stock" id="stock" type="number" class="form-control @error('stock') is-invalid @enderror" placeholder="Stok">
+                                        <input name="stock" id="stock" type="number" class="form-control @error('stock') is-invalid @enderror" placeholder="Stok" value="{{ old('stock') }}">
                                         @error('stock')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -129,19 +129,19 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Ukuran (Opsional)</label>
-                                        <input name="sizes" id="sizes" type="text" class="form-control" data-role="tagsinput">
+                                        <input name="sizes" id="sizes" type="text" class="form-control" value="{{ old('sizes') }}" data-role="tagsinput">
                                     </div>
                                 </div><!--end col-->
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Warna (Opsional)</label>
-                                        <input name="colors" id="colors" type="text" class="form-control" data-role="tagsinput">
+                                        <input name="colors" id="colors" type="text" class="form-control" value="{{ old('colors') }}" data-role="tagsinput">
                                     </div>
                                 </div><!--end col-->
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">Deskripsi Produk</label>
-                                        <textarea name="description" id="description" rows="4" class="form-control @error('description') is-invalid @enderror" placeholder="Deskripsi Produk"></textarea>
+                                        <textarea name="description" id="description" rows="4" class="form-control @error('description') is-invalid @enderror" placeholder="Deskripsi Produk">{{ old('description') }}</textarea>
                                         @error('description')
                                             <div class="invalid-feedback">
                                                 {{ $message }}

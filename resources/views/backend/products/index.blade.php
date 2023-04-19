@@ -50,13 +50,23 @@
                                 @foreach($products as $product)
                                     <tr>
                                         <th class="text-center p-3" style="width: 5%;">{{ $loop->iteration }}</th>
-                                        <td class="p-3"><img src="{{ asset('storage/products/' . $product->image) }}" width="100px" class="img-fluid" alt="image-products"></td>
+                                        <td class="p-3">
+                                            <div class="row">
+                                                @if ($product->images->count() > 0)
+                                                    @foreach ($product->images as $image)
+                                                    <div class="col-6 mb-2">
+                                                        <img src="{{ asset('storage/products/' . $image->path) }}" width="70px" class="img-fluid" alt="image-products">
+                                                    </div>
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                        </td>
                                         <td class="p-3">{{ $product->name }}</td>
                                         <td class="p-3">{{ $product->sizes }}</td>
                                         <td class="p-3">{{ $product->colors }}</td>
-                                        <td class="p-3">{{ $product->weight }}</td>
+                                        <td class="p-3" style="width: 10%;">{{ $product->weight }} {{ $product->unit }}</td>
                                         <td class="p-3">{{ $product->price }}</td>
-                                        <td style="width: 25%;">
+                                        <td style="width: 5%;">
                                             <button type="button" class="btn btn-warning btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#edit-modal{{ $product->id }}"><i class="fa-solid fa-pen"></i> Edit</button>
                                             <button type="button" class="btn btn-danger btn-sm mb-2 btn-delete" data-id="{{ $product->id }}"><i class="fa-solid fa-trash"></i> Hapus</button>
                                         </td>
