@@ -11,6 +11,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
+        "rtconner/laravel-tagging": "^4.1",
         "spatie/laravel-permission": "^5.10"
     },
     "require-dev": {
