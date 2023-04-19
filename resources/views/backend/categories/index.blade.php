@@ -47,7 +47,7 @@
                                 @foreach($categories as $category)
                                     <tr>
                                         <th class="text-center p-3" style="width: 5%;">{{ $loop->iteration }}</th>
-                                        <td class="p-3"><img src="{{ asset('storage/categories/' . $category->image) }}" width="100px" class="img-fluid" alt="image-categories"></td>
+                                        <td class="p-3"><img src="{{ asset('storage/categories/' . $category->image) }}" width="70px" class="img-fluid" alt="image-categories"></td>
                                         <td class="p-3">{{ $category->name }}</td>
                                         <td class="p-3">{{ $category->slug }}</td>
                                         <td style="width: 25%;">
