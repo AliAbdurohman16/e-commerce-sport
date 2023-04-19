@@ -4,17 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use \Conner\Tagging\Taggable;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Taggable;
 
-    protected $fillable = ['name', 'description', 'price', 'stock', 'colors', 'sizes', 'category_id'];
+    protected $fillable = ['name', 'slug', 'description', 'price', 'stock', 'colors', 'sizes', 'weight', 'unit', 'category_id'];
 
-    protected $casts = [
-        'colors' => 'json',
-        'sizes' => 'json',
-    ];
+    // protected $casts = [
+    //     'colors' => 'json',
+    //     'sizes' => 'json',
+    // ];
 
     public function category()
     {
