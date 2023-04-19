@@ -90,10 +90,10 @@
 
             <li class="list-inline-item mb-0 ms-1">
                 <div class="dropdown dropdown-primary">
-                    <button type="button" class="btn btn-soft-light dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ Auth::user()->image }}" class="avatar avatar-ex-small rounded" alt=""></button>
+                    <button type="button" class="btn btn-soft-light dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ asset(Auth::user()->image) }}" class="avatar avatar-ex-small rounded" alt=""></button>
                     <div class="dropdown-menu dd-menu dropdown-menu-end shadow border-0 mt-3 py-3" style="min-width: 200px;">
                         <a class="dropdown-item d-flex align-items-center text-dark pb-3" href="profile.html">
-                            <img src="{{ Auth::user()->image }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                            <img src="{{ asset(Auth::user()->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                             <div class="flex-1 ms-2">
                                 <span class="d-block">{{ Auth::user()->name }}</span>
                                 <small class="text-muted">{{ Auth::user()->hasRole('admin') ? 'Administrator' : 'User' }}</small>
