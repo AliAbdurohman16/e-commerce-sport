@@ -21,6 +21,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('dashboard');
     Route::resources([
         'categories' => App\Http\Controllers\Backend\CategoryController::class,
+        'products' => App\Http\Controllers\Backend\ProductController::class,
     ]);
 });
 
