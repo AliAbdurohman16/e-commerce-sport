@@ -20,7 +20,7 @@
             <nav aria-label="breadcrumb" class="d-inline-block">
                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                     <li class="breadcrumb-item text-capitalize"><a href="{{ route('products.index') }}">Produk</a></li>
-                    <li class="breadcrumb-item text-capitalize active" aria-current="page">Tambah Data</li>
+                    <li class="breadcrumb-item text-capitalize active" aria-current="page">Edit Data</li>
                 </ul>
             </nav>
         </div>
@@ -29,8 +29,9 @@
             <div class="card">
                 <div class="container">
                     <div class="card-body">
-                        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('products.update', $products->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -46,7 +47,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Nama Produk <span class="text-danger">*</span></label>
-                                        <input name="name" id="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Nama Produk" value="{{ old('name') }}">
+                                        <input name="name" id="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Nama Produk" value="{{ $products->name }}">
                                         @error('name')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -61,7 +62,7 @@
                                             <option value="">Pilih Kategori</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}"
-                                                    {{ old('category') == $category->id ? 'selected' : '' }}>
+                                                    {{ $products->category_id == $category->id ? 'selected' : '' }}>
                                                     {{ $category->name }}
                                                 </option>
                                             @endforeach
@@ -78,7 +79,7 @@
                                         <label class="form-label">Berat Barang <span class="text-danger">*</span></label>
                                         <div class="row">
                                             <div class="col-7 col-sm-8 mb-2">
-                                                <input name="weight" id="weight" type="number" class="form-control @error('weight') is-invalid @enderror" placeholder="Berat Barang" value="{{ old('weight') }}">
+                                                <input name="weight" id="weight" type="number" class="form-control @error('weight') is-invalid @enderror" placeholder="Berat Barang" value="{{ $products->weight }}">
                                                 @error('weight')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -88,12 +89,12 @@
                                             <div class="col-5 col-sm-4">
                                                 <select name="unit" id="unit" class="form-control @error('unit') is-invalid @enderror">
                                                     <option value="">Pilih Satuan</option>
-                                                    <option value="g" {{ old('unit') == 'g' ? 'selected' : '' }}>g</option>
-                                                    <option value="kg" {{ old('unit') == 'kg' ? 'selected' : '' }}>kg</option>
-                                                    <option value="ons" {{ old('unit') == 'ons' ? 'selected' : '' }}>ons</option>
-                                                    <option value="pon" {{ old('unit') == 'pon' ? 'selected' : '' }}>pon</option>
-                                                    <option value="lb" {{ old('unit') == 'lb' ? 'selected' : '' }}>lb</option>
-                                                    <option value="oz" {{ old('unit') == 'oz' ? 'selected' : '' }}>oz</option>
+                                                    <option value="g" {{ $products->unit == 'g' ? 'selected' : '' }}>g</option>
+                                                    <option value="kg" {{ $products->unit == 'kg' ? 'selected' : '' }}>kg</option>
+                                                    <option value="ons" {{ $products->unit == 'ons' ? 'selected' : '' }}>ons</option>
+                                                    <option value="pon" {{ $products->unit == 'pon' ? 'selected' : '' }}>pon</option>
+                                                    <option value="lb" {{ $products->unit == 'lb' ? 'selected' : '' }}>lb</option>
+                                                    <option value="oz" {{ $products->unit == 'oz' ? 'selected' : '' }}>oz</option>
                                                 </select>
                                             </div>
                                             @error('unit')
@@ -107,7 +108,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Harga <span class="text-danger">*</span></label>
-                                        <input name="price" id="price" type="number" class="form-control @error('price') is-invalid @enderror" placeholder="Harga" value="{{ old('price') }}">
+                                        <input name="price" id="price" type="number" class="form-control @error('price') is-invalid @enderror" placeholder="Harga" value="{{ $products->price }}">
                                         @error('price')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -118,7 +119,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Stok <span class="text-danger">*</span></label>
-                                        <input name="stock" id="stock" type="number" class="form-control @error('stock') is-invalid @enderror" placeholder="Stok" value="{{ old('stock') }}">
+                                        <input name="stock" id="stock" type="number" class="form-control @error('stock') is-invalid @enderror" placeholder="Stok" value="{{ $products->stock }}">
                                         @error('stock')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -129,19 +130,19 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Ukuran (Opsional)</label>
-                                        <input name="sizes" id="sizes" type="text" class="form-control" value="{{ old('sizes') }}" data-role="tagsinput">
+                                        <input name="sizes" id="sizes" type="text" class="form-control" value="{{ $products->sizes }}" data-role="tagsinput">
                                     </div>
                                 </div><!--end col-->
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Warna (Opsional)</label>
-                                        <input name="colors" id="colors" type="text" class="form-control" value="{{ old('colors') }}" data-role="tagsinput">
+                                        <input name="colors" id="colors" type="text" class="form-control" value="{{ $products->colors }}" data-role="tagsinput">
                                     </div>
                                 </div><!--end col-->
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">Deskripsi Produk</label>
-                                        <textarea name="description" id="description" rows="4" class="form-control @error('description') is-invalid @enderror" placeholder="Deskripsi Produk">{{ old('description') }}</textarea>
+                                        <textarea name="description" id="description" rows="4" class="form-control @error('description') is-invalid @enderror" placeholder="Deskripsi Produk">{{ $products->description }}</textarea>
                                         @error('description')
                                             <div class="invalid-feedback">
                                                 {{ $message }}

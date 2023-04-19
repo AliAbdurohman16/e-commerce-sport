@@ -67,7 +67,7 @@
                                         <td class="p-3" style="width: 10%;">{{ $product->weight }} {{ $product->unit }}</td>
                                         <td class="p-3">{{ $product->price }}</td>
                                         <td style="width: 5%;">
-                                            <button type="button" class="btn btn-warning btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#edit-modal{{ $product->id }}"><i class="fa-solid fa-pen"></i> Edit</button>
+                                            <a href="products/{{ $product->id }}/edit" class="btn btn-warning btn-sm mb-2"><i class="fa-solid fa-pen"></i> Edit</a>
                                             <button type="button" class="btn btn-danger btn-sm mb-2 btn-delete" data-id="{{ $product->id }}"><i class="fa-solid fa-trash"></i> Hapus</button>
                                         </td>
                                     </tr>

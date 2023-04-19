@@ -80,16 +80,82 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        # code...
+        // get data find or fail by id
+        $products = Product::findOrFail($id);
+
+        // get all data categories
+        $categories = Category::all();
+
+        return view('backend.products.edit', compact('products', 'categories'));
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        return $request->all();
+        // validation
+        $request->validate([
+            'image' => 'required|max:2048',
+            'image.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'name' => 'required|max:255',
+            'category' => 'required',
+            'weight' => 'required',
+            'unit' => 'required',
+            'price' => 'required',
+            'stock' => 'required',
+            'description' => 'required',
+        ]);
+
+        // get data find or fail by id
+        $product = Product::findOrFail($id);
+
+        // process upload image multiple
+        if ($request->hasFile('image')) {
+            foreach ($product->images as $image) {
+                Storage::delete('public/products/' . $image->path);
+                $image->delete();
+            }
+
+            $images = $request->file('image');
+            foreach ($images as $image) {
+                $path = basename($image->store('public/products'));
+
+                Image::create([
+                    'path' => $path,
+                    'product_id' => $product->id,
+                ]);
+            }
+        }
+
+        // update to table products
+        $product->update([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name, '-'),
+            'category_id' => $request->category,
+            'weight' => $request->weight,
+            'unit' => $request->unit,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'sizes' => $request->sizes,
+            'colors' => $request->colors,
+            'description' => $request->description,
+        ]);
+
+        return redirect('products')->with('message', 'Produk berhasil diubah!');
     }
 
     public function destroy($id)
     {
-        # code...
+        // get data find or fail by id
+        $product = Product::findOrFail($id);
+
+        // process delete image
+        foreach ($product->images as $image) {
+            Storage::delete('public/products/' . $image->path);
+            $image->delete();
+        }
+
+        // delete data
+        $product->delete();
+
+        return response()->json(['message' => 'Produk berhasil dihapus!']);
     }
 }

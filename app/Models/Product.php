@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Conner\Tagging\Taggable;
 
 class Product extends Model
 {
-    use HasFactory, Taggable;
+    use HasFactory;
 
     protected $fillable = ['name', 'slug', 'description', 'price', 'stock', 'colors', 'sizes', 'weight', 'unit', 'category_id'];
 
