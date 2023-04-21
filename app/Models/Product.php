@@ -11,6 +11,16 @@ class Product extends Model
 
     protected $fillable = ['name', 'slug', 'description', 'price', 'stock', 'colors', 'sizes', 'weight', 'unit', 'category_id'];
 
+    public function sizes()
+    {
+        return $this->hasMany(Size::class);
+    }
+
+    public function colors()
+    {
+        return $this->hasMany(Color::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

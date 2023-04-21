@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Image;
+use App\Models\Color;
+use App\Models\Size;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -15,7 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         // get data
-        $products = Product::with('images')->get();
+        $products = Product::with(['images', 'sizes', 'colors'])->get();
 
         return view('backend.products.index', compact('products'));
     }
@@ -52,10 +54,30 @@ class ProductController extends Controller
             'unit' => $request->unit,
             'price' => $request->price,
             'stock' => $request->stock,
-            'sizes' => $request->sizes,
-            'colors' => $request->colors,
             'description' => $request->description,
         ]);
+
+        // split colors into array
+        $colors = explode(',', $request->colors);
+
+        // split sizes into array
+        $sizes = explode(',', $request->sizes);
+
+        // insert new colors
+        foreach ($colors as $color) {
+            Color::create([
+                'name' => $color,
+                'product_id' => $products->id,
+            ]);
+        }
+
+        // insert new sizes
+        foreach ($sizes as $size) {
+            Size::create([
+                'name' => $size,
+                'product_id' => $products->id,
+            ]);
+        }
 
         // process upload image multiple
         if ($request->hasFile('image')) {
@@ -75,7 +97,10 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        # code...
+        // get data find or fail by id
+        $products = Product::findOrFail($id);
+
+        return view('backend.products.detail', compact('products'));
     }
 
     public function edit($id)
@@ -93,7 +118,7 @@ class ProductController extends Controller
     {
         // validation
         $request->validate([
-            'image' => 'required|max:2048',
+            'image' => 'max:2048',
             'image.*' => 'image|mimes:jpeg,png,jpg|max:2048',
             'name' => 'required|max:255',
             'category' => 'required',
@@ -134,10 +159,34 @@ class ProductController extends Controller
             'unit' => $request->unit,
             'price' => $request->price,
             'stock' => $request->stock,
-            'sizes' => $request->sizes,
-            'colors' => $request->colors,
             'description' => $request->description,
         ]);
+
+        // split colors into array
+        $colors = explode(',', $request->colors);
+
+        // split sizes into array
+        $sizes = explode(',', $request->sizes);
+
+        // delete existing colors and sizes
+        $product->colors()->delete();
+        $product->sizes()->delete();
+
+        // insert new colors
+        foreach ($colors as $color) {
+            Color::create([
+                'name' => $color,
+                'product_id' => $product->id,
+            ]);
+        }
+
+        // insert new sizes
+        foreach ($sizes as $size) {
+            Size::create([
+                'name' => $size,
+                'product_id' => $product->id,
+            ]);
+        }
 
         return redirect('products')->with('message', 'Produk berhasil diubah!');
     }

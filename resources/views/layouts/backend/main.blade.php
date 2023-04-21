@@ -16,6 +16,8 @@
         <!-- Icons Css -->
         <link href="{{ asset('backend') }}/css/icons.min.css" rel="stylesheet" type="text/css" />
         <link href="{{ asset('backend') }}/libs/@iconscout/unicons/css/line.css" type="text/css" rel="stylesheet" />
+        <!-- Fontawesome -->
+        <link rel="stylesheet" href="{{ asset('backend') }}/libs/fontawesome/css/all.min.css"/>
         <!-- Style Css-->
         <link href="{{ asset('backend') }}/css/style.min.css" class="theme-opt" rel="stylesheet" type="text/css" />
         @yield('css')
@@ -54,6 +56,8 @@
         <script src="{{ asset('backend') }}/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="{{ asset('backend') }}/libs/feather-icons/feather.min.js"></script>
         <script src="{{ asset('backend') }}/libs/simplebar/simplebar.min.js"></script>
+        <!-- Fontawesome -->
+        <script src="{{ asset('backend') }}/libs/fontawesome/js/all.min.css"></script>
         @yield('javascript')
         <!-- Main Js -->
         <script src="{{ asset('backend') }}/js/plugins.init.js"></script>

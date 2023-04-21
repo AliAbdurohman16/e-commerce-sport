@@ -52,21 +52,30 @@
                                         <th class="text-center p-3" style="width: 5%;">{{ $loop->iteration }}</th>
                                         <td class="p-3">
                                             <div class="row">
-                                                @if ($product->images->count() > 0)
-                                                    @foreach ($product->images as $image)
-                                                    <div class="col-6 mb-2">
-                                                        <img src="{{ asset('storage/products/' . $image->path) }}" width="70px" class="img-fluid" alt="image-products">
-                                                    </div>
-                                                    @endforeach
-                                                @endif
+                                                <div class="col-12">
+                                                    @if ($product->images->count() > 0)
+                                                        @foreach ($product->images as $image)
+                                                            <img src="{{ asset('storage/products/' . $image->path) }}" width="100px" class="img-fluid mb-2" alt="image-products">
+                                                        @endforeach
+                                                    @endif
+                                                </div>
                                             </div>
                                         </td>
                                         <td class="p-3">{{ $product->name }}</td>
-                                        <td class="p-3">{{ $product->sizes }}</td>
-                                        <td class="p-3">{{ $product->colors }}</td>
+                                        <td class="p-3">
+                                            @foreach ($product->sizes as $size)
+                                                {{ $size->name }},
+                                            @endforeach
+                                        </td>
+                                        <td class="p-3">
+                                            @foreach ($product->colors as $color)
+                                                {{ $color->name }},
+                                            @endforeach
+                                        </td>
                                         <td class="p-3" style="width: 10%;">{{ $product->weight }} {{ $product->unit }}</td>
-                                        <td class="p-3">{{ $product->price }}</td>
+                                        <td class="p-3">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
                                         <td style="width: 5%;">
+                                            <a href="products/{{ $product->id }}" class="btn btn-info btn-sm mb-2"><i class="fa-solid fa-circle-info"></i> Detail</a>
                                             <a href="products/{{ $product->id }}/edit" class="btn btn-warning btn-sm mb-2"><i class="fa-solid fa-pen"></i> Edit</a>
                                             <button type="button" class="btn btn-danger btn-sm mb-2 btn-delete" data-id="{{ $product->id }}"><i class="fa-solid fa-trash"></i> Hapus</button>
                                         </td>

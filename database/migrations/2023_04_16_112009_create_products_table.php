@@ -20,8 +20,8 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('price', 10, 2);
             $table->integer('stock');
-            $table->string('colors')->nullable();
-            $table->string('sizes')->nullable();
+            // $table->string('colors')->nullable();
+            // $table->string('sizes')->nullable();
             $table->integer('weight');
             $table->string('unit');
             $table->unsignedBigInteger('category_id');

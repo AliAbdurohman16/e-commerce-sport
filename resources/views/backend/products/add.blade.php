@@ -25,6 +25,8 @@
             </nav>
         </div>
 
+        <a href="{{ route('products.index') }}" class="btn btn-warning btn-sm mt-4"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+
         <div class="col-lg-12 mt-4">
             <div class="card">
                 <div class="container">

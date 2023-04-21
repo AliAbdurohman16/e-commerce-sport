@@ -25,6 +25,8 @@
             </nav>
         </div>
 
+        <a href="{{ route('products.index') }}" class="btn btn-warning btn-sm mt-4"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+
         <div class="col-lg-12 mt-4">
             <div class="card">
                 <div class="container">
@@ -108,7 +110,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Harga <span class="text-danger">*</span></label>
-                                        <input name="price" id="price" type="number" class="form-control @error('price') is-invalid @enderror" placeholder="Harga" value="{{ $products->price }}">
+                                        <input name="price" id="price" type="number" class="form-control @error('price') is-invalid @enderror" placeholder="Harga" value="{{ intval($products->price) }}">
                                         @error('price')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -130,13 +132,13 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Ukuran (Opsional)</label>
-                                        <input name="sizes" id="sizes" type="text" class="form-control" value="{{ $products->sizes }}" data-role="tagsinput">
+                                        <input name="sizes" id="sizes" type="text" class="form-control" value="{{ implode(',', $products->sizes->pluck('name')->toArray()) }}" data-role="tagsinput">
                                     </div>
                                 </div><!--end col-->
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Warna (Opsional)</label>
-                                        <input name="colors" id="colors" type="text" class="form-control" value="{{ $products->colors }}" data-role="tagsinput">
+                                        <input name="colors" id="colors" type="text" class="form-control" value="{{ implode(',', $products->colors->pluck('name')->toArray()) }}" data-role="tagsinput">
                                     </div>
                                 </div><!--end col-->
                                 <div class="col-md-12">
