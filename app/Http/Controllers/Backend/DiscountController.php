@@ -17,9 +17,36 @@ class DiscountController extends Controller
         return view('backend.discounts.index', compact('discounts'));
     }
 
+    public function create()
+    {
+        // get data discount
+        $discounts = Discount::all();
+
+        // get all data products
+        $products = Product::all();
+
+        return view('backend.discounts.add', compact('discounts', 'products'));
+    }
+
     public function store(Request $request)
     {
-        //
+        // validation
+        $request->validate([
+            'product' => 'required',
+            'discount_percentage' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+
+        // insert to table discounts
+        Discount::create([
+            'product_id' => $request->product,
+            'discount_percentage' => $request->discount_percentage,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
+
+        return redirect('discounts')->with('message', 'Diskon berhasil ditambahkan!');
     }
 
     public function edit($id)

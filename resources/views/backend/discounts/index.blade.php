@@ -36,7 +36,6 @@
                             <thead>
                                 <tr>
                                     <th class="text-center border-bottom p-3">No</th>
-                                    <th class="border-bottom p-3">Foto</th>
                                     <th class="border-bottom p-3">Nama Produk</th>
                                     <th class="border-bottom p-3">Diskon</th>
                                     <th class="border-bottom p-3">Tanggal Mulai</th>
@@ -50,30 +49,15 @@
                                 @foreach($discounts as $discount)
                                     <tr>
                                         <th class="text-center p-3" style="width: 5%;">{{ $loop->iteration }}</th>
+                                        <td class="p-3">{{ $discount->product->name }}</td>
+                                        <td class="p-3">{{ $discount->discount_percentage }}%</td>
+                                        <td class="p-3">{{ date('d-m-Y', strtotime($discount->start_date)) }}</td>
+                                        <td class="p-3">{{ date('d-m-Y', strtotime($discount->end_date)) }}</td>
                                         <td class="p-3">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    @if ($discount->images->count() > 0)
-                                                        @foreach ($discount->images as $image)
-                                                            <img src="{{ asset('storage/discounts/' . $image->path) }}" width="100px" class="img-fluid mb-2" alt="image-discounts">
-                                                        @endforeach
-                                                    @endif
-                                                </div>
-                                            </div>
+                                            <span class="badge bg-{{ now() >= $discount->end_date ? 'danger' : 'success' }}">
+                                                {{ now() >= $discount->end_date ? 'Kedaluwarsa' : 'Aktif' }}
+                                            </span>
                                         </td>
-                                        <td class="p-3">{{ $discount->name }}</td>
-                                        <td class="p-3">
-                                            @foreach ($discount->sizes as $size)
-                                                {{ $size->name }},
-                                            @endforeach
-                                        </td>
-                                        <td class="p-3">
-                                            @foreach ($discount->colors as $color)
-                                                {{ $color->name }},
-                                            @endforeach
-                                        </td>
-                                        <td class="p-3" style="width: 10%;">{{ $discount->weight }} {{ $discount->unit }}</td>
-                                        <td class="p-3">Rp {{ number_format($discount->price, 0, ',', '.') }}</td>
                                         <td style="width: 5%;">
                                             <a href="discounts/{{ $discount->id }}" class="btn btn-info btn-sm mb-2"><i class="fa-solid fa-circle-info"></i> Detail</a>
                                             <a href="discounts/{{ $discount->id }}/edit" class="btn btn-warning btn-sm mb-2"><i class="fa-solid fa-pen"></i> Edit</a>
