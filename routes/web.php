@@ -22,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resources([
         'categories' => App\Http\Controllers\Backend\CategoryController::class,
         'products' => App\Http\Controllers\Backend\ProductController::class,
+        'discounts' => App\Http\Controllers\Backend\DiscountController::class,
     ]);
 });
 

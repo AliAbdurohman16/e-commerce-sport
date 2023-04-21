@@ -1,0 +1,69 @@
+/* style untuk container select2 */
+.select2-container {
+    width: 100% !important;
+}
+
+/* style untuk selection select2 */
+.select2-container .select2-selection--single {
+    border: 1px solid #e9ecef;
+    font-size: 14px;
+    line-height: 26px;
+    border-radius: 6px;
+    color: #3c4858 !important;
+    height: 38px;
+}
+
+/* style untuk selection select2 ketika focus */
+.select2-selection--single:focus {
+    outline: none;
+    border-color: #2f55d4;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+/* style untuk placeholder di select2 */
+.select2-selection__placeholder {
+    color: #3c4858;
+}
+
+/* style untuk dropdown select2 */
+.select2-dropdown {
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+}
+
+/* style untuk item di dropdown select2 */
+.select2-results__option {
+    font-size: 14px;
+    line-height: 26px;
+    color: #3c4858;
+}
+
+/* style untuk item di dropdown select2 ketika dipilih */
+.select2-results__option[aria-selected=true] {
+    background-color: #2f55d4;
+    color: #fff;
+}
+
+.select2-search__field {
+    font-size: 14px;
+    height: 35px;
+}
+
+.select2-search__field, .select2-selection__rendered {
+    border-radius: 6px;
+}
+
+/* media query untuk ukuran layar < 576px */
+@media (max-width: 575.98px) {
+    /* style untuk selection select2 */
+    .select2-selection--single {
+        height: 32px;
+    }
+
+    /* style untuk item di dropdown select2 */
+    .select2-results__option {
+        font-size: 12px;
+        line-height: 22px;
+    }
+}

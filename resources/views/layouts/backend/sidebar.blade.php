@@ -15,7 +15,7 @@
             <li><a href="{{ route('dashboard') }}"><i class="uil uil-estate me-2"></i>Dashboard</a></li>
             <li><a href="{{ route('categories.index') }}"><i class="uil uil-apps me-2"></i>Kategori</a></li>
             <li><a href="{{ route('products.index') }}"><i class="uil uil-shopping-bag me-2"></i>Produk</a></li>
-            <li><a href=""><i class="uil uil-percentage me-2"></i>Diskon</a></li>
+            <li><a href="{{ route('discounts.index') }}"><i class="uil uil-percentage me-2"></i>Diskon</a></li>
             <li><a href=""><i class="uil uil-pricetag-alt me-2"></i>Promo</a></li>
             <li><a href=""><i class="uil uil-shopping-cart me-2"></i>Transaksi</a></li>
             <li><a href=""><i class="uil uil-invoice me-2"></i>Invoice</a></li>
