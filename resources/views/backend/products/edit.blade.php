@@ -7,8 +7,10 @@
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/data-tables/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/data-tables/css/responsive.bootstrap5.min.css">
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" integrity="sha512-xmGTNt20S0t62wHLmQec2DauG9T+owP9e6VU8GigI0anN7OXLip9i7IwEhelasml2osdxX71XcYm6BQunTQeQg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{{ asset('backend') }}/libs/tagsinput/tagsinput.css"/>
 <link rel="stylesheet" href="{{ asset('backend') }}/css/tag-input.css"/>
+<link rel="stylesheet" href="{{ asset('backend') }}/libs/select2/select2.min.css"/>
+<link rel="stylesheet" href="{{ asset('backend') }}/css/select2.css"/>
 @endsection
 
 @section('content')
@@ -60,7 +62,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Kategori <span class="text-danger">*</span></label>
-                                        <select name="category" id="category" class="form-control @error('category') is-invalid @enderror">
+                                        <select name="category" id="category" class="form-control select2 @error('category') is-invalid @enderror">
                                             <option value="">Pilih Kategori</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}"
@@ -175,9 +177,15 @@
 <script src="{{ asset('backend') }}/libs/data-tables/js/dataTables.responsive.min.js"></script>
 <script src="{{ asset('backend') }}/libs/data-tables/js/responsive.bootstrap5.min.js"></script>
 <script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" integrity="sha512-9UR1ynHntZdqHnwXKTaOm1s6V9fExqejKvg5XMawEMToW4sSw+3jtLrYfZPijvnwnnE8Uol1O9BcAskoxgec+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{{ asset('backend') }}/libs/tagsinput/tagsinput.min.js"></script>
 <script src="{{ asset('backend') }}/libs/autoNumeric/autoNumeric.min.js"></script>
+<script src="{{ asset('backend') }}/libs/select2/select2.min.js"></script>
 <script>
+    // show select2
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+
     // show price to IDR
     new AutoNumeric('#price', {
         currencySymbol : 'Rp ',
