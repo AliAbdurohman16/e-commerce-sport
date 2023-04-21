@@ -45,6 +45,9 @@ class ProductController extends Controller
             'description' => 'required',
         ]);
 
+        // remove currency symbol and thousand separators from price field
+        $price = str_replace(['Rp ', '.', ','], ['', '', ''], $request->price);
+
         // insert to table products
         $products = Product::create([
             'name' => $request->name,
@@ -52,7 +55,7 @@ class ProductController extends Controller
             'category_id' => $request->category,
             'weight' => $request->weight,
             'unit' => $request->unit,
-            'price' => $request->price,
+            'price' => $price,
             'stock' => $request->stock,
             'description' => $request->description,
         ]);
@@ -150,6 +153,9 @@ class ProductController extends Controller
             }
         }
 
+        // remove currency symbol and thousand separators from price field
+        $price = str_replace(['Rp ', '.', ','], ['', '', ''], $request->price);
+
         // update to table products
         $product->update([
             'name' => $request->name,
@@ -157,7 +163,7 @@ class ProductController extends Controller
             'category_id' => $request->category,
             'weight' => $request->weight,
             'unit' => $request->unit,
-            'price' => $request->price,
+            'price' => $price,
             'stock' => $request->stock,
             'description' => $request->description,
         ]);

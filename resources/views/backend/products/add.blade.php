@@ -109,7 +109,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Harga <span class="text-danger">*</span></label>
-                                        <input name="price" id="price" type="number" class="form-control @error('price') is-invalid @enderror" placeholder="Harga" value="{{ old('price') }}">
+                                        <input name="price" id="price" type="text" class="form-control @error('price') is-invalid @enderror" placeholder="Harga" value="{{ old('price') }}">
                                         @error('price')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -175,4 +175,14 @@
 <script src="{{ asset('backend') }}/libs/data-tables/js/responsive.bootstrap5.min.js"></script>
 <script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" integrity="sha512-9UR1ynHntZdqHnwXKTaOm1s6V9fExqejKvg5XMawEMToW4sSw+3jtLrYfZPijvnwnnE8Uol1O9BcAskoxgec+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{{ asset('backend') }}/libs/autoNumeric/autoNumeric.min.js"></script>
+<script>
+    // show price to IDR
+    new AutoNumeric('#price', {
+        currencySymbol : 'Rp ',
+        decimalCharacter : ',',
+        digitGroupSeparator : '.',
+        decimalPlaces: 0,
+    });
+</script>
 @endsection

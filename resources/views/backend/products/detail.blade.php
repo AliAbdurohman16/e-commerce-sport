@@ -130,7 +130,11 @@
                             <tbody>
                                 <tr>
                                     <td style="width: 100px;">Warna</td>
-                                    <td class="text-muted">{{ $products->colors }}</td>
+                                    <td class="text-muted">
+                                        @foreach ($products->colors as $color)
+                                            {{ $color->name }},
+                                        @endforeach
+                                    </td>
                                 </tr>
 
                                 <tr>
@@ -139,8 +143,17 @@
                                 </tr>
 
                                 <tr>
+                                    <td>Berat</td>
+                                    <td class="text-muted">{{ $products->weight }} {{ $products->unit }}</td>
+                                </tr>
+
+                                <tr>
                                     <td>Size</td>
-                                    <td class="text-muted">{{ $products->sizes }}</td>
+                                    <td class="text-muted">
+                                        @foreach ($products->sizes as $size)
+                                            {{ $size->name }},
+                                        @endforeach
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
