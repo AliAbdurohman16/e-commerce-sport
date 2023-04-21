@@ -59,7 +59,6 @@
                                             </span>
                                         </td>
                                         <td style="width: 5%;">
-                                            <a href="discounts/{{ $discount->id }}" class="btn btn-info btn-sm mb-2"><i class="fa-solid fa-circle-info"></i> Detail</a>
                                             <a href="discounts/{{ $discount->id }}/edit" class="btn btn-warning btn-sm mb-2"><i class="fa-solid fa-pen"></i> Edit</a>
                                             <button type="button" class="btn btn-danger btn-sm mb-2 btn-delete" data-id="{{ $discount->id }}"><i class="fa-solid fa-trash"></i> Hapus</button>
                                         </td>

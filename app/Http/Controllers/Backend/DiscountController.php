@@ -62,11 +62,36 @@ class DiscountController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        // validation
+        $request->validate([
+            'product' => 'required',
+            'discount_percentage' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+
+        // get data find or fail by id
+        $discount = Discount::findOrFail($id);
+
+        // insert to table discounts
+        $discount->update([
+            'product_id' => $request->product,
+            'discount_percentage' => $request->discount_percentage,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
+
+        return redirect('discounts')->with('message', 'Diskon berhasil diubah!');
     }
 
     public function destroy($id)
     {
-        //
+        // get data find or fail by id
+        $discount = Discount::findOrFail($id);
+
+        // delete data
+        $discount->delete();
+
+        return response()->json(['message' => 'Diskon berhasil dihapus!']);
     }
 }

@@ -35,6 +35,7 @@
                     <div class="card-body">
                         <form action="{{ route('discounts.update', $discounts->id) }}" method="POST">
                             @csrf
+                            @method('PUT')
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
@@ -76,7 +77,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">Tanggal Mulai <span class="text-danger">*</span></label>
-                                        <input name="start_date" id="start_date" type="date" class="form-control @error('start_date') is-invalid @enderror" value="{{ $discounts->start_date }}">
+                                        <input name="start_date" id="start_date" type="date" class="form-control @error('start_date') is-invalid @enderror" value="{{ date('Y-m-d', strtotime($discounts->start_date)) }}">
                                         @error('start_date')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -87,7 +88,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">Tanggal Berakhir <span class="text-danger">*</span></label>
-                                        <input name="end_date" id="end_date" type="date" class="form-control @error('end_date') is-invalid @enderror" value="{{ $discounts->end_date }}">
+                                        <input name="end_date" id="end_date" type="date" class="form-control @error('end_date') is-invalid @enderror" value="{{ date('Y-m-d', strtotime($discounts->end_date)) }}">
                                         @error('end_date')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
