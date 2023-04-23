@@ -17,14 +17,47 @@
         <ul class="list-unstyled mb-0">
             <li class="list-inline-item mb-0 ms-1">
                 <div class="dropdown dropdown-primary">
-                    <button type="button" class="btn btn-icon btn-soft-light dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti ti-bell"></i></button>
-                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
-                        <span class="visually-hidden">New alerts</span>
-                    </span>
+                    <button type="button" class="btn btn-icon btn-soft-light dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti ti-message"></i></button>
+                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
 
                     <div class="dropdown-menu dd-menu shadow rounded border-0 mt-3 p-0" data-simplebar style="height: 320px; width: 290px;">
                         <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
-                            <h6 class="mb-0 text-dark">Notifications</h6>
+                            <h6 class="mb-0 text-dark">Pesan</h6>
+                            <span class="badge bg-soft-danger rounded-pill">2</span>
+                        </div>
+                        <div class="p-3">
+                            <a href="#!" class="dropdown-item features feature-primary key-feature p-0 mt-3">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ asset('backend') }}/images/client/04.jpg" class="avatar avatar-md-sm rounded-circle border shadow me-2" alt="">
+                                    <div class="flex-1">
+                                        <h6 class="mb-0 text-dark title"><span class="fw-bold">Luis</span></h6>
+                                        <small class="text-muted">1 hour ago</small>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#!" class="dropdown-item features feature-primary key-feature p-0 mt-3">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ asset('backend') }}/images/client/15.jpg" class="avatar avatar-md-sm rounded-circle border shadow me-2" alt="">
+                                    <div class="flex-1">
+                                        <h6 class="mb-0 text-dark title"><span class="fw-bold">Cally</span></h6>
+                                        <small class="text-muted">2 days ago</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-inline-item mb-0 ms-1">
+                <div class="dropdown dropdown-primary">
+                    <button type="button" class="btn btn-icon btn-soft-light dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti ti-bell"></i></button>
+                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+
+                    <div class="dropdown-menu dd-menu shadow rounded border-0 mt-3 p-0" data-simplebar style="height: 320px; width: 290px;">
+                        <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+                            <h6 class="mb-0 text-dark">Notifikasi</h6>
                             <span class="badge bg-soft-danger rounded-pill">3</span>
                         </div>
                         <div class="p-3">
@@ -36,16 +69,6 @@
                                     <div class="flex-1">
                                         <h6 class="mb-0 text-dark title">Order Complete</h6>
                                         <small class="text-muted">15 min ago</small>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#!" class="dropdown-item features feature-primary key-feature p-0 mt-3">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ asset('backend') }}/images/client/04.jpg" class="avatar avatar-md-sm rounded-circle border shadow me-2" alt="">
-                                    <div class="flex-1">
-                                        <h6 class="mb-0 text-dark title"><span class="fw-bold">Message</span> from Luis</h6>
-                                        <small class="text-muted">1 hour ago</small>
                                     </div>
                                 </div>
                             </a>
@@ -73,16 +96,6 @@
                                     </div>
                                 </div>
                             </a>
-
-                            <a href="#!" class="dropdown-item features feature-primary key-feature p-0 mt-3">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ asset('backend') }}/images/client/15.jpg" class="avatar avatar-md-sm rounded-circle border shadow me-2" alt="">
-                                    <div class="flex-1">
-                                        <h6 class="mb-0 text-dark title"><span class="fw-bold">Cally</span> started following you</h6>
-                                        <small class="text-muted">2 days ago</small>
-                                    </div>
-                                </div>
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -99,11 +112,11 @@
                                 <small class="text-muted">{{ Auth::user()->hasRole('admin') ? 'Administrator' : 'User' }}</small>
                             </div>
                         </a>
-                        <a class="dropdown-item text-dark" href="index.html"><span class="mb-0 d-inline-block me-1"><i class="ti ti-home"></i></span> Dashboard</a>
-                        <a class="dropdown-item text-dark" href="profile.html"><span class="mb-0 d-inline-block me-1"><i class="ti ti-settings"></i></span> Profile</a>
-                        <a class="dropdown-item text-dark" href="email.html"><span class="mb-0 d-inline-block me-1"><i class="ti ti-mail"></i></span> Email</a>
+                        <a class="dropdown-item text-dark" href="{{ route('dashboard') }}"><span class="mb-0 d-inline-block me-1"><i class="ti ti-home"></i></span> Dashboard</a>
+                        <a class="dropdown-item text-dark" href="{{ route('profile.index') }}"><span class="mb-0 d-inline-block me-1"><i class="ti ti-user"></i></span> Profil</a>
+                        <a class="dropdown-item text-dark" href="{{ route('change-password.index') }}"><span class="mb-0 d-inline-block me-1"><i class="ti ti-key"></i></span> Ganti Kata Sandi</a>
+                        <a class="dropdown-item text-dark" href="{{ route('setting') }}"><span class="mb-0 d-inline-block me-1"><i class="ti ti-settings"></i></span> Pengaturan</a>
                         <div class="dropdown-divider border-top"></div>
-                        <a class="dropdown-item text-dark" href="lock-screen.html"><span class="mb-0 d-inline-block me-1"><i class="ti ti-lock"></i></span> Lockscreen</a>
                         <a class="dropdown-item text-dark" href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();"><span class="mb-0 d-inline-block me-1"><i class="ti ti-logout"></i></span> Logout</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
