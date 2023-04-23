@@ -23,6 +23,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         'categories' => App\Http\Controllers\Backend\CategoryController::class,
         'products' => App\Http\Controllers\Backend\ProductController::class,
         'discounts' => App\Http\Controllers\Backend\DiscountController::class,
+        'customers' => App\Http\Controllers\Backend\CustomerController::class,
         'profile' => App\Http\Controllers\Backend\ProfileController::class,
         'change-password' => App\Http\Controllers\Backend\ChangePasswordController::class,
         'setting' => App\Http\Controllers\Backend\DiscountController::class,
