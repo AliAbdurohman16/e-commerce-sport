@@ -19,14 +19,17 @@ class ProfileController extends Controller
 
     public function store(Request $request)
     {
+        // get data
         $profile = Auth::user();
 
+        // check if email unique the user email
         if ($profile->email == $request->email) {
             $rules = 'required|email';
         } else {
             $rules = 'required|email|unique:users';
         }
 
+        // validation
         $request->validate([
             'image' => 'mimes:jpg,png,jpeg|image|max:2048',
             'name' => 'required',
@@ -35,6 +38,7 @@ class ProfileController extends Controller
             'address' => 'required',
         ]);
 
+        // checking image
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/users');
 
@@ -47,6 +51,7 @@ class ProfileController extends Controller
             $imageName = $profile->image;
         }
 
+        // update to table
         $profile->update([
             'image' => $imageName,
             'name' => $request->name,
@@ -60,11 +65,15 @@ class ProfileController extends Controller
 
     public function destroy($id)
     {
+        // get data
         $profile = Auth::user();
+
+        // delete image
         if ($profile->image) {
             Storage::delete('public/users/' . $profile->image);
         }
 
+        // update data
         $profile->update([
             'image' => 'default/user.png',
         ]);
