@@ -17,12 +17,15 @@ Route::get('/', [App\Http\Controllers\Frontend\HomeController::class, 'index'])-
 
 Auth::routes();
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('dashboard', [App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('dashboard');
     Route::resources([
         'categories' => App\Http\Controllers\Backend\CategoryController::class,
         'products' => App\Http\Controllers\Backend\ProductController::class,
         'discounts' => App\Http\Controllers\Backend\DiscountController::class,
+        'profile' => App\Http\Controllers\Backend\ProfileController::class,
+        'change-password' => App\Http\Controllers\Backend\ChangePasswordController::class,
+        'setting' => App\Http\Controllers\Backend\DiscountController::class,
     ]);
 });
 
