@@ -61,7 +61,7 @@
                         <h5 class="text-muted">Rp {{ number_format($product->price, 0, ',', '.') }}</h5>
                     @endif
 
-                    <form method="POST" action="{{ route('cart.addToCart', $product->id) }}">
+                    <form method="POST" action="{{ route('products.addToCart', $product->id) }}">
                         @csrf
                         <div class="row mt-4 pt-2">
                             <div class="col-12 mt-4">
