@@ -136,10 +136,6 @@
                                 @endforeach
                             @endif
                         </a>
-                        <ul class="list-unstyled shop-icons">
-                            <li class="mt-2"><a href="{{ route('products.detail', $product->slug) }}" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="shop-cart.html" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                        </ul>
                     </div>
                     <div class="card-body content pt-4 p-2">
                         <a href="{{ route('products.detail', $product->slug) }}" class="text-dark product-name h6">{{ $product->name }}</a>
@@ -215,10 +211,6 @@
                                 @endforeach
                             @endif
                         </a>
-                        <ul class="list-unstyled shop-icons">
-                            <li class="mt-2"><a href="{{ route('products.detail', $popular->slug) }}" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="shop-cart.html" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                        </ul>
                     </div>
                     <div class="card-body content pt-4 p-2">
                         <a href="{{ route('products.detail', $popular->slug) }}" class="text-dark product-name h6">{{ $popular->name }}</a>
@@ -290,10 +282,6 @@
                                 @endforeach
                             @endif
                         </a>
-                        <ul class="list-unstyled shop-icons">
-                            <li class="mt-2"><a href="{{ route('products.detail', $recent->slug) }}" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="shop-cart.html" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                        </ul>
                     </div>
                     <div class="card-body content pt-4 p-2">
                         <a href="{{ route('products.detail', $recent->slug) }}" class="text-dark product-name h6">{{ $recent->name }}</a>
