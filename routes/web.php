@@ -18,8 +18,8 @@ Route::get('products/all', [App\Http\Controllers\Frontend\ProductController::cla
 Route::get('products/discount', [App\Http\Controllers\Frontend\ProductController::class, 'discount'])->name('products.discount');
 Route::get('products/search', [App\Http\Controllers\Frontend\ProductController::class, 'search'])->name('products.search');
 Route::get('products/detail/{slug}', [App\Http\Controllers\Frontend\ProductController::class, 'show'])->name('products.detail');
+Route::post('products/addToCart/{id}', [App\Http\Controllers\Frontend\ProductController::class, 'addToCart'])->name('products.addToCart');
 Route::get('cart', [App\Http\Controllers\Frontend\CartController::class, 'index'])->name('cart.index');
-Route::post('cart/addToCart/{id}', [App\Http\Controllers\Frontend\CartController::class, 'addToCart'])->name('cart.addToCart');
 
 Auth::routes();
 
