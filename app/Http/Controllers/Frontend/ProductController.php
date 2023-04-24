@@ -58,4 +58,9 @@ class ProductController extends Controller
 
         return view('frontend.products.discount', compact('products'));
     }
+
+    public function addToCart(Request $request, $id)
+    {
+        //
+    }
 }
