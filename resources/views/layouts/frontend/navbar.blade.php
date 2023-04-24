@@ -120,9 +120,9 @@
         <div id="navigation">
             <!-- Navigation Menu-->
             <ul class="navigation-menu">
-                <li><a href="index-shop.html" class="sub-menu-item">Beranda</a></li>
+                <li class="{{ Request::is('/') ? 'active' : '' }}"><a href="{{ route('/') }}" class="sub-menu-item">Beranda</a></li>
                 <li><a href="shop-aboutus.html" class="sub-menu-item">Tentang Kami</a></li>
-                <li><a href="shop-aboutus.html" class="sub-menu-item">Produk</a></li>
+                <li class="{{ Request::is('products*') ? 'active' : '' }}"><a href="{{ route('products.all') }}" class="sub-menu-item">Produk</a></li>
                 <li><a href="shop-aboutus.html" class="sub-menu-item">Diskon</a></li>
             </ul>
             <!--end navigation menu-->
