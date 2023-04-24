@@ -180,7 +180,7 @@
     <div class="container mt-95 mt-55 mb-5">
         <div class="row">
             <div class="col-12">
-                <h5 class="mb-0">Related Products</h5>
+                <h5 class="mb-0">Produk Terkait</h5>
             </div><!--end col-->
 
             <div class="col-12 mt-4">
