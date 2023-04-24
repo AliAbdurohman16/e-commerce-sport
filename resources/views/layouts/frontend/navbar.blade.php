@@ -26,15 +26,13 @@
             <li class="list-inline-item mb-0 pe-1">
                 <div class="dropdown">
                     <button type="button" class="btn dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <!-- <i class="uil uil-search text-white title-dark btn-icon-light fs-5 align-middle"></i>
-                        <i class="uil uil-search text-dark btn-icon-dark fs-5 align-middle"></i> -->
                         <i class="uil uil-search text-dark fs-5 align-middle"></i>
                     </button>
                     <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 p-0" style="width: 300px;">
                         <div class="search-bar">
                             <div id="itemSearch" class="menu-search mb-0">
-                                <form role="search" method="get" id="searchItemform" class="searchform">
-                                    <input type="text" class="form-control border rounded" name="s" id="searchItem" placeholder="Search...">
+                                <form action="{{ route('products.search') }}" method="get" id="searchItemform" class="searchform">
+                                    <input type="text" class="form-control border rounded" name="key" id="searchItem" placeholder="Search...">
                                     <input type="submit" id="searchItemsubmit" value="Search">
                                 </form>
                             </div>
