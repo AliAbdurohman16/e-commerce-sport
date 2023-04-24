@@ -197,7 +197,7 @@
             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
                 <div class="card shop-list border-0 position-relative">
                     <ul class="label list-unstyled mb-0">
-                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-info">Popular</a></li>
+                        <li><a class="badge badge-link rounded-pill bg-info">Popular</a></li>
                         @if ($popular->discounts->count() > 0)
                             <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-warning">Diskon {{ $popular->discounts->first()->discount_percentage }}%</a></li>
                         @endif
@@ -268,7 +268,7 @@
             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
                 <div class="card shop-list border-0 position-relative">
                     <ul class="label list-unstyled mb-0">
-                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-primary">New</a></li>
+                        <li><a class="badge badge-link rounded-pill bg-primary">New</a></li>
                         @if ($recent->discounts->count() > 0)
                             <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-warning">Diskon {{ $recent->discounts->first()->discount_percentage }}%</a></li>
                         @endif
