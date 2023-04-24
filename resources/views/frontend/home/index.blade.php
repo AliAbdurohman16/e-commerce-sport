@@ -168,7 +168,7 @@
     <div class="container mt-100 mt-60">
         <div class="row">
             <div class="col-12">
-                <h5 class="mb-0">Top Categories</h5>
+                <h5 class="mb-0">Kategori</h5>
             </div><!--end col-->
         </div><!--end row-->
         <div class="row">
@@ -192,20 +192,28 @@
     <div class="container mt-100 mt-60">
         <div class="row">
             <div class="col-12">
-                <h5 class="mb-0">Popular Products</h5>
+                <h5 class="mb-0">Produk Populer</h5>
             </div><!--end col-->
         </div><!--end row-->
 
         <div class="row">
+            @foreach ($popularProducts as $popular)
             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
                 <div class="card shop-list border-0 position-relative">
                     <ul class="label list-unstyled mb-0">
                         <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-info">Popular</a></li>
+                        @if ($popular->discounts->count() > 0)
+                            <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-warning">Diskon {{ $popular->discounts->first()->discount_percentage }}%</a></li>
+                        @endif
                     </ul>
                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="shop-product-detail.html"><img src="{{ asset('frontend') }}/images/shop/product/s9.jpg" class="img-fluid" alt=""></a>
-                        <a href="shop-product-detail.html" class="overlay-work">
-                            <img src="{{ asset('frontend') }}/images/shop/product/s-9.jpg" class="img-fluid" alt="">
+                        <a href="shop-product-detail.html">
+                            @if ($popular->images->count() > 0)
+                                @foreach ($popular->images as $image)
+                                    <img src="{{ asset('storage/products/' . $image->path ) }}" class="img-fluid" alt="product">
+                                    @break
+                                @endforeach
+                            @endif
                         </a>
                         <ul class="list-unstyled shop-icons">
                             <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
@@ -214,116 +222,24 @@
                         </ul>
                     </div>
                     <div class="card-body content pt-4 p-2">
-                        <a href="shop-product-detail.html" class="text-dark product-name h6">Coffee Cup / Mug</a>
+                        <a href="shop-product-detail.html" class="text-dark product-name h6">{{ $popular->name }}</a>
                         <div class="d-flex justify-content-between mt-1">
-                            <h6 class="text-dark small fst-italic mb-0 mt-1">$16.00 <del class="text-danger ms-2">$21.00</del> </h6>
-                            <ul class="list-unstyled text-warning mb-0">
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                            </ul>
+                            @if($popular->discounts->count() > 0)
+                            @php
+                                $discount = $popular->discounts->first()->discount_percentage; // get discount percentage
+                                $discountedPrice = $popular->price - ($popular->price * ($discount / 100)); // calculate the price after the discount
+                            @endphp
+                                <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($discountedPrice, 0, ',', '.') }}
+                                    <del class="text-danger ms-2">Rp {{ number_format($popular->price, 0, ',', '.') }}</del>
+                                </h6>
+                            @else
+                                <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($popular->price, 0, ',', '.') }}</h6>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div><!--end col-->
-
-            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-                <div class="card shop-list border-0 position-relative">
-                    <ul class="label list-unstyled mb-0">
-                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-info">Popular</a></li>
-                    </ul>
-                    <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="shop-product-detail.html"><img src="{{ asset('frontend') }}/images/shop/product/s10.jpg" class="img-fluid" alt=""></a>
-                        <a href="shop-product-detail.html" class="overlay-work">
-                            <img src="{{ asset('frontend') }}/images/shop/product/s-10.jpg" class="img-fluid" alt="">
-                        </a>
-                        <ul class="list-unstyled shop-icons">
-                            <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#productview" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="shop-cart.html" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="card-body content pt-4 p-2">
-                        <a href="shop-product-detail.html" class="text-dark product-name h6">Sunglasses</a>
-                        <div class="d-flex justify-content-between mt-1">
-                            <h6 class="text-dark small fst-italic mb-0 mt-1">$21.00 <del class="text-danger ms-2">$25.00</del> </h6>
-                            <ul class="list-unstyled text-warning mb-0">
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div><!--end col-->
-
-            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-                <div class="card shop-list border-0 position-relative">
-                    <ul class="label list-unstyled mb-0">
-                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-info">Popular</a></li>
-                    </ul>
-                    <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="shop-product-detail.html"><img src="{{ asset('frontend') }}/images/shop/product/s11.jpg" class="img-fluid" alt=""></a>
-                        <a href="shop-product-detail.html" class="overlay-work">
-                            <img src="{{ asset('frontend') }}/images/shop/product/s-11.jpg" class="img-fluid" alt="">
-                        </a>
-                        <ul class="list-unstyled shop-icons">
-                            <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#productview" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="shop-cart.html" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="card-body content pt-4 p-2">
-                        <a href="shop-product-detail.html" class="text-dark product-name h6">Loafer Shoes</a>
-                        <div class="d-flex justify-content-between mt-1">
-                            <h6 class="text-dark small fst-italic mb-0 mt-1">$5.00 <span class="text-success ms-1">30% off</span> </h6>
-                            <ul class="list-unstyled text-warning mb-0">
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div><!--end col-->
-
-            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-                <div class="card shop-list border-0 position-relative">
-                    <ul class="label list-unstyled mb-0">
-                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-info">Popular</a></li>
-                    </ul>
-                    <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="shop-product-detail.html"><img src="{{ asset('frontend') }}/images/shop/product/s12.jpg" class="img-fluid" alt=""></a>
-                        <a href="shop-product-detail.html" class="overlay-work">
-                            <img src="{{ asset('frontend') }}/images/shop/product/s-12.jpg" class="img-fluid" alt="">
-                        </a>
-                        <ul class="list-unstyled shop-icons">
-                            <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#productview" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="shop-cart.html" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="card-body content pt-4 p-2">
-                        <a href="shop-product-detail.html" class="text-dark product-name h6">T-Shirts</a>
-                        <div class="d-flex justify-content-between mt-1">
-                            <h6 class="text-dark small fst-italic mb-0 mt-1">$18.00 <del class="text-danger ms-2">$22.00</del> </h6>
-                            <ul class="list-unstyled text-warning mb-0">
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div><!--end col-->
+            @endforeach
         </div><!--end row-->
     </div><!--end container-->
     <!-- End Popular -->
@@ -352,20 +268,28 @@
     <div class="container mt-100 mt-60">
         <div class="row">
             <div class="col-12">
-                <h5 class="mb-0">Recent Products</h5>
+                <h5 class="mb-0">Produk Terbaru</h5>
             </div><!--end col-->
         </div><!--end row-->
 
         <div class="row">
+            @foreach ($recentProducts as $recent)
             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
                 <div class="card shop-list border-0 position-relative">
                     <ul class="label list-unstyled mb-0">
                         <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-primary">New</a></li>
+                        @if ($recent->discounts->count() > 0)
+                            <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-warning">Diskon {{ $recent->discounts->first()->discount_percentage }}%</a></li>
+                        @endif
                     </ul>
                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="shop-product-detail.html"><img src="{{ asset('frontend') }}/images/shop/product/s13.jpg" class="img-fluid" alt=""></a>
-                        <a href="shop-product-detail.html" class="overlay-work">
-                            <img src="{{ asset('frontend') }}/images/shop/product/s-13.jpg" class="img-fluid" alt="">
+                        <a href="shop-product-detail.html">
+                            @if ($recent->images->count() > 0)
+                                @foreach ($recent->images as $image)
+                                    <img src="{{ asset('storage/products/' . $image->path ) }}" class="img-fluid" alt="product">
+                                    @break
+                                @endforeach
+                            @endif
                         </a>
                         <ul class="list-unstyled shop-icons">
                             <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
@@ -374,118 +298,24 @@
                         </ul>
                     </div>
                     <div class="card-body content pt-4 p-2">
-                        <a href="shop-product-detail.html" class="text-dark product-name h6">Wooden Chair</a>
+                        <a href="shop-product-detail.html" class="text-dark product-name h6">{{ $recent->name }}</a>
                         <div class="d-flex justify-content-between mt-1">
-                            <h6 class="text-dark small fst-italic mb-0 mt-1">$16.00 <del class="text-danger ms-2">$21.00</del> </h6>
-                            <ul class="list-unstyled text-warning mb-0">
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                            </ul>
+                            @if($recent->discounts->count() > 0)
+                            @php
+                                $discount = $recent->discounts->first()->discount_percentage; // get discount percentage
+                                $discountedPrice = $recent->price - ($recent->price * ($discount / 100)); // calculate the price after the discount
+                            @endphp
+                                <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($discountedPrice, 0, ',', '.') }}
+                                    <del class="text-danger ms-2">Rp {{ number_format($recent->price, 0, ',', '.') }}</del>
+                                </h6>
+                            @else
+                                <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($recent->price, 0, ',', '.') }}</h6>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div><!--end col-->
-
-            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-                <div class="card shop-list border-0 position-relative">
-                    <ul class="label list-unstyled mb-0">
-                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-primary">New</a></li>
-                    </ul>
-                    <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="shop-product-detail.html"><img src="{{ asset('frontend') }}/images/shop/product/s14.jpg" class="img-fluid" alt=""></a>
-                        <div class="overlay-work">
-                            <div class="py-2 bg-soft-dark rounded-bottom out-stock">
-                                <h6 class="mb-0 text-center">Out of stock</h6>
-                            </div>
-                        </div>
-                        <ul class="list-unstyled shop-icons">
-                            <li><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#productview" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="card-body content pt-4 p-2">
-                        <a href="shop-product-detail.html" class="text-dark product-name h6">Women Block Heels</a>
-                        <div class="d-flex justify-content-between mt-1">
-                            <h6 class="text-dark small fst-italic mb-0 mt-1">$21.00 <del class="text-danger ms-2">$25.00</del> </h6>
-                            <ul class="list-unstyled text-warning mb-0">
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div><!--end col-->
-
-            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-                <div class="card shop-list border-0 position-relative">
-                    <ul class="label list-unstyled mb-0">
-                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-primary">New</a></li>
-                    </ul>
-                    <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="shop-product-detail.html"><img src="{{ asset('frontend') }}/images/shop/product/s15.jpg" class="img-fluid" alt=""></a>
-                        <a href="shop-product-detail.html" class="overlay-work">
-                            <img src="{{ asset('frontend') }}/images/shop/product/s-15.jpg" class="img-fluid" alt="">
-                        </a>
-                        <ul class="list-unstyled shop-icons">
-                            <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#productview" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="shop-cart.html" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="card-body content pt-4 p-2">
-                        <a href="shop-product-detail.html" class="text-dark product-name h6">T-Shirts</a>
-                        <div class="d-flex justify-content-between mt-1">
-                            <h6 class="text-dark small fst-italic mb-0 mt-1">$5.00 <span class="text-success ms-1">30% off</span> </h6>
-                            <ul class="list-unstyled text-warning mb-0">
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div><!--end col-->
-
-            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-                <div class="card shop-list border-0 position-relative">
-                    <ul class="label list-unstyled mb-0">
-                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-primary">New</a></li>
-                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-success">Featured</a></li>
-                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-warning">Sale</a></li>
-                    </ul>
-                    <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="shop-product-detail.html"><img src="{{ asset('frontend') }}/images/shop/product/s16.jpg" class="img-fluid" alt=""></a>
-                        <a href="shop-product-detail.html" class="overlay-work">
-                            <img src="{{ asset('frontend') }}/images/shop/product/s-16.jpg" class="img-fluid" alt="">
-                        </a>
-                        <ul class="list-unstyled shop-icons">
-                            <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#productview" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="shop-cart.html" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="card-body content pt-4 p-2">
-                        <a href="shop-product-detail.html" class="text-dark product-name h6">Clock</a>
-                        <div class="d-flex justify-content-between mt-1">
-                            <h6 class="text-dark small fst-italic mb-0 mt-1">$18.00 <del class="text-danger ms-2">$22.00</del> </h6>
-                            <ul class="list-unstyled text-warning mb-0">
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div><!--end col-->
+            @endforeach
         </div><!--end row-->
     </div><!--end container-->
     <!-- End Recent -->

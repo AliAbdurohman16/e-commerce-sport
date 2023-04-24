@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -13,12 +14,26 @@ class HomeController extends Controller
     {
         // get all data products
         $products = Product::with(['images', 'discounts'])->get();
-        // $price = $products->price % $products->discounts->discount_percentage;
-        // echo $price;
+
+        // get popular products
+        $popularProducts = Product::with(['images', 'discounts'])
+                                    ->withCount(['orderDetails as total_quantity' => function($query){
+                                        $query->select(DB::raw("sum(quantity)"));
+                                    }])
+                                    ->whereHas('orderDetails', function($query){
+                                        $query->where('quantity', '>', 0);
+                                    })
+                                    ->orderBy('total_quantity', 'desc')
+                                    ->take(4)
+                                    ->get();
+
+        // get recent products
+        $recentProducts = Product::with(['images', 'discounts'])->orderBy('created_at', 'desc')
+                                    ->latest()->take(4)->get();
 
         // get all data categories
         $categories = Category::all();
 
-        return view('frontend.home.index', compact('products', 'categories'));
+        return view('frontend.home.index', compact('products', 'categories', 'popularProducts', 'recentProducts'));
     }
 }
