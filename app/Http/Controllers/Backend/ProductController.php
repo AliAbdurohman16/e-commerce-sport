@@ -36,7 +36,7 @@ class ProductController extends Controller
         $request->validate([
             'image' => 'required|max:2048',
             'image.*' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:products',
             'category' => 'required',
             'weight' => 'required',
             'unit' => 'required',
@@ -119,11 +119,21 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+        // get data find or fail by id
+        $product = Product::findOrFail($id);
+
+        // check if name unique the product name
+        if ($product->name == $request->name) {
+            $rules = 'required|max:255';
+        } else {
+            $rules = 'required|max:255|unique:products';
+        }
+
         // validation
         $request->validate([
             'image' => 'max:2048',
             'image.*' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'name' => 'required|max:255',
+            'name' => $rules,
             'category' => 'required',
             'weight' => 'required',
             'unit' => 'required',
@@ -131,9 +141,6 @@ class ProductController extends Controller
             'stock' => 'required',
             'description' => 'required',
         ]);
-
-        // get data find or fail by id
-        $product = Product::findOrFail($id);
 
         // process upload image multiple
         if ($request->hasFile('image')) {
