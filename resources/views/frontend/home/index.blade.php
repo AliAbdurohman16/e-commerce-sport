@@ -124,7 +124,7 @@
                 <div class="card shop-list border-0 position-relative">
                     @if ($product->discounts->count() > 0)
                     <ul class="label list-unstyled mb-0">
-                        <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-warning">Diskon {{ $product->discounts->first()->discount_percentage }}%</a></li>
+                        <li><a href="{{ route('products.discount') }}" class="badge badge-link rounded-pill bg-warning">Diskon {{ $product->discounts->first()->discount_percentage }}%</a></li>
                     </ul>
                     @endif
                     <div class="shop-image position-relative overflow-hidden rounded shadow">
@@ -199,7 +199,7 @@
                     <ul class="label list-unstyled mb-0">
                         <li><a class="badge badge-link rounded-pill bg-info">Popular</a></li>
                         @if ($popular->discounts->count() > 0)
-                            <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-warning">Diskon {{ $popular->discounts->first()->discount_percentage }}%</a></li>
+                            <li><a href="{{ route('products.discount') }}" class="badge badge-link rounded-pill bg-warning">Diskon {{ $popular->discounts->first()->discount_percentage }}%</a></li>
                         @endif
                     </ul>
                     <div class="shop-image position-relative overflow-hidden rounded shadow">
@@ -270,7 +270,7 @@
                     <ul class="label list-unstyled mb-0">
                         <li><a class="badge badge-link rounded-pill bg-primary">New</a></li>
                         @if ($recent->discounts->count() > 0)
-                            <li><a href="javascript:void(0)" class="badge badge-link rounded-pill bg-warning">Diskon {{ $recent->discounts->first()->discount_percentage }}%</a></li>
+                            <li><a href="{{ route('products.discount') }}" class="badge badge-link rounded-pill bg-warning">Diskon {{ $recent->discounts->first()->discount_percentage }}%</a></li>
                         @endif
                     </ul>
                     <div class="shop-image position-relative overflow-hidden rounded shadow">
