@@ -6,9 +6,6 @@
 <!-- Datatables -->
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/data-tables/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/data-tables/css/responsive.bootstrap5.min.css">
-<link rel="stylesheet" href="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" integrity="sha512-xmGTNt20S0t62wHLmQec2DauG9T+owP9e6VU8GigI0anN7OXLip9i7IwEhelasml2osdxX71XcYm6BQunTQeQg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="{{ asset('backend') }}/css/tag-input.css"/>
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/tiny-slider/tiny-slider.css">
 @endsection
 
@@ -66,17 +63,6 @@
                                         <li class="list-inline-item"><a href="javascript:void(0)" class="btn btn-color btn-soft-primary">{{ $color->name }}</a></li>
                                     @endforeach
                                 </ul>
-                            </div>
-                        </div><!--end col-->
-
-                        <div class="col-12 mt-4">
-                            <div class="d-flex shop-list align-items-center">
-                                <h6 class="mb-0">Quantity:</h6>
-                                <div class="qty-icons ms-3">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-soft-primary minus">-</button>
-                                    <input min="0" max="10" name="quantity" value="0" type="number" class="btn btn-icon btn-soft-primary qty-btn quantity">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-soft-primary plus">+</button>
-                                </div>
                             </div>
                         </div><!--end col-->
                     </div>
@@ -155,7 +141,5 @@
 <script src="{{ asset('backend') }}/libs/data-tables/js/dataTables.bootstrap5.min.js"></script>
 <script src="{{ asset('backend') }}/libs/data-tables/js/dataTables.responsive.min.js"></script>
 <script src="{{ asset('backend') }}/libs/data-tables/js/responsive.bootstrap5.min.js"></script>
-<script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
 <script src="{{ asset('backend') }}/libs/tiny-slider/min/tiny-slider.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" integrity="sha512-9UR1ynHntZdqHnwXKTaOm1s6V9fExqejKvg5XMawEMToW4sSw+3jtLrYfZPijvnwnnE8Uol1O9BcAskoxgec+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @endsection
