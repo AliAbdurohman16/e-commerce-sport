@@ -13,9 +13,19 @@ class ProductController extends Controller
         //
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        //
+        // get data where slug
+        $product = Product::with(['images', 'discounts'])->where('slug', $slug)->firstOrFail();
+
+        // get related products
+        $relatedProducts = Product::with(['images', 'discounts'])
+                            ->where('category_id', $product->category_id)
+                            ->where('id', '!=', $product->id)
+                            ->take(10)
+                            ->get();
+
+        return view('frontend.products.detail', compact('product', 'relatedProducts'));
     }
 
     public function search(Request $request)
