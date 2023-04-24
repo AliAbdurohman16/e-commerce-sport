@@ -40,7 +40,7 @@
             @foreach ($products as $product)
             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
                 <div class="card shop-list border-0 position-relative">
-                    @if ($product->discounts->count() > 0)
+                    @if ($product->discounts->count() > 0 && $product->discounts->first()->end_date >= now())
                     <ul class="label list-unstyled mb-0">
                         <li><a href="{{ route('products.discount') }}" class="badge badge-link rounded-pill bg-warning">Diskon {{ $product->discounts->first()->discount_percentage }}%</a></li>
                     </ul>
@@ -58,7 +58,7 @@
                     <div class="card-body content pt-4 p-2">
                         <a href="{{ route('products.detail', $product->slug) }}" class="text-dark product-name h6">{{ $product->name }}</a>
                         <div class="d-flex justify-content-between mt-1">
-                            @if($product->discounts->count() > 0)
+                            @if($product->discounts->count() > 0 && $product->discounts->first()->end_date >= now())
                             @php
                                 $discount = $product->discounts->first()->discount_percentage; // get discount percentage
                                 $discountedPrice = $product->price - ($product->price * ($discount / 100)); // calculate the price after the discount
