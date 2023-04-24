@@ -123,7 +123,6 @@
                 <li><a href="index-shop.html" class="sub-menu-item">Beranda</a></li>
                 <li><a href="shop-aboutus.html" class="sub-menu-item">Tentang Kami</a></li>
                 <li><a href="shop-aboutus.html" class="sub-menu-item">Produk</a></li>
-                <li><a href="shop-aboutus.html" class="sub-menu-item">Promo</a></li>
                 <li><a href="shop-aboutus.html" class="sub-menu-item">Diskon</a></li>
             </ul>
             <!--end navigation menu-->
