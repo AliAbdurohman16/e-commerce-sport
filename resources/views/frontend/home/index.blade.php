@@ -128,7 +128,7 @@
                     </ul>
                     @endif
                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="shop-product-detail.html">
+                        <a href="{{ route('products.detail', $product->slug) }}">
                             @if ($product->images->count() > 0)
                                 @foreach ($product->images as $image)
                                     <img src="{{ asset('storage/products/' . $image->path ) }}" class="img-fluid" alt="product">
@@ -137,12 +137,12 @@
                             @endif
                         </a>
                         <ul class="list-unstyled shop-icons">
-                            <li class="mt-2"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#productview" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
+                            <li class="mt-2"><a href="{{ route('products.detail', $product->slug) }}" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
                             <li class="mt-2"><a href="shop-cart.html" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
                         </ul>
                     </div>
                     <div class="card-body content pt-4 p-2">
-                        <a href="shop-product-detail.html" class="text-dark product-name h6">{{ $product->name }}</a>
+                        <a href="{{ route('products.detail', $product->slug) }}" class="text-dark product-name h6">{{ $product->name }}</a>
                         <div class="d-flex justify-content-between mt-1">
                             @if($product->discounts->count() > 0)
                             @php
@@ -207,7 +207,7 @@
                         @endif
                     </ul>
                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="shop-product-detail.html">
+                        <a href="{{ route('products.detail', $product->slug) }}">
                             @if ($popular->images->count() > 0)
                                 @foreach ($popular->images as $image)
                                     <img src="{{ asset('storage/products/' . $image->path ) }}" class="img-fluid" alt="product">
@@ -216,13 +216,12 @@
                             @endif
                         </a>
                         <ul class="list-unstyled shop-icons">
-                            <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#productview" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
+                            <li class="mt-2"><a href="{{ route('products.detail', $product->slug) }}" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
                             <li class="mt-2"><a href="shop-cart.html" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
                         </ul>
                     </div>
                     <div class="card-body content pt-4 p-2">
-                        <a href="shop-product-detail.html" class="text-dark product-name h6">{{ $popular->name }}</a>
+                        <a href="{{ route('products.detail', $product->slug) }}" class="text-dark product-name h6">{{ $popular->name }}</a>
                         <div class="d-flex justify-content-between mt-1">
                             @if($popular->discounts->count() > 0)
                             @php
@@ -283,7 +282,7 @@
                         @endif
                     </ul>
                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="shop-product-detail.html">
+                        <a href="{{ route('products.detail', $product->slug) }}">
                             @if ($recent->images->count() > 0)
                                 @foreach ($recent->images as $image)
                                     <img src="{{ asset('storage/products/' . $image->path ) }}" class="img-fluid" alt="product">
@@ -292,13 +291,12 @@
                             @endif
                         </a>
                         <ul class="list-unstyled shop-icons">
-                            <li><a href="javascript:void(0)" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                            <li class="mt-2"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#productview" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
+                            <li class="mt-2"><a href="{{ route('products.detail', $product->slug) }}" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
                             <li class="mt-2"><a href="shop-cart.html" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
                         </ul>
                     </div>
                     <div class="card-body content pt-4 p-2">
-                        <a href="shop-product-detail.html" class="text-dark product-name h6">{{ $recent->name }}</a>
+                        <a href="{{ route('products.detail', $product->slug) }}" class="text-dark product-name h6">{{ $recent->name }}</a>
                         <div class="d-flex justify-content-between mt-1">
                             @if($recent->discounts->count() > 0)
                             @php
