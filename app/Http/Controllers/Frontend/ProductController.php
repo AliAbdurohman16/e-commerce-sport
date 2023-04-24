@@ -10,7 +10,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        //
+        // get data where slug
+        $products = Product::with(['images', 'discounts'])->latest()->paginate(10);
+
+        return view('frontend.products.index', compact('products'));
     }
 
     public function show($slug)
