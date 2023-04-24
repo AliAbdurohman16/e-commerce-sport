@@ -44,4 +44,18 @@ class ProductController extends Controller
 
         return view('frontend.search.index', compact('products', 'search'));
     }
+
+    public function discount()
+    {
+        // get data where slug
+        $products = Product::with(['images', 'discounts'])
+                    ->whereHas('discounts', function ($query) {
+                        $query->where('start_date', '<=', now())
+                            ->where('end_date', '>=', now());
+                    })
+                    ->latest()
+                    ->paginate(10);
+
+        return view('frontend.products.discount', compact('products'));
+    }
 }
