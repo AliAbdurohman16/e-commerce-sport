@@ -13,6 +13,30 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        return view('frontend.checkout.index');
+        // get the currently logged in user
+        $user = Auth::user();
+
+        // if the user is not logged in, redirect to the login page
+        if (!$user) {
+            return redirect('login');
+        }
+
+        // get order data for the logged in user
+        $orders = Order::where('user_id', $user->id)->get();
+
+        // get order details data for the logged in user
+        $order_details = OrderDetail::whereHas('order', function ($query) {
+            $query->where('user_id', Auth::user()->id)
+            ->where('status', 'Belum Checkout');
+        })->get();
+
+        // check if the products in the order details have sufficient stock
+        foreach ($order_details as $detail) {
+            if ($detail->product->stock == 0) {
+                return redirect('carts')->with('error', 'Stok produk '.$detail->product->name.' habis!');
+            }
+        }
+
+        return view('frontend.checkout.index', compact('order_details'));
     }
 }

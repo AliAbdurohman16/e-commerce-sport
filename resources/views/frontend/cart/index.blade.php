@@ -90,7 +90,7 @@
                                         <input min="0" max="{{ $order->product->stock }}" name="quantity" value="{{ $order->product->stock == 0 ? 0 : $order->quantity }}" id="quantity-{{ $order->id }}" type="number" class="btn btn-icon btn-soft-primary qty-btn quantity" onchange="updateTotal({{ $order->id }})">
                                         <button onclick="increaseQuantity({{ $order->id }})" class="btn btn-icon btn-soft-primary plus">+</button>
                                         @if($order->product->stock == 0)
-                                        <br><small class="text-danger mt-2">Stock habis!</small>
+                                        <br><small class="text-danger mt-2">Stok habis!</small>
                                         @endif
                                     </td>
                                     @if($order->product->discounts->count() > 0)
@@ -122,7 +122,7 @@
                     </table>
                 </div>
                 <div class="mt-4 pt-2 text-end">
-                    <a href="shop-checkouts.html" class="btn btn-primary">Checkout</a>
+                    <a href="{{ route('checkout.index') }}" class="btn btn-primary">Checkout</a>
                 </div>
             </div><!--end col-->
         </div><!--end row-->
@@ -190,6 +190,16 @@
             icon: "success",
             title: "Berhasil",
             text: "{{ Session::get('success') }}",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+            }
+        });
+    @elseif (Session::has('error'))
+        swal.fire({
+            icon: "error",
+            title: "Gagal",
+            text: "{{ Session::get('error') }}",
         }).then((result) => {
             if (result.isConfirmed) {
                 location.reload();
