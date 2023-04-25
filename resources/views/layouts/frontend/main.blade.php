@@ -23,7 +23,6 @@
         <link href="{{ asset('frontend') }}/css/bootstrap.min.css" class="theme-opt" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
         <link href="{{ asset('frontend') }}/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('frontend') }}/libs/@iconscout/unicons/css/line.css" type="text/css" rel="stylesheet" />
         <!-- Style Css-->
         <link href="{{ asset('frontend') }}/css/style.min.css" class="theme-opt" rel="stylesheet" type="text/css" />
     </head>
@@ -52,10 +51,12 @@
 
         <!-- Javascript -->
         <!-- JAVASCRIPT -->
+        <script src="{{ asset('frontend') }}/js/jquery.min.js"></script>
         <script src="{{ asset('frontend') }}/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="{{ asset('frontend') }}/libs/feather-icons/feather.min.js"></script>
         <!-- SLIDER -->
         <script src="{{ asset('frontend') }}/libs/tiny-slider/min/tiny-slider.js"></script>
+        @yield('javascript')
         <!-- Main Js -->
         <script src="{{ asset('frontend') }}/js/plugins.init.js"></script><!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
         <script src="{{ asset('frontend') }}/js/app.js"></script><!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->

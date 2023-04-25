@@ -19,11 +19,11 @@ Route::get('products/discount', [App\Http\Controllers\Frontend\ProductController
 Route::get('products/search', [App\Http\Controllers\Frontend\ProductController::class, 'search'])->name('products.search');
 Route::get('products/detail/{slug}', [App\Http\Controllers\Frontend\ProductController::class, 'show'])->name('products.detail');
 Route::post('products/addToCart/{id}', [App\Http\Controllers\Frontend\ProductController::class, 'addToCart'])->name('products.addToCart');
-Route::get('cart', [App\Http\Controllers\Frontend\CartController::class, 'index'])->name('cart.index');
+Route::get('carts', [App\Http\Controllers\Frontend\CartController::class, 'index'])->name('carts.index');
 
 Auth::routes();
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware('role:admin')->group(function () {
     Route::get('dashboard', [App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('dashboard');
     Route::resources([
         'categories' => App\Http\Controllers\Backend\CategoryController::class,

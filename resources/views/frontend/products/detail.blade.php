@@ -69,10 +69,18 @@
                                     <h6 class="mb-0">Ukuran:</h6>
                                     <ul class="list-unstyled mb-0 ms-3">
                                         @foreach ($product->sizes as $size)
-                                            <li class="list-inline-item">
-                                                <input type="button" class="btn btn-size btn-soft-primary" name="size" value="{{ $size->name }}">
-                                            </li>
+                                        <li class="list-inline-item">
+                                            <input type="radio" id="size-{{ $size->id }}" name="size" value="{{ $size->name }}">
+                                            <label for="size-{{ $size->id }}">{{ $size->name }}</label>
+                                        </li>
                                         @endforeach
+                                        <li>
+                                            @error('size')
+                                                <span class="text-danger">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </li>
                                     </ul>
                                 </div>
                             </div><!--end col-->
@@ -82,10 +90,18 @@
                                     <h6 class="mb-0">Warna:</h6>
                                     <ul class="list-unstyled mb-0 ms-3">
                                         @foreach ($product->colors as $color)
-                                            <li class="list-inline-item">
-                                                <input type="button" class="btn btn-size btn-soft-primary"  name="color" value="{{ $color->name }}">
-                                            </li>
+                                        <li class="list-inline-item">
+                                            <input type="radio" id="color-{{ $color->id }}" name="color" value="{{ $color->name }}">
+                                            <label for="color-{{ $color->id }}">{{ $color->name }}</label>
+                                        </li>
                                         @endforeach
+                                        <li>
+                                            @error('color')
+                                                <span class="text-danger">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </li>
                                     </ul>
                                 </div>
                             </div><!--end col-->
@@ -94,17 +110,23 @@
                                 <div class="d-flex shop-list align-items-center">
                                     <h6 class="mb-0">Quantity:</h6>
                                     <div class="qty-icons ms-3">
-                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-soft-primary minus">-</button>
+                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-soft-primary minus" type="button">-</button>
                                         <input min="0" max="{{ $product->stock }}" name="quantity" value="0" type="number" class="btn btn-icon btn-soft-primary qty-btn quantity">
-                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-soft-primary plus">+</button>
+                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-soft-primary plus" type="button">+</button>
+                                        <ul class="list-unstyled mb-0">
+                                            @error('quantity')
+                                                <span class="text-danger">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </ul>
                                     </div>
                                 </div>
                             </div><!--end col-->
                         </div><!--end row-->
 
                         <div class="mt-2 pt-2">
-                            <button type="submit" class="btn btn--primary mt-2">Tambah Keranjang</button>
-                            <a href="javascript:void(0)" class="btn btn-soft-primary mt-2">Beli Sekarang</a>
+                            <button type="submit" class="btn btn-primary mt-2">Tambah ke Keranjang</button>
                         </div>
                     </form>
                 </div>
