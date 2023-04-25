@@ -37,7 +37,7 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         // get user's search input
-        $search = $request->input('key');
+        $search = $request->key;
 
         // retrieve products that match the search input
         $products = Product::with(['images', 'discounts'])
@@ -69,7 +69,7 @@ class ProductController extends Controller
 
         // if the user is not logged in, redirect to the login page
         if (!$user) {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu');
+            return redirect('login');
         }
 
         // validation
@@ -79,55 +79,37 @@ class ProductController extends Controller
             'quantity' => 'required|gt:0',
         ]);
 
-        // create or search for unfinished orders
-        // $order = Order::where('user_id', $user->id)
-        //     ->where('status', 'Belum Checkout')
-        //     ->first();
-
         // get product data
         $product = Product::findOrFail($id);
 
-        // get product price after discount (if any)
-        if ($product->discounts->count() > 0) {
-            $discount = $product->discounts->first()->discount_percentage;
-            $price = $product->price - ($product->price * ($discount / 100));
-        } else {
-            $price = $product->price;
-        }
-
-        // get the number of items to add to cart
-        $quantity = $request->input('quantity');
-
-        // calculates subtotals
-        $subtotal = $price * $quantity;
-
-        // if the order already exists, then increase the amount
-        // if ($order) {
-        //     $amount = $order->amount + $subtotal;
-        //     $order->update(['amount' => $amount]);
-        // } else {
-        //     $order = new Order([
-        //         'user_id' => $user->id,
-        //         'amount' => 0,
-        //     ]);
-        //     $order->save();
-        // }
-
-        $order = new Order([
+        // find or create order
+        $order = Order::firstOrCreate([
             'user_id' => $user->id,
         ]);
-        $order->save();
 
-        // add order details
-        $orderDetail = new OrderDetail([
-            'order_id' => $order->id,
-            'product_id' => $product->id,
-            'size' => $request->input('size'),
-            'color' => $request->input('color'),
-            'quantity' => $quantity,
-            'price' => $price,
-        ]);
-        $orderDetail->save();
+        // find existing order detail with the same product, size, and color
+        $orderDetail = $order->orderDetails()
+                        ->where('product_id', $product->id)
+                        ->where('size', $request->size)
+                        ->where('color', $request->color)
+                        ->first();
+
+        // if order detail exists, update the quantity
+        if ($orderDetail) {
+            $orderDetail->quantity += $request->quantity;
+            $orderDetail->save();
+        } else {
+            // create new order detail
+            $orderDetail = new OrderDetail([
+                // 'order_id' => $order->id,
+                'product_id' => $product->id,
+                'size' => $request->size,
+                'color' => $request->color,
+                'quantity' => $request->quantity
+            ]);
+
+            $order->orderDetails()->save($orderDetail);
+        }
 
         return redirect('carts')->with('success', 'Produk berhasil ditambahkan ke keranjang');
     }

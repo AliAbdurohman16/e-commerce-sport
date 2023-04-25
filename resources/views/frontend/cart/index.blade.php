@@ -1,5 +1,10 @@
 @extends('layouts.frontend.main')
 
+@section('css')
+<!-- Sweat Alert -->
+<link rel="stylesheet" href="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.css"/>
+@endsection
+
 @section('content')
 <!-- Hero Start -->
 <section class="bg-half-170 bg-light d-table w-100">
@@ -44,14 +49,14 @@
                                 <th class="border-bottom text-start py-3" style="min-width: 300px;">Produk</th>
                                 <th class="border-bottom text-center py-3" style="min-width: 160px;">Harga</th>
                                 <th class="border-bottom text-center py-3" style="min-width: 160px;">Qty</th>
-                                <th class="border-bottom text-end py-3 pe-4" style="min-width: 160px;">Jumlah</th>
+                                <th class="border-bottom text-end py-3 pe-4" style="min-width: 160px;">Total</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach ($orders as $order)
+                            @foreach ($order_details as $order)
                                 <tr class="shop-list">
-                                    <td class="h6 text-center"><a href="javascript:void(0)" class="text-danger"><i class="uil uil-times"></i></a></td>
+                                    <td class="h6 text-center"><span data-id="{{ $order->id }}" class="text-danger delete"><i class="uil uil-times"></i></span></td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             @if ($order->product->images->count() > 0)
@@ -74,7 +79,7 @@
                                     @endif
                                     <td class="text-center qty-icons">
                                         <button onclick="decreaseQuantity({{ $order->id }})" class="btn btn-icon btn-soft-primary minus">-</button>
-                                        <input min="0" max="{{ $order->product->stock }}" name="quantity" value="{{ $order->quantity }}" id="quantity-{{ $order->id }}" type="number" class="btn btn-icon btn-soft-primary qty-btn quantity" onchange="updateAmount({{ $order->id }})">
+                                        <input min="0" max="{{ $order->product->stock }}" name="quantity" value="{{ $order->quantity }}" id="quantity-{{ $order->id }}" type="number" class="btn btn-icon btn-soft-primary qty-btn quantity" onchange="updateTotal({{ $order->id }})">
                                         <button onclick="increaseQuantity({{ $order->id }})" class="btn btn-icon btn-soft-primary plus">+</button>
                                     </td>
                                     @if($order->product->discounts->count() > 0)
@@ -82,9 +87,9 @@
                                             $discount = $order->product->discounts->first()->discount_percentage; // get discount percentage
                                             $discountedPrice = $order->product->price - ($order->product->price * ($discount / 100)); // calculate the price after the discount
                                         @endphp
-                                        <td class="text-end fw-bold pe-4" id="amount-{{ $order->id }}">Rp {{ number_format($order->quantity * $discountedPrice, 0, ',', '.') }}</td>
+                                        <td class="text-end fw-bold pe-4 total" id="total-{{ $order->id }}">Rp {{ number_format($order->quantity * $discountedPrice, 0, ',', '.') }}</td>
                                     @else
-                                        <td class="text-end fw-bold pe-4" id="amount-{{ $order->id }}">Rp {{ number_format($order->quantity * $order->product->price, 0, ',', '.') }}</td>
+                                        <td class="text-end fw-bold pe-4 total" id="total-{{ $order->id }}">Rp {{ number_format($order->quantity * $order->product->price, 0, ',', '.') }}</td>
                                     @endif
                                 </tr>
                             @endforeach
@@ -100,15 +105,7 @@
                         <tbody>
                             <tr>
                                 <td class="h6 ps-4 py-3">Subtotal</td>
-                                <td class="text-end fw-bold pe-4">$ 2190</td>
-                            </tr>
-                            <tr>
-                                <td class="h6 ps-4 py-3">Taxes</td>
-                                <td class="text-end fw-bold pe-4">$ 219</td>
-                            </tr>
-                            <tr class="bg-light">
-                                <td class="h6 ps-4 py-3">Total</td>
-                                <td class="text-end fw-bold pe-4">$ 2409</td>
+                                <td class="text-end fw-bold pe-4" id="subtotal">Rp 0</td>
                             </tr>
                         </tbody>
                     </table>
@@ -124,27 +121,41 @@
 @endsection
 
 @section('javascript')
+<script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
 <script>
-    function updateAmount(orderId) {
+    function calculateSubtotal() {
+        const totalCells = document.querySelectorAll('.total');
+        let subtotal = 0;
+        totalCells.forEach(cell => {
+            subtotal += parseInt(cell.innerText.replace(/\D/g, ''));
+        });
+        const subtotalCell = document.getElementById('subtotal');
+        subtotalCell.innerText = `Rp ${numberWithCommas(subtotal)}`;
+    }
+
+    calculateSubtotal();
+
+    function updateTotal(orderId) {
         const quantityInput = document.getElementById(`quantity-${orderId}`);
-        const amountCell = document.getElementById(`amount-${orderId}`);
+        const totalCell = document.getElementById(`total-${orderId}`);
         const priceCell = document.getElementById(`price-${orderId}`);
         const price = parseInt(priceCell.innerText.replace(/\D/g, ''));
         const quantity = parseInt(quantityInput.value);
-        const amount = price * quantity;
-        amountCell.innerText = `Rp ${numberWithCommas(amount)}`;
+        const total = price * quantity;
+        totalCell.innerText = `Rp ${numberWithCommas(total)}`;
+        calculateSubtotal();
     }
 
     function decreaseQuantity(orderId) {
         const quantityInput = document.getElementById(`quantity-${orderId}`);
         quantityInput.stepDown();
-        updateAmount(orderId);
+        updateTotal(orderId);
     }
 
     function increaseQuantity(orderId) {
         const quantityInput = document.getElementById(`quantity-${orderId}`);
         quantityInput.stepUp();
-        updateAmount(orderId);
+        updateTotal(orderId);
     }
 
     function numberWithCommas(number) {
@@ -161,5 +172,54 @@
             input.stepUp();
         }
     }
+
+    // show dialog success
+    @if (Session::has('success'))
+        swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "{{ Session::get('success') }}",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+            }
+        });
+    @endif
+
+    // function delete
+    $(".delete").click(function() {
+        var id = $(this).data("id");
+        Swal.fire({
+            title: 'Hapus',
+            text: "Apakah anda yakin ingin menghapus?",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "carts/" + id,
+                    type: 'DELETE',
+                    data: {
+                        "id": id,
+                        "_token": $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    success: function(response) {
+                        swal.fire({
+                            icon: "success",
+                            title: "Berhasil",
+                            text: response.message,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    },
+                });
+            }
+        })
+    });
 </script>
 @endsection
