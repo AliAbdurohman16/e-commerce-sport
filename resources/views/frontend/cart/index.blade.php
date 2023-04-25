@@ -87,17 +87,20 @@
                                     @endif
                                     <td class="text-center qty-icons">
                                         <button onclick="decreaseQuantity({{ $order->id }})" class="btn btn-icon btn-soft-primary minus">-</button>
-                                        <input min="0" max="{{ $order->product->stock }}" name="quantity" value="{{ $order->quantity }}" id="quantity-{{ $order->id }}" type="number" class="btn btn-icon btn-soft-primary qty-btn quantity" onchange="updateTotal({{ $order->id }})">
+                                        <input min="0" max="{{ $order->product->stock }}" name="quantity" value="{{ $order->product->stock == 0 ? 0 : $order->quantity }}" id="quantity-{{ $order->id }}" type="number" class="btn btn-icon btn-soft-primary qty-btn quantity" onchange="updateTotal({{ $order->id }})">
                                         <button onclick="increaseQuantity({{ $order->id }})" class="btn btn-icon btn-soft-primary plus">+</button>
+                                        @if($order->product->stock == 0)
+                                        <br><small class="text-danger mt-2">Stock habis!</small>
+                                        @endif
                                     </td>
                                     @if($order->product->discounts->count() > 0)
                                         @php
                                             $discount = $order->product->discounts->first()->discount_percentage; // get discount percentage
                                             $discountedPrice = $order->product->price - ($order->product->price * ($discount / 100)); // calculate the price after the discount
                                         @endphp
-                                        <td class="text-end fw-bold pe-4 total" id="total-{{ $order->id }}">Rp {{ number_format($order->quantity * $discountedPrice, 0, ',', '.') }}</td>
+                                        <td class="text-end fw-bold pe-4 total" id="total-{{ $order->id }}">Rp {{ $order->product->stock == 0 ? 0 : number_format($order->quantity * $discountedPrice, 0, ',', '.') }}</td>
                                     @else
-                                        <td class="text-end fw-bold pe-4 total" id="total-{{ $order->id }}">Rp {{ number_format($order->quantity * $order->product->price, 0, ',', '.') }}</td>
+                                        <td class="text-end fw-bold pe-4 total" id="total-{{ $order->id }}">Rp {{ $order->product->stock == 0 ? 0 : number_format($order->quantity * $order->product->price, 0, ',', '.') }}</td>
                                     @endif
                                 </tr>
                             @endforeach
