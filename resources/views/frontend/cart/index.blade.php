@@ -65,7 +65,15 @@
                                                     @break
                                                 @endforeach
                                             @endif
-                                            <h6 class="mb-0 ms-3">{{ $order->product->name }} ({{ $order->size }}, {{ $order->color }})</h6>
+                                            <h6 class="mb-0 ms-3">{{ $order->product->name }}
+                                                @if ($order->size && $order->color != '')
+                                                ({{ $order->size }}, {{ $order->color }})
+                                                @elseif ($order->size != '')
+                                                ({{ $order->size }})
+                                                @elseif ($order->color != '')
+                                                ({{ $order->color }})
+                                                @endif
+                                            </h6>
                                         </div>
                                     </td>
                                     @if($order->product->discounts->count() > 0)
