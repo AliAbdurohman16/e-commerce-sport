@@ -94,16 +94,6 @@
                                 </div><!--end col-->
 
                                 <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Alamat Lengkap <span class="text-danger">*</span></label>
-                                        <div class="form-icon position-relative">
-                                            <i data-feather="map-pin" class="fea icon-sm icons"></i>
-                                            <textarea class="form-control ps-5" placeholder="Alamat Lengkap" name="address" required autocomplete="address">{{ old('address') }}</textarea>
-                                        </div>
-                                    </div>
-                                </div><!--end col-->
-
-                                <div class="col-md-12">
                                     <div class="d-grid">
                                         <button type="submit" class="btn btn-primary">Daftar</button>
                                     </div>
