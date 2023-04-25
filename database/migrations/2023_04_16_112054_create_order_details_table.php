@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('size');
             $table->string('color');
             $table->integer('quantity');
+            $table->decimal('total', 11, 2);
             $table->timestamps();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
