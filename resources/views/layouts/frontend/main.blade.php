@@ -23,6 +23,7 @@
         <link href="{{ asset('frontend') }}/css/bootstrap.min.css" class="theme-opt" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
         <link href="{{ asset('frontend') }}/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('backend') }}/libs/@iconscout/unicons/css/line.css" type="text/css" rel="stylesheet" />
         <!-- Style Css-->
         <link href="{{ asset('frontend') }}/css/style.min.css" class="theme-opt" rel="stylesheet" type="text/css" />
     </head>

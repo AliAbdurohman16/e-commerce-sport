@@ -90,7 +90,7 @@
                             </div>
 
                             <div class="mt-3 text-center">
-                                <a href="javascript:void(0)" class="btn btn-primary me-2">View Cart</a>
+                                <a href="{{ route('carts.index') }}" class="btn btn-primary me-2">View Cart</a>
                                 <a href="javascript:void(0)" class="btn btn-primary">Checkout</a>
                             </div>
                             <p class="text-muted text-start mt-1 mb-0">*T&C Apply</p>
