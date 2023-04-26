@@ -20,6 +20,7 @@ Route::get('products/search', [App\Http\Controllers\Frontend\ProductController::
 Route::get('products/detail/{slug}', [App\Http\Controllers\Frontend\ProductController::class, 'show'])->name('products.detail');
 Route::post('products/addToCart/{id}', [App\Http\Controllers\Frontend\ProductController::class, 'addToCart'])->name('products.addToCart');
 Route::get('carts', [App\Http\Controllers\Frontend\CartController::class, 'index'])->name('carts.index');
+Route::post('carts', [App\Http\Controllers\Frontend\CartController::class, 'store'])->name('carts.store');
 Route::delete('carts/{id}', [App\Http\Controllers\Frontend\CartController::class, 'destroy'])->name('carts.destroy');
 Route::get('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'index'])->name('checkout.index');
 

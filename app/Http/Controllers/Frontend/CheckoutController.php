@@ -34,9 +34,11 @@ class CheckoutController extends Controller
         foreach ($order_details as $detail) {
             if ($detail->product->stock == 0) {
                 return redirect('carts')->with('error', 'Stok produk '.$detail->product->name.' habis!');
+            } elseif ($detail->product->stock < $detail->quantity) {
+                return redirect('carts')->with('error', 'Stok produk '.$detail->product->name.' tidak mencukupi!');
             }
         }
 
-        return view('frontend.checkout.index', compact('order_details'));
+        return view('frontend.checkout.index', compact('order_details', 'user'));
     }
 }

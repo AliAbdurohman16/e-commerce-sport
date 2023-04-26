@@ -39,93 +39,99 @@
 <!-- Start -->
 <section class="section">
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="table-responsive bg-white shadow rounded">
-                    <table class="table mb-0 table-center">
-                        <thead>
-                            <tr>
-                                <th class="border-bottom py-3" style="min-width:20px "></th>
-                                <th class="border-bottom text-start py-3" style="min-width: 300px;">Produk</th>
-                                <th class="border-bottom text-center py-3" style="min-width: 160px;">Harga</th>
-                                <th class="border-bottom text-center py-3" style="min-width: 160px;">Qty</th>
-                                <th class="border-bottom text-end py-3 pe-4" style="min-width: 160px;">Total</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach ($order_details as $order)
-                                <tr class="shop-list">
-                                    <td class="h6 text-center"><span data-id="{{ $order->id }}" class="text-danger delete"><i class="uil uil-times"></i></span></td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            @if ($order->product->images->count() > 0)
-                                                @foreach ($order->product->images as $image)
-                                                    <div class="tiny-slide"><img src="{{ asset('storage/products/' . $image->path) }}" class="img-fluid avatar avatar-small rounded shadow" style="height:auto;"  alt="img-product"></div>
-                                                    @break
-                                                @endforeach
-                                            @endif
-                                            <h6 class="mb-0 ms-3">{{ $order->product->name }}
-                                                @if ($order->size && $order->color != '')
-                                                ({{ $order->size }}, {{ $order->color }})
-                                                @elseif ($order->size != '')
-                                                ({{ $order->size }})
-                                                @elseif ($order->color != '')
-                                                ({{ $order->color }})
-                                                @endif
-                                            </h6>
-                                        </div>
-                                    </td>
-                                    @if($order->product->discounts->count() > 0)
-                                        @php
-                                            $discount = $order->product->discounts->first()->discount_percentage; // get discount percentage
-                                            $discountedPrice = $order->product->price - ($order->product->price * ($discount / 100)); // calculate the price after the discount
-                                        @endphp
-                                        <td class="text-center" id="price-{{ $order->id }}">Rp {{ number_format($discountedPrice, 0, ',', '.') }}</td>
-                                    @else
-                                        <td class="text-center" id="price-{{ $order->id }}">Rp {{ number_format($order->product->price, 0, ',', '.') }}</td>
-                                    @endif
-                                    <td class="text-center qty-icons">
-                                        <button onclick="decreaseQuantity({{ $order->id }})" class="btn btn-icon btn-soft-primary minus">-</button>
-                                        <input min="0" max="{{ $order->product->stock }}" name="quantity" value="{{ $order->product->stock == 0 ? 0 : $order->quantity }}" id="quantity-{{ $order->id }}" type="number" class="btn btn-icon btn-soft-primary qty-btn quantity" onchange="updateTotal({{ $order->id }})">
-                                        <button onclick="increaseQuantity({{ $order->id }})" class="btn btn-icon btn-soft-primary plus">+</button>
-                                        @if($order->product->stock == 0)
-                                        <br><small class="text-danger mt-2">Stok habis!</small>
-                                        @endif
-                                    </td>
-                                    @if($order->product->discounts->count() > 0)
-                                        @php
-                                            $discount = $order->product->discounts->first()->discount_percentage; // get discount percentage
-                                            $discountedPrice = $order->product->price - ($order->product->price * ($discount / 100)); // calculate the price after the discount
-                                        @endphp
-                                        <td class="text-end fw-bold pe-4 total" id="total-{{ $order->id }}">Rp {{ $order->product->stock == 0 ? 0 : number_format($order->quantity * $discountedPrice, 0, ',', '.') }}</td>
-                                    @else
-                                        <td class="text-end fw-bold pe-4 total" id="total-{{ $order->id }}">Rp {{ $order->product->stock == 0 ? 0 : number_format($order->quantity * $order->product->price, 0, ',', '.') }}</td>
-                                    @endif
+        <form action="{{ route('carts.store') }}" method="post">
+            @csrf
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive bg-white shadow rounded">
+                        <table class="table mb-0 table-center">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom py-3" style="min-width:20px "></th>
+                                    <th class="border-bottom text-start py-3" style="min-width: 300px;">Produk</th>
+                                    <th class="border-bottom text-center py-3" style="min-width: 160px;">Harga</th>
+                                    <th class="border-bottom text-center py-3" style="min-width: 160px;">Qty</th>
+                                    <th class="border-bottom text-end py-3 pe-4" style="min-width: 160px;">Total</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div><!--end col-->
-        </div><!--end row-->
-        <div class="row">
-            <div class="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
-                <div class="table-responsive bg-white rounded shadow">
-                    <table class="table table-center table-padding mb-0">
-                        <tbody>
-                            <tr>
-                                <td class="h6 ps-4 py-3">Subtotal</td>
-                                <td class="text-end fw-bold pe-4" id="subtotal">Rp 0</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="mt-4 pt-2 text-end">
-                    <a href="{{ route('checkout.index') }}" class="btn btn-primary">Checkout</a>
-                </div>
-            </div><!--end col-->
-        </div><!--end row-->
+                            </thead>
+
+                            <tbody>
+                                @foreach ($order_details as $order)
+                                    <input type="hidden" name="id[]" value="{{ $order->id }}">
+                                    <tr class="shop-list">
+                                        <td class="h6 text-center"><span data-id="{{ $order->id }}" class="text-danger delete"><i class="uil uil-times"></i></span></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @if ($order->product->images->count() > 0)
+                                                    @foreach ($order->product->images as $image)
+                                                        <div class="tiny-slide"><img src="{{ asset('storage/products/' . $image->path) }}" class="img-fluid avatar avatar-small rounded shadow" style="height:auto;"  alt="img-product"></div>
+                                                        @break
+                                                    @endforeach
+                                                @endif
+                                                <h6 class="mb-0 ms-3">{{ $order->product->name }}
+                                                    @if ($order->size && $order->color != '')
+                                                    ({{ $order->size }}, {{ $order->color }})
+                                                    @elseif ($order->size != '')
+                                                    ({{ $order->size }})
+                                                    @elseif ($order->color != '')
+                                                    ({{ $order->color }})
+                                                    @endif
+                                                </h6>
+                                            </div>
+                                        </td>
+                                        @if($order->product->discounts->count() > 0)
+                                            @php
+                                                $discount = $order->product->discounts->first()->discount_percentage; // get discount percentage
+                                                $discountedPrice = $order->product->price - ($order->product->price * ($discount / 100)); // calculate the price after the discount
+                                            @endphp
+                                            <td class="text-center" id="price-{{ $order->id }}">Rp {{ number_format($discountedPrice, 0, ',', '.') }}</td>
+                                        @else
+                                            <td class="text-center" id="price-{{ $order->id }}">Rp {{ number_format($order->product->price, 0, ',', '.') }}</td>
+                                        @endif
+                                        <td class="text-center qty-icons">
+                                            <button type="button" onclick="decreaseQuantity({{ $order->id }})" class="btn btn-icon btn-soft-primary minus">-</button>
+                                            <input min="0" max="{{ $order->product->stock }}" name="quantity[]" value="{{ $order->product->stock == 0 ? 0 : $order->quantity }}" id="quantity-{{ $order->id }}" type="number" class="btn btn-icon btn-soft-primary qty-btn quantity" onchange="updateTotal({{ $order->id }})">
+                                            <button type="button" onclick="increaseQuantity({{ $order->id }})" class="btn btn-icon btn-soft-primary plus">+</button>
+                                            @if($order->product->stock == 0)
+                                            <br><small class="text-danger mt-2">Stok habis!</small>
+                                            @endif
+                                        </td>
+                                        @if($order->product->discounts->count() > 0)
+                                            @php
+                                                $discount = $order->product->discounts->first()->discount_percentage; // get discount percentage
+                                                $discountedPrice = $order->product->price - ($order->product->price * ($discount / 100)); // calculate the price after the discount
+                                            @endphp
+                                            <td class="text-end fw-bold pe-4 total" id="total-{{ $order->id }}">Rp {{ $order->product->stock == 0 ? 0 : number_format($order->quantity * $discountedPrice, 0, ',', '.') }}</td>
+                                        @else
+                                            <td class="text-end fw-bold pe-4 total" id="total-{{ $order->id }}">Rp {{ $order->product->stock == 0 ? 0 : number_format($order->quantity * $order->product->price, 0, ',', '.') }}</td>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!--end col-->
+            </div><!--end row-->
+            <div class="row">
+                <div class="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
+                    <div class="table-responsive bg-white rounded shadow">
+                        <table class="table table-center table-padding mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="h6 ps-4 py-3">Subtotal</td>
+                                    <td class="text-end fw-bold pe-4" id="subtotal">Rp 0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    @if ($order_details->count() > 0)
+                        <div class="mt-4 pt-2 text-end">
+                            <button href="submit" class="btn btn-primary">Checkout</button>
+                        </div>
+                    @endif
+                </div><!--end col-->
+            </div><!--end row-->
+        </form>
     </div><!--end container-->
 </section><!--end section-->
 <!-- End -->

@@ -45,138 +45,86 @@
             <div class="col-md-5 col-lg-4 order-md-last">
                 <div class="card rounded shadow p-4 border-0">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="h5 mb-0">Your cart</span>
-                        <span class="badge bg-primary rounded-pill">3</span>
+                        <span class="h5 mb-0">Pesanan</span>
+                        <span class="badge bg-primary rounded-pill">{{ $order_details->count() }}</span>
                     </div>
                     <ul class="list-group mb-3 border">
-                        <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
-                            <div>
-                                <h6 class="my-0">Product name</h6>
-                                <small class="text-muted">Brief description</small>
-                            </div>
-                            <span class="text-muted">$12</span>
-                        </li>
-                        <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
-                            <div>
-                                <h6 class="my-0">Second product</h6>
-                                <small class="text-muted">Brief description</small>
-                            </div>
-                            <span class="text-muted">$8</span>
-                        </li>
-                        <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
-                            <div>
-                                <h6 class="my-0">Third item</h6>
-                                <small class="text-muted">Brief description</small>
-                            </div>
-                            <span class="text-muted">$5</span>
-                        </li>
-                        <li class="d-flex justify-content-between bg-light p-3 border-bottom">
-                            <div class="text-success">
-                                <h6 class="my-0">Promo code</h6>
-                                <small>EXAMPLECODE</small>
-                            </div>
-                            <span class="text-success">−$5</span>
-                        </li>
-                        <li class="d-flex justify-content-between p-3">
-                            <span>Total (USD)</span>
-                            <strong>$20</strong>
-                        </li>
+                        @foreach ($order_details as $order)
+                            <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
+                                <div>
+                                    <h6 class="my-0">{{ $order->product->name }}</h6>
+                                    <small class="text-muted">
+                                        @if ($order->size && $order->color != '')
+                                            {{ $order->size }}, {{ $order->color }}, {{ $order->quantity }}x
+                                        @elseif ($order->size != '')
+                                            {{ $order->size }}, {{ $order->quantity }}x
+                                        @elseif ( $order->color != '')
+                                            {{ $order->color }}, {{ $order->quantity }}x
+                                        @endif
+                                    </small>
+                                </div>
+                                <span class="text-muted">Rp {{ number_format($order->total, 0, ',', '.') }}</span>
+                            </li>
+                        @endforeach
                     </ul>
-
-                    <form>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Promo code">
-                            <button type="submit" class="btn btn-secondary">Redeem</button>
-                        </div>
-                    </form>
                 </div>
             </div><!--end col-->
 
             <div class="col-md-7 col-lg-8">
                 <div class="card rounded shadow p-4 border-0">
-                    <h4 class="mb-3">Billing address</h4>
+                    <h4 class="mb-3">Alamat saya</h4>
                     <form class="needs-validation" novalidate>
                         <div class="row g-3 mb-3">
-                            <div class="col-sm-6">
-                                <label for="firstName" class="form-label">First name</label>
-                                <input type="text" class="form-control" id="firstName" placeholder="First Name" value=""
-                                    required>
+                            <div class="col-12">
+                                <label for="name" class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Nama Lengkap" value="{{ $user->name }}">
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
                             </div>
 
-                            <div class="col-sm-6">
-                                <label for="lastName" class="form-label">Last name</label>
-                                <input type="text" class="form-control" id="lastName" placeholder="Last Name" value=""
-                                    required>
-                                <div class="invalid-feedback">
-                                    Valid last name is required.
-                                </div>
-                            </div>
-
                             <div class="col-12">
-                                <label for="username" class="form-label">Username</label>
-                                <div class="input-group has-validation">
-                                    <span class="input-group-text bg-light text-muted border">@</span>
-                                    <input type="text" class="form-control" id="username" placeholder="Username" required>
-                                    <div class="invalid-feedback"> Your username is required. </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="email" class="form-label">Email <span
-                                        class="text-muted">(Optional)</span></label>
-                                <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                                <label for="telephone" class="form-label">Telepon</label>
+                                <input type="telephone" class="form-control" id="telephone" name="telephone" value="{{ $user->telephone }}" placeholder="Telepon">
                                 <div class="invalid-feedback">
                                     Please enter a valid email address for shipping updates.
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <label for="address" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="address" placeholder="1234 Main St"
-                                    required>
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" placeholder="you@example.com">
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address for shipping updates.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address" class="form-label">Alamat</label>
+                                <input type="text" class="form-control" id="address" name="address" placeholder="Alamat">
                                 <div class="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>
                             </div>
 
-                            <div class="col-12">
-                                <label for="address2" class="form-label">Address 2 <span
-                                        class="text-muted">(Optional)</span></label>
-                                <input type="text" class="form-control" id="address2"
-                                    placeholder="Apartment or suite">
+                            <div class="col-md-6">
+                                <label for="province" class="form-label">Provinsi</label>
+                                <input type="text" class="form-control" id="province" name="province" placeholder="Provinsi">
                             </div>
 
-                            <div class="col-md-5">
-                                <label for="country" class="form-label">Country</label>
-                                <select class="form-select form-control" id="country" required>
-                                    <option value="">Choose...</option>
-                                    <option>United States</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please select a valid country.
-                                </div>
+                            <div class="col-md-6">
+                                <label for="subdistrict" class="form-label">Kecamatan</label>
+                                <input type="text" class="form-control" id="subdistrict" name="subdistrict" placeholder="Kecamatan">
                             </div>
 
-                            <div class="col-md-4">
-                                <label for="state" class="form-label">State</label>
-                                <select class="form-select form-control" id="state" required>
-                                    <option value="">Choose...</option>
-                                    <option>California</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please provide a valid state.
-                                </div>
+                            <div class="col-md-6">
+                                <label for="village" class="form-label">Desa/Kelurahan</label>
+                                <input type="text" class="form-control" id="village" name="village" placeholder="Desa">
                             </div>
 
-                            <div class="col-md-3">
-                                <label for="zip" class="form-label">Zip</label>
-                                <input type="text" class="form-control" id="zip" placeholder="" required>
-                                <div class="invalid-feedback">
-                                    Zip code required.
-                                </div>
+                            <div class="col-md-6">
+                                <label for="postal_code" class="form-label">Kode Pos</label>
+                                <input type="text" class="form-control" id="postal_code" name="postal_code" placeholder="Kode Pos">
                             </div>
                         </div>
 
@@ -193,56 +141,6 @@
 @section('javascript')
 <script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
 <script>
-    function calculateSubtotal() {
-        const totalCells = document.querySelectorAll('.total');
-        let subtotal = 0;
-        totalCells.forEach(cell => {
-            subtotal += parseInt(cell.innerText.replace(/\D/g, ''));
-        });
-        const subtotalCell = document.getElementById('subtotal');
-        subtotalCell.innerText = `Rp ${numberWithCommas(subtotal)}`;
-    }
-
-    calculateSubtotal();
-
-    function updateTotal(orderId) {
-        const quantityInput = document.getElementById(`quantity-${orderId}`);
-        const totalCell = document.getElementById(`total-${orderId}`);
-        const priceCell = document.getElementById(`price-${orderId}`);
-        const price = parseInt(priceCell.innerText.replace(/\D/g, ''));
-        const quantity = parseInt(quantityInput.value);
-        const total = price * quantity;
-        totalCell.innerText = `Rp ${numberWithCommas(total)}`;
-        calculateSubtotal();
-    }
-
-    function decreaseQuantity(orderId) {
-        const quantityInput = document.getElementById(`quantity-${orderId}`);
-        quantityInput.stepDown();
-        updateTotal(orderId);
-    }
-
-    function increaseQuantity(orderId) {
-        const quantityInput = document.getElementById(`quantity-${orderId}`);
-        quantityInput.stepUp();
-        updateTotal(orderId);
-    }
-
-    function numberWithCommas(number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
-
-    // Function to limit the maximum qty
-    function incrementQty(element) {
-        let input = element.parentNode.querySelector('input[type=number]');
-        let max = input.getAttribute('max');
-        let value = parseInt(input.value);
-
-        if (value < max) {
-            input.stepUp();
-        }
-    }
-
     // show dialog success
     @if (Session::has('success'))
         swal.fire({
@@ -255,41 +153,5 @@
             }
         });
     @endif
-
-    // function delete
-    $(".delete").click(function() {
-        var id = $(this).data("id");
-        Swal.fire({
-            title: 'Hapus',
-            text: "Apakah anda yakin ingin menghapus?",
-            icon: 'warning',
-            showCancelButton: true,
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "carts/" + id,
-                    type: 'DELETE',
-                    data: {
-                        "id": id,
-                        "_token": $('meta[name="csrf-token"]').attr('content'),
-                    },
-                    success: function(response) {
-                        swal.fire({
-                            icon: "success",
-                            title: "Berhasil",
-                            text: response.message,
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        });
-                    },
-                });
-            }
-        })
-    });
 </script>
 @endsection
