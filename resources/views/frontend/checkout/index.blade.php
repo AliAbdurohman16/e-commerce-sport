@@ -1,10 +1,5 @@
 @extends('layouts.frontend.main')
 
-@section('css')
-<!-- Sweat Alert -->
-<link rel="stylesheet" href="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.css"/>
-@endsection
-
 @section('content')
 <!-- Hero Start -->
 <section class="bg-half-170 bg-light d-table w-100">
@@ -49,23 +44,38 @@
                         <span class="badge bg-primary rounded-pill">{{ $order_details->count() }}</span>
                     </div>
                     <ul class="list-group mb-3 border">
-                        @foreach ($order_details as $order)
+                        @foreach ($order_details as $order_detail)
                             <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
                                 <div>
-                                    <h6 class="my-0">{{ $order->product->name }}</h6>
+                                    <h6 class="my-0">{{ $order_detail->product->name }}</h6>
                                     <small class="text-muted">
-                                        @if ($order->size && $order->color != '')
-                                            {{ $order->size }}, {{ $order->color }}, {{ $order->quantity }}x
-                                        @elseif ($order->size != '')
-                                            {{ $order->size }}, {{ $order->quantity }}x
-                                        @elseif ( $order->color != '')
-                                            {{ $order->color }}, {{ $order->quantity }}x
+                                        @if ($order_detail->size && $order_detail->color != '')
+                                            {{ $order_detail->size }}, {{ $order_detail->color }}, {{ $order_detail->quantity }}x
+                                        @elseif ($order_detail->size != '')
+                                            {{ $order_detail->size }}, {{ $order_detail->quantity }}x
+                                        @elseif ( $order_detail->color != '')
+                                            {{ $order_detail->color }}, {{ $order_detail->quantity }}x
                                         @endif
                                     </small>
                                 </div>
-                                <span class="text-muted">Rp {{ number_format($order->total, 0, ',', '.') }}</span>
+                                <span class="text-muted">Rp {{ number_format($order_detail->total, 0, ',', '.') }}</span>
                             </li>
                         @endforeach
+                    </ul>
+                    <ul class="list-group mb-3 border">
+                        <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
+                            <div><h6 class="my-0">Subtotal</h6></div>
+                            <span class="text-muted">Rp {{ number_format($order_detail->order->subtotal, 0, ',', '.') }}</span>
+                        </li>
+                        <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
+
+                            <div><h6 class="my-0">Ongkos Kirim</h6></div>
+                            <span class="text-muted">Rp {{ number_format($total_shipping_cost, 0, ',', '.') }}</span>
+                        </li>
+                        <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
+                            <div><h6 class="my-0">Total</h6></div>
+                            <span class="text-muted">Rp {{ number_format($amount, 0, ',', '.') }}</span>
+                        </li>
                     </ul>
                 </div>
             </div><!--end col-->
@@ -127,9 +137,8 @@
                                 <input type="text" class="form-control" id="postal_code" name="postal_code" placeholder="Kode Pos">
                             </div>
                         </div>
-
-                        <button class="w-100 btn btn-primary" type="submit">Lanjutkan checkout</button>
                     </form>
+                    <button class="w-100 btn btn-primary" id="checkout">Lanjutkan checkout</button>
                 </div>
             </div><!--end col-->
         </div><!--end row-->
@@ -139,19 +148,28 @@
 @endsection
 
 @section('javascript')
-<script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
-<script>
-    // show dialog success
-    @if (Session::has('success'))
-        swal.fire({
-            icon: "success",
-            title: "Berhasil",
-            text: "{{ Session::get('success') }}",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                location.reload();
+<!-- TODO: Remove ".sandbox" from script src URL for production environment. Also input your client key in "data-client-key" -->
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-zTSmizcoVqlH4aZZ"></script>
+<script type="text/javascript">
+    document.getElementById('checkout').onclick = function(){
+        // SnapToken acquired from previous step
+        snap.pay('{{ $snap_token }}', {
+            // Optional
+            onSuccess: function(result){
+                /* You may add your own js here, this is just example */
+                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            },
+            // Optional
+            onPending: function(result){
+                /* You may add your own js here, this is just example */
+                 document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            },
+            // Optional
+            onError: function(result){
+                /* You may add your own js here, this is just example */
+                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
             }
         });
-    @endif
+    };
 </script>
 @endsection

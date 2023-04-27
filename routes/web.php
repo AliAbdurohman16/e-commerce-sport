@@ -23,6 +23,7 @@ Route::get('carts', [App\Http\Controllers\Frontend\CartController::class, 'index
 Route::post('carts', [App\Http\Controllers\Frontend\CartController::class, 'store'])->name('carts.store');
 Route::delete('carts/{id}', [App\Http\Controllers\Frontend\CartController::class, 'destroy'])->name('carts.destroy');
 Route::get('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'index'])->name('checkout.index');
+// Route::post('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'payment'])->name('checkout.payment');
 
 Auth::routes();
 

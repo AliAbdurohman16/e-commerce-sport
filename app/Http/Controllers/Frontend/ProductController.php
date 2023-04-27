@@ -101,14 +101,14 @@ class ProductController extends Controller
         } else {
             // create new order detail
             $orderDetail = new OrderDetail([
-                // 'order_id' => $order->id,
+                'order_id' => $order->id,
                 'product_id' => $product->id,
                 'size' => $request->size,
                 'color' => $request->color,
                 'quantity' => $request->quantity
             ]);
 
-            $order->orderDetails()->save($orderDetail);
+            $orderDetail->save();
         }
 
         return redirect('carts')->with('success', 'Produk berhasil ditambahkan ke keranjang');

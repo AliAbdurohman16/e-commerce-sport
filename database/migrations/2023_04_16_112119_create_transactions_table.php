@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('order_id');
+            $table->string('order_id');
             $table->string('payment_method');
             $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
             $table->timestamps();

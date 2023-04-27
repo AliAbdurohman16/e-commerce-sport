@@ -94,10 +94,6 @@
                                                     <option value="">Pilih Satuan</option>
                                                     <option value="g" {{ old('unit') == 'g' ? 'selected' : '' }}>g</option>
                                                     <option value="kg" {{ old('unit') == 'kg' ? 'selected' : '' }}>kg</option>
-                                                    <option value="ons" {{ old('unit') == 'ons' ? 'selected' : '' }}>ons</option>
-                                                    <option value="pon" {{ old('unit') == 'pon' ? 'selected' : '' }}>pon</option>
-                                                    <option value="lb" {{ old('unit') == 'lb' ? 'selected' : '' }}>lb</option>
-                                                    <option value="oz" {{ old('unit') == 'oz' ? 'selected' : '' }}>oz</option>
                                                 </select>
                                             </div>
                                             @error('unit')
