@@ -192,8 +192,9 @@
                             @if (Auth::user()->hasRole('admin'))
                                 <a class="dropdown-item text-dark" href="{{ route('dashboard') }}"><i class="uil uil-estate align-middle me-1"></i> Dashboard</a>
                             @else
-                                <a class="dropdown-item text-dark" href="#"><i class="uil uil-user align-middle me-1"></i> Akun Anda</a>
+                                <a class="dropdown-item text-dark" href="{{ route('account.index') }}"><i class="uil uil-user align-middle me-1"></i> Akun Anda</a>
                                 <a class="dropdown-item text-dark" href="#"><i class="uil uil-clipboard-notes align-middle me-1"></i> Riwayat Pesanan</a>
+                                <a class="dropdown-item text-dark" href="{{ route('changepassword.index') }}"><i class="uil uil-key-skeleton align-middle me-1"></i> Ganti Kata Sandi</a>
                             @endif
                             <div class="dropdown-divider my-3 border-top"></div>
                             <a class="dropdown-item text-dark" href="{{ route('logout') }}" onclick="event.preventDefault();

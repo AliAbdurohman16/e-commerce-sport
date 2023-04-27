@@ -96,6 +96,16 @@
                 location.reload();
             }
         });
+    @elseif (Session::has('error'))
+        swal.fire({
+            icon: "error",
+            title: "Gagal",
+            text: "{{ Session::get('message') }}",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+            }
+        });
     @endif
 </script>
 @endsection

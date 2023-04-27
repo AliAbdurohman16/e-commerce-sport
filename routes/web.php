@@ -20,13 +20,20 @@ Route::get('products/search', [App\Http\Controllers\Frontend\ProductController::
 Route::get('products/detail/{slug}', [App\Http\Controllers\Frontend\ProductController::class, 'show'])->name('products.detail');
 Route::post('products/addToCart/{id}', [App\Http\Controllers\Frontend\ProductController::class, 'addToCart'])->name('products.addToCart');
 Route::get('categories/{slug}', [App\Http\Controllers\Frontend\CategoryController::class, 'index'])->name('categories.all');
-Route::get('carts', [App\Http\Controllers\Frontend\CartController::class, 'index'])->name('carts.index');
-Route::post('carts', [App\Http\Controllers\Frontend\CartController::class, 'store'])->name('carts.store');
-Route::delete('carts/{id}', [App\Http\Controllers\Frontend\CartController::class, 'destroy'])->name('carts.destroy');
-Route::get('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'index'])->name('checkout.index');
-// Route::post('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'payment'])->name('checkout.payment');
 
 Auth::routes();
+
+Route::middleware('role:user')->group(function () {
+    Route::get('carts', [App\Http\Controllers\Frontend\CartController::class, 'index'])->name('carts.index');
+    Route::post('carts', [App\Http\Controllers\Frontend\CartController::class, 'store'])->name('carts.store');
+    Route::delete('carts/{id}', [App\Http\Controllers\Frontend\CartController::class, 'destroy'])->name('carts.destroy');
+    Route::get('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'payment'])->name('checkout.payment');
+    Route::resources([
+        'account' => App\Http\Controllers\Frontend\ProfileController::class,
+        'changepassword' => App\Http\Controllers\Frontend\ChangePasswordController::class,
+    ]);
+});
 
 Route::middleware('role:admin')->group(function () {
     Route::get('dashboard', [App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('dashboard');

@@ -118,13 +118,21 @@ class CheckoutController extends Controller
 
     public function payment(Request $request)
     {
-        // get notifications data from Midtrans
-        $payload = $request->getContent();
-        $notification = json_decode($payload);
+        // get data
+        $user = Auth::user();
 
-        // Checks if the notification is valid
-        if (!$notification || !isset($notification->order_id)) {
-            // return
-        }
+        // update to table
+        $user->update([
+            'name' => $request->name,
+            'telephone' => $request->telephone,
+            'address' => $request->address,
+            'province' => $request->province,
+            'city' => $request->city,
+            'subdistrict' => $request->subdistrict,
+            'village' => $request->village,
+            'postal_code' => $request->postal_code,
+        ]);
+
+        return response()->json(['success' => true]);
     }
 }
