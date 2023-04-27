@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        // get data where slug
+        // get data
         $products = Product::with(['images', 'discounts'])->latest()->paginate(8);
 
         return view('frontend.products.index', compact('products'));
