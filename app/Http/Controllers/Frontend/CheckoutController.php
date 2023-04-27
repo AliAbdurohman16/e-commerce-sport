@@ -116,7 +116,7 @@ class CheckoutController extends Controller
         return view('frontend.checkout.index', compact('order_details', 'user', 'snap_token', 'total_shipping_cost', 'amount'));
     }
 
-    public function payment(Request $request)
+    public function store(Request $request)
     {
         // get data
         $user = Auth::user();
