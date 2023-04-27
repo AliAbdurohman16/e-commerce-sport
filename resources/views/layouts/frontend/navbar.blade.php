@@ -50,50 +50,88 @@
             @else
                 <li class="list-inline-item mb-0 pe-1 position-relative">
                     <div class="dropdown">
+                        @php
+                        // get order data for the logged in user
+                            $order = App\Models\Order::where('user_id', auth()->user()->id)->get();
+
+                            // get order details data for the logged in user
+                            $order_details = App\Models\OrderDetail::whereHas('order', function ($query) {
+                                $query->where('user_id', Auth::user()->id)
+                                ->where('status', 'Belum Checkout');
+                            })->get();
+
+                            $total = 0;
+                        @endphp
                         <button type="button" class="btn btn-icon btn-pills btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i data-feather="shopping-cart" class="icons"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                            @if ($order_details->count() > 0)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ $order_details->count() }}</span>
+                            @endif
                         </button>
-                        <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 p-4" style="width: 300px;">
+                        <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 p-4" style="width: 400px;">
+                            <form action="{{ route('carts.store') }}" method="post">
+                            @csrf
                             <div class="pb-4">
-                                <a href="javascript:void(0)" class="d-flex align-items-center">
-                                    <img src="{{ asset('frontend') }}/images/shop/product/s-1.jpg" class="shadow rounded" style="max-height: 64px;" alt="">
-                                    <div class="flex-1 text-start ms-3">
-                                        <h6 class="text-dark mb-0">T-shirt (M)</h6>
-                                        <p class="text-muted mb-0">$320 X 2</p>
-                                    </div>
-                                    <h6 class="text-dark mb-0">$640</h6>
-                                </a>
-
-                                <a href="javascript:void(0)" class="d-flex align-items-center mt-4">
-                                    <img src="{{ asset('frontend') }}/images/shop/product/s-2.jpg" class="shadow rounded" style="max-height: 64px;" alt="">
-                                    <div class="flex-1 text-start ms-3">
-                                        <h6 class="text-dark mb-0">Bag</h6>
-                                        <p class="text-muted mb-0">$50 X 5</p>
-                                    </div>
-                                    <h6 class="text-dark mb-0">$250</h6>
-                                </a>
-
-                                <a href="javascript:void(0)" class="d-flex align-items-center mt-4">
-                                    <img src="{{ asset('frontend') }}/images/shop/product/s-3.jpg" class="shadow rounded" style="max-height: 64px;" alt="">
-                                    <div class="flex-1 text-start ms-3">
-                                        <h6 class="text-dark mb-0">Watch (Men)</h6>
-                                        <p class="text-muted mb-0">$800 X 1</p>
-                                    </div>
-                                    <h6 class="text-dark mb-0">$800</h6>
-                                </a>
+                                @foreach ($order_details as $order)
+                                <input type="hidden" name="id[]" value="{{ $order->id }}">
+                                <input type="hidden" name="quantity[]" value="{{ $order->quantity }}">
+                                    <a href="{{ route('products.detail', $order->product->slug) }}" class="d-flex align-items-center mb-3">
+                                        @if ($order->product->images->count() > 0)
+                                            @foreach ($order->product->images as $image)
+                                                <img src="{{ asset('storage/products/' . $image->path) }}" class="shadow rounded" style="max-height: 64px;" alt="product-cart">
+                                                @break
+                                            @endforeach
+                                        @endif
+                                        <div class="flex-1 text-start ms-3">
+                                            <h6 class="text-dark mb-0">{{ $order->product->name }}
+                                                @if ($order->size && $order->color != '')
+                                                    ({{ $order->size }}, {{ $order->color }})
+                                                @elseif ($order->size != '')
+                                                    ({{ $order->size }})
+                                                @elseif ($order->color != '')
+                                                    ({{ $order->color }})
+                                                @endif
+                                            </h6>
+                                            @if($order->product->discounts->count() > 0)
+                                                @php
+                                                    $discount = $order->product->discounts->first()->discount_percentage; // get discount percentage
+                                                    $discountedPrice = $order->product->price - ($order->product->price * ($discount / 100)); // calculate the price after the discount
+                                                @endphp
+                                                <p class="text-muted mb-0">Rp {{ number_format($discountedPrice, 0, ',', '.') }} X {{ $order->quantity }}</p>
+                                            @else
+                                                <p class="text-muted mb-0">Rp {{ number_format($order->product->price, 0, ',', '.') }} X {{ $order->quantity }}</p>
+                                            @endif
+                                        </div>
+                                        @if($order->product->discounts->count() > 0)
+                                            @php
+                                                $discount = $order->product->discounts->first()->discount_percentage; // get discount percentage
+                                                $discountedPrice = $order->product->price - ($order->product->price * ($discount / 100)); // calculate the price after the discount
+                                                $subtotal = $discountedPrice * $order->quantity
+                                            @endphp
+                                            <h6 class="text-dark mb-0 total-price">Rp {{ number_format($subtotal, 0, ',', '.') }}</h6>
+                                        @else
+                                            @php $subtotal = $order->product->price * $order->quantity @endphp
+                                            <h6 class="text-dark mb-0 total-price">Rp {{ number_format($subtotal, 0, ',', '.') }}</h6>
+                                        @endif
+                                    </a>
+                                    @php
+                                        $total += $subtotal;
+                                    @endphp
+                                @endforeach
                             </div>
 
                             <div class="d-flex align-items-center justify-content-between pt-4 border-top">
-                                <h6 class="text-dark mb-0">Total($):</h6>
-                                <h6 class="text-dark mb-0">$1690</h6>
+                                <h6 class="text-dark mb-0">Total(Rp):</h6>
+                                <h6 class="text-dark mb-0" id="subtotal-price">Rp {{ number_format($total, 0, ',', '.') }}</h6>
                             </div>
 
                             <div class="mt-3 text-center">
-                                <a href="{{ route('carts.index') }}" class="btn btn-primary me-2">View Cart</a>
-                                <a href="javascript:void(0)" class="btn btn-primary">Checkout</a>
+                                <a href="{{ route('carts.index') }}" class="btn btn-primary me-2">Keranjang</a>
+                                @if ($order_details->count() > 0)
+                                    <button type="submit" class="btn btn-primary">Checkout</button>
+                                @endif
                             </div>
-                            <p class="text-muted text-start mt-1 mb-0">*T&C Apply</p>
+                            </form>
                         </div>
                     </div>
                 </li>
@@ -143,7 +181,6 @@
                                 <a href="javascript:void(0)" class="btn btn-primary me-2">View Cart</a>
                                 <a href="javascript:void(0)" class="btn btn-primary">Checkout</a>
                             </div>
-                            <p class="text-muted text-start mt-1 mb-0">*T&C Apply</p>
                         </div>
                     </div>
                 </li>
@@ -184,3 +221,24 @@
     </div><!--end container-->
 </header><!--end header-->
 <!-- Navbar End -->
+
+@section('javascript')
+<script>
+    function navSubtotal() {
+        const totalCells = document.querySelectorAll('.total-price');
+        let subtotalnav = 0;
+        totalCells.forEach(cell => {
+            const total = parseInt(cell.innerText.replace(/\D/g, ''));
+            // subtotalnav += total;
+        });
+        const subtotalCell = document.getElementById('subtotal-price');
+        subtotalCell.innerText = `Rp ${numberWithCommasNav(subtotalnav)}`;
+    }
+
+    navSubtotal();
+
+    function numberWithCommasNav(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+</script>
+@endsection

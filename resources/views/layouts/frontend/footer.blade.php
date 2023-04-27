@@ -20,7 +20,7 @@
 
                                 <div class="col-lg-4 col-md-4 col-12">
                                     <ul class="list-unstyled footer-list">
-                                        <?php $categories = App\Models\Category::all(); ?>
+                                        @php $categories = App\Models\Category::all(); @endphp
                                         @foreach ($categories as $category)
                                             <li>
                                                 <a href="{{ route('categories.all', $category->slug) }}" class="text-foot">
