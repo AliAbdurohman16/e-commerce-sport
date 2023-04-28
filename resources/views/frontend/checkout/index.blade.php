@@ -1,5 +1,10 @@
 @extends('layouts.frontend.main')
 
+@section('css')
+<!-- Sweat Alert -->
+<link rel="stylesheet" href="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.css"/>
+@endsection
+
 @section('content')
 <!-- Hero Start -->
 <section class="bg-half-170 bg-light d-table w-100">
@@ -83,8 +88,8 @@
             <div class="col-md-7 col-lg-8">
                 <div class="card rounded shadow p-4 border-0">
                     <h4 class="mb-3">Alamat saya</h4>
-                    {{-- <form action="{{ route('checkout.payment') }}" method="POST" id="form"> --}}
-                        {{-- @csrf --}}
+                    <form action="{{ route('checkout.payment') }}" method="POST" id="form">
+                        @csrf
                         <div class="row g-3 mb-3">
                             <div class="col-12">
                                 <label for="name" class="form-label">Nama Lengkap</label>
@@ -94,7 +99,7 @@
 
                             <div class="col-12">
                                 <label for="telephone" class="form-label">Telepon</label>
-                                <input type="telephone" class="form-control" id="telephone" name="telephone" value="{{ $user->telephone }}" placeholder="Telepon">
+                                <input type="number" class="form-control" id="telephone" name="telephone" value="{{ $user->telephone }}" placeholder="Telepon">
                                 <span class="invalid-feedback"></span>
                             </div>
 
@@ -135,11 +140,11 @@
 
                             <div class="col-md-6">
                                 <label for="postal_code" class="form-label">Kode Pos</label>
-                                <input type="text" class="form-control" id="postal_code" name="postal_code" value="{{ $user->postal_code }}" placeholder="Kode Pos">
+                                <input type="number" class="form-control" id="postal_code" name="postal_code" value="{{ $user->postal_code }}" placeholder="Kode Pos">
                                 <span class="invalid-feedback"></span>
                             </div>
                         </div>
-                    {{-- </form> --}}
+                    </form>
                     <button class="w-100 btn btn-primary" id="checkout">Lanjutkan checkout</button>
                 </div>
             </div><!--end col-->
@@ -150,8 +155,10 @@
 @endsection
 
 @section('javascript')
+<!-- Sweat Alert -->
+<script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
 <!-- TODO: Remove ".sandbox" from script src URL for production environment. Also input your client key in "data-client-key" -->
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-zTSmizcoVqlH4aZZ"></script>
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.server_key') }}"></script>
 <script type="text/javascript">
 
     document.getElementById('checkout').addEventListener('click', function(event){
@@ -260,18 +267,123 @@
                         snap.pay('{{ $snap_token }}', {
                             // Optional
                             onSuccess: function(result){
-                                /* You may add your own js here, this is just example */
-                                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                $.ajax({
+                                    url: 'payment',
+                                    type: 'POST',
+                                    data: {
+                                        "_token": $('meta[name="csrf-token"]').attr('content'),
+                                        "status": 'success',
+                                        "order_id": result.order_id,
+                                        "payment_type": result.payment_type,
+                                        "bank": result.va_numbers[0].bank,
+                                        "va_number": result.va_numbers[0].va_number,
+                                        "gross_amount": result.gross_amount,
+                                        "transaction_status": result.transaction_status,
+                                        "expired": result.transaction_time,
+                                    },
+                                    success: function(response) {
+                                        swal.fire({
+                                            icon: "success",
+                                            title: "Berhasil",
+                                            text: response.message,
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                location.reload();
+                                            }
+                                        });
+                                    },
+                                    error: function(xhr, status, error) {
+                                        swal.fire({
+                                            icon: "error",
+                                            title: "Gagal",
+                                            text: "Terjadi kesalahan! " + error,
+                                        });
+                                    }
+                                });
                             },
                             // Optional
                             onPending: function(result){
-                                /* You may add your own js here, this is just example */
-                                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                // console.log(result);
+                                $.ajax({
+                                    url: 'payment',
+                                    type: 'POST',
+                                    data: {
+                                        "_token": $('meta[name="csrf-token"]').attr('content'),
+                                        "status": 'pending',
+                                        "order_id": result.order_id,
+                                        "payment_type": result.payment_type,
+                                        "bank": result.va_numbers[0].bank,
+                                        "va_number": result.va_numbers[0].va_number,
+                                        "gross_amount": result.gross_amount,
+                                        "transaction_status": result.transaction_status,
+                                        "expired": result.transaction_time,
+                                    },
+                                    success: function(response) {
+                                        swal.fire({
+                                            icon: "success",
+                                            title: "Berhasil",
+                                            text: response.message + " Silahkan lakukan pembayaran",
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                location.reload();
+                                            }
+                                        });
+                                    },
+                                    error: function(xhr, status, error) {
+                                        swal.fire({
+                                            icon: "error",
+                                            title: "Gagal",
+                                            text: "Terjadi kesalahan! " + error,
+                                        });
+                                    }
+                                });
                             },
                             // Optional
                             onError: function(result){
-                                /* You may add your own js here, this is just example */
-                                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                $.ajax({
+                                    url: 'payment',
+                                    type: 'POST',
+                                    data: {
+                                        "_token": $('meta[name="csrf-token"]').attr('content'),
+                                        "status": 'error',
+                                        "order_id": result.order_id,
+                                        "payment_type": result.payment_type,
+                                        "bank": result.va_numbers[0].bank,
+                                        "va_number": result.va_numbers[0].va_number,
+                                        "gross_amount": result.gross_amount,
+                                        "transaction_status": result.transaction_status,
+                                        "expired": result.transaction_time,
+                                    },
+                                    success: function(response) {
+                                        swal.fire({
+                                            icon: "success",
+                                            title: "Berhasil",
+                                            text: response.message,
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                location.reload();
+                                            }
+                                        });
+                                    },
+                                    error: function(xhr, status, error) {
+                                        swal.fire({
+                                            icon: "error",
+                                            title: "Gagal",
+                                            text: "Terjadi kesalahan! " + error,
+                                        });
+                                    }
+                                });
+                            },
+                            onClose: function(){
+                                swal.fire({
+                                    icon: "warning",
+                                    title: "Peringatan!",
+                                    text: "Anda menutup popup tanpa menyelesaikan pembayaran",
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
+                                });
                             }
                         });
                     }

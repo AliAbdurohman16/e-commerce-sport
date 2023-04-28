@@ -12,17 +12,7 @@ class Order extends Model
     protected $keyType = 'string';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['user_id', 'status', 'subtotal'];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        // Creates a new order id when the model is saved to the database
-        static::creating(function ($model) {
-            $model->id = 'ORD' . str_pad(rand(1, 99999999), 8, '0', STR_PAD_LEFT);
-        });
-    }
+    protected $fillable = ['id','user_id', 'status', 'subtotal'];
 
     public function user()
     {
@@ -32,5 +22,10 @@ class Order extends Model
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
     }
 }

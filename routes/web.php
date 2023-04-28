@@ -29,6 +29,7 @@ Route::middleware('role:user')->group(function () {
     Route::delete('carts/{id}', [App\Http\Controllers\Frontend\CartController::class, 'destroy'])->name('carts.destroy');
     Route::get('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'store'])->name('checkout.store');
+    Route::post('payment', [App\Http\Controllers\Frontend\CheckoutController::class, 'payment'])->name('checkout.payment');
     Route::resources([
         'account' => App\Http\Controllers\Frontend\ProfileController::class,
         'changepassword' => App\Http\Controllers\Frontend\ChangePasswordController::class,

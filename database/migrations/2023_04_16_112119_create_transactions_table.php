@@ -17,8 +17,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('order_id');
-            $table->string('payment_method');
-            $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
+            $table->string('payment_type');
+            $table->string('bank');
+            $table->string('va_number');
+            $table->decimal('gross_amount', 11, 2);
+            $table->string('status')->default('pending');
+            $table->timestamp('expired')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\OrderDetail;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
@@ -29,6 +30,10 @@ class CheckoutController extends Controller
             $query->where('user_id', Auth::user()->id)
             ->where('status', 'Belum Checkout');
         })->get();
+
+        if (!$order_details->count() >0 ) {
+            return redirect('/');
+        }
 
         // initializing shipping cost
         $total_shipping_cost = 0;
@@ -57,18 +62,10 @@ class CheckoutController extends Controller
 
             // create amount
             $amount = $detail->order->subtotal + $total_shipping_cost;
-
-            // create item details
-            // $item_details[] = [
-            //     'id' => $detail->product_id,
-            //     'price' => $detail->total,
-            //     'quantity' => $detail->quantity,
-            //     'name' => $detail->product->name,
-            // ];
         }
 
         // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = 'SB-Mid-server-1zZ935BBzYSassJ7t24ER6_b';
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         \Midtrans\Config::$isProduction = false;
         // Set sanitization on (default)
@@ -85,7 +82,6 @@ class CheckoutController extends Controller
             "credit_card" => array(
                 "secure" => true
             ),
-            // "item_details" => $item_details,
             "customer_details" => array(
                 "first_name" => $user->name,
                 "email" => $user->email,
@@ -134,5 +130,41 @@ class CheckoutController extends Controller
         ]);
 
         return response()->json(['success' => true]);
+    }
+
+    public function payment(Request $request)
+    {
+        // Update status order by order_id
+        $order = Order::where('id', $request->order_id)->first();
+        $order->status = 'Sudah Checkout';
+        $order->save();
+
+        // insert data POST request
+        $payment = Transaction::create([
+            'user_id' => Auth::user()->id,
+            'order_id' => $request->order_id,
+            'payment_type' => $request->payment_type,
+            'bank' => $request->bank,
+            'va_number' => $request->va_number,
+            'gross_amount' => $request->gross_amount,
+            'status' => $request->transaction_status,
+            'expired' => date('Y-m-d H:i:s', strtotime($request->expired . ' +1 days')),
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Checkout Berhasil!']);
+    }
+
+    public function contohambildatadimidtrans()
+    {
+         // Set your Merchant Server Key
+         \Midtrans\Config::$serverKey = config('midtrans.server_key');
+         \Midtrans\Config::$clientKey = config('midtrans.client_key');
+         \Midtrans\Config::$isProduction = false;
+         // Set your order_id
+         $order_id = 'ORD35526852';
+         // Get transaction status from Midtrans
+         $transaction = \Midtrans\Transaction::status($order_id);
+         // Get va_number from transaction
+         $payment_code = $transaction->va_numbers[0]->va_number;
     }
 }
