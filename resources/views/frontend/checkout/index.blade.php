@@ -75,7 +75,7 @@
                         <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
 
                             <div><h6 class="my-0">Ongkos Kirim</h6></div>
-                            <span class="text-muted">Rp {{ number_format($total_shipping_cost, 0, ',', '.') }}</span>
+                            <span class="text-muted" id="shipping-cost">Rp {{ number_format($total_shipping_cost, 0, ',', '.') }}</span>
                         </li>
                         <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
                             <div><h6 class="my-0">Total</h6></div>
@@ -174,6 +174,9 @@
         var subdistrictInput = document.getElementById('subdistrict');
         var villageInput = document.getElementById('village');
         var postalCodeInput = document.getElementById('postal_code');
+        var shippingCostElement = document.getElementById("shipping-cost");
+        var shippingCostText = shippingCostElement.textContent;
+        var shippingCost = parseInt(shippingCostText.replace("Rp ", "").replace(".", ""));
 
         // validation
         if (nameInput.value.trim() == '') {
@@ -280,6 +283,7 @@
                                         "gross_amount": result.gross_amount,
                                         "transaction_status": result.transaction_status,
                                         "expired": result.transaction_time,
+                                        "shipping_cost": shippingCost,
                                     },
                                     success: function(response) {
                                         swal.fire({
@@ -304,6 +308,7 @@
                             // Optional
                             onPending: function(result){
                                 // console.log(result);
+                                // console.log(shippingCost);
                                 $.ajax({
                                     url: 'payment',
                                     type: 'POST',
@@ -317,6 +322,7 @@
                                         "gross_amount": result.gross_amount,
                                         "transaction_status": result.transaction_status,
                                         "expired": result.transaction_time,
+                                        "shipping_cost": shippingCost,
                                     },
                                     success: function(response) {
                                         swal.fire({
@@ -353,6 +359,7 @@
                                         "gross_amount": result.gross_amount,
                                         "transaction_status": result.transaction_status,
                                         "expired": result.transaction_time,
+                                        "shipping_cost": shippingCost,
                                     },
                                     success: function(response) {
                                         swal.fire({

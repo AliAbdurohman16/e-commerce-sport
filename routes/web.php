@@ -49,5 +49,9 @@ Route::middleware('role:admin')->group(function () {
         'change-password' => App\Http\Controllers\Backend\ChangePasswordController::class,
         'setting' => App\Http\Controllers\Backend\DiscountController::class,
     ]);
+    Route::get('orders/processed', [App\Http\Controllers\Backend\OrderController::class, 'index'])->name('orders.processed');
+    Route::post('orders/processed', [App\Http\Controllers\Backend\OrderController::class, 'store'])->name('orders.store');
+    Route::get('orders/sent', [App\Http\Controllers\Backend\OrderController::class, 'sent'])->name('orders.sent');
+    Route::get('orders/received', [App\Http\Controllers\Backend\OrderController::class, 'received'])->name('orders.received');
 });
 

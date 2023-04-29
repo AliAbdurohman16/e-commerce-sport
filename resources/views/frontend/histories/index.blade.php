@@ -85,7 +85,7 @@
     </div><!--end container-->
 </section><!--end section-->
 <!-- End -->
-<!-- Modal Edit -->
+<!-- Modal Detail -->
 @foreach ($transactions as $transaction)
 <div class="modal fade" id="detail{{ $transaction->id }}" tabindex="-1" aria-labelledby="LoginForm-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -124,7 +124,7 @@
                                 </div>
 
                                 <div class="col-4">
-                                    <label for="">Tanggal Pesan</label>
+                                    <label for="">Tanggal Pesanan</label>
                                 </div>
                                 <div class="col-1">:</div>
                                 <div class="col-7">
@@ -182,5 +182,5 @@
     </div>
 </div>
 @endforeach
-<!-- Modal Edit End -->
+<!-- Modal Detail End -->
 @endsection

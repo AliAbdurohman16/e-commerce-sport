@@ -20,4 +20,23 @@ class OrderDetail extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function user()
+    {
+        if ($this->order) {
+            return $this->order->user;
+        }
+
+        return null;
+    }
+
+    public function shippings()
+    {
+        return $this->order()->with('shippings');
+    }
+
+    public function transactions()
+    {
+        return $this->order()->with('transactions');
+    }
 }

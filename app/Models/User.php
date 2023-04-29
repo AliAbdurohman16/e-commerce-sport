@@ -70,9 +70,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Chat::class, 'recipient_id');
     }
-
-    public function ratings()
-    {
-        return $this->hasMany(Rating::class);
-    }
 }

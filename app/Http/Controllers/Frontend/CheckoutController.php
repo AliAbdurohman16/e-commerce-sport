@@ -8,6 +8,8 @@ use App\Models\OrderDetail;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\Shipping;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
@@ -75,6 +77,7 @@ class CheckoutController extends Controller
 
         $params = array(
             "transaction_details" => array(
+                // "order_id" => rand(),
                 "order_id" => $detail->order_id,
                 "gross_amount" => intval($amount),
                 "shipping_cost" => intval($total_shipping_cost),
@@ -139,6 +142,18 @@ class CheckoutController extends Controller
         $order->status = 'Sudah Checkout';
         $order->save();
 
+        // Update stock of products in the order
+        foreach ($order->orderDetails as $orderDetail) {
+            $product = Product::findOrFail($orderDetail->product_id);
+            $product->stock -= $orderDetail->quantity;
+
+            if ($product->stock < 0) {
+                $product->stock = 0;
+            }
+
+            $product->save();
+        }
+
         // insert data POST request
         $payment = Transaction::create([
             'user_id' => Auth::user()->id,
@@ -151,7 +166,13 @@ class CheckoutController extends Controller
             'expired' => date('Y-m-d H:i:s', strtotime($request->expired . ' +1 days')),
         ]);
 
-        return response()->json(['success' => true, 'message' => 'Checkout Berhasil!']);
+        // insert data shipping
+        Shipping::create([
+            'order_id' => $request->order_id,
+            'cost' => $request->shipping_cost
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Checokut berhasil!']);
     }
 
 }

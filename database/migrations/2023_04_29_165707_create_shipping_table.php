@@ -13,18 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('shippings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
             $table->string('order_id');
-            $table->string('payment_type');
-            $table->string('bank');
-            $table->string('va_number');
-            $table->decimal('gross_amount', 11, 2);
-            $table->string('status')->default('pending');
-            $table->timestamp('expired')->nullable();
+            $table->string('resi')->nullable();
+            $table->string('provider')->nullable();
+            $table->string('cost')->nullable();
+            $table->timestamp('estimation')->nullable();
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
@@ -36,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('shippings');
     }
 };

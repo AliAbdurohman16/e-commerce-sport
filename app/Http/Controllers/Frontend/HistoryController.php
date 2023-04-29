@@ -69,6 +69,19 @@ class HistoryController extends Controller
                 $transaction->update([
                     'status' => 'expired'
                 ]);
+
+                $order = Order::where('id', $orderIdMid)->where('status', 'Sudah Checkout')->first();
+                // Update stock of products in the order
+                foreach ($order->orderDetails as $orderDetail) {
+                    $product = Product::findOrFail($orderDetail->product_id);
+                    $product->stock += $orderDetail->quantity;
+
+                    if ($product->stock < 0) {
+                        $product->stock = 0;
+                    }
+
+                    $product->save();
+                }
             }
 
         }
