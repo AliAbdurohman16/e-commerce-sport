@@ -17,10 +17,17 @@
             <li><a href="{{ route('products.index') }}"><i class="uil uil-shopping-bag me-2"></i>Produk</a></li>
             <li><a href="{{ route('discounts.index') }}"><i class="uil uil-percentage me-2"></i>Diskon</a></li>
             <li><a href=""><i class="uil uil-chat me-2"></i>Pesan</a></li>
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i class="uil uil-invoice me-2"></i>Orderan</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="faqs.html">Orderan Diproses</a></li>
+                        <li><a href="pricing.html">Orderan Dikirim</a></li>
+                        <li><a href="timeline.html">Orderan Diterima</a></li>
+                    </ul>
+                </div>
+            </li>
             <li><a href=""><i class="uil uil-shopping-cart me-2"></i>Transaksi</a></li>
-            <li><a href=""><i class="uil uil-invoice me-2"></i>Invoice</a></li>
-            <li><a href=""><i class="uil uil-truck me-2"></i>Pengiriman</a></li>
-            <li><a href=""><i class="uil uil-star me-2"></i>Penilaian</a></li>
             <li><a href="{{ route('customers.index') }}"><i class="uil uil-users-alt me-2"></i>Pelanggan</a></li>
             <li><a href=""><i class="uil uil-folder me-2"></i>Laporan</a></li>
             <li><a href=""><i class="uil uil-setting me-2"></i>Pengaturan</a></li>
