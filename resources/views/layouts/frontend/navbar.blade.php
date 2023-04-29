@@ -193,7 +193,8 @@
                                 <a class="dropdown-item text-dark" href="{{ route('dashboard') }}"><i class="uil uil-estate align-middle me-1"></i> Dashboard</a>
                             @else
                                 <a class="dropdown-item text-dark" href="{{ route('account.index') }}"><i class="uil uil-user align-middle me-1"></i> Akun Anda</a>
-                                <a class="dropdown-item text-dark" href="#"><i class="uil uil-clipboard-notes align-middle me-1"></i> Riwayat Pesanan</a>
+                                <a class="dropdown-item text-dark" href="{{ route('history.not-yet-paid') }}"><i class="uil uil-money-bill align-middle me-1"></i> Belum Bayar</a>
+                                <a class="dropdown-item text-dark" href="{{ route('history.index') }}"><i class="uil uil-clipboard-notes align-middle me-1"></i> Riwayat Pesanan</a>
                                 <a class="dropdown-item text-dark" href="{{ route('changepassword.index') }}"><i class="uil uil-key-skeleton align-middle me-1"></i> Ganti Kata Sandi</a>
                             @endif
                             <div class="dropdown-divider my-3 border-top"></div>
@@ -222,24 +223,3 @@
     </div><!--end container-->
 </header><!--end header-->
 <!-- Navbar End -->
-
-@section('javascript')
-<script>
-    function navSubtotal() {
-        const totalCells = document.querySelectorAll('.total-price');
-        let subtotalnav = 0;
-        totalCells.forEach(cell => {
-            const total = parseInt(cell.innerText.replace(/\D/g, ''));
-            // subtotalnav += total;
-        });
-        const subtotalCell = document.getElementById('subtotal-price');
-        subtotalCell.innerText = `Rp ${numberWithCommasNav(subtotalnav)}`;
-    }
-
-    navSubtotal();
-
-    function numberWithCommasNav(number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
-</script>
-@endsection

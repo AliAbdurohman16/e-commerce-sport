@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('order_id');
             $table->string('payment_type');
             $table->string('bank');
-            $table->string('va_number');
+            $table->integer('va_number', 50);
             $table->decimal('gross_amount', 11, 2);
             $table->string('status')->default('pending');
             $table->timestamp('expired')->nullable();

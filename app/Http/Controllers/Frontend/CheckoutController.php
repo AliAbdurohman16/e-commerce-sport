@@ -154,17 +154,4 @@ class CheckoutController extends Controller
         return response()->json(['success' => true, 'message' => 'Checkout Berhasil!']);
     }
 
-    public function contohambildatadimidtrans()
-    {
-         // Set your Merchant Server Key
-         \Midtrans\Config::$serverKey = config('midtrans.server_key');
-         \Midtrans\Config::$clientKey = config('midtrans.client_key');
-         \Midtrans\Config::$isProduction = false;
-         // Set your order_id
-         $order_id = 'ORD35526852';
-         // Get transaction status from Midtrans
-         $transaction = \Midtrans\Transaction::status($order_id);
-         // Get va_number from transaction
-         $payment_code = $transaction->va_numbers[0]->va_number;
-    }
 }

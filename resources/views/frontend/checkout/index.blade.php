@@ -325,7 +325,7 @@
                                             text: response.message + " Silahkan lakukan pembayaran",
                                         }).then((result) => {
                                             if (result.isConfirmed) {
-                                                location.reload();
+                                                window.location.href = "{{ route('history.not-yet-paid') }}";
                                             }
                                         });
                                     },

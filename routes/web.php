@@ -30,6 +30,8 @@ Route::middleware('role:user')->group(function () {
     Route::get('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'store'])->name('checkout.store');
     Route::post('payment', [App\Http\Controllers\Frontend\CheckoutController::class, 'payment'])->name('checkout.payment');
+    Route::get('history', [App\Http\Controllers\Frontend\HistoryController::class, 'index'])->name('history.index');
+    Route::get('not-yet-paid', [App\Http\Controllers\Frontend\HistoryController::class, 'notYetPaid'])->name('history.not-yet-paid');
     Route::resources([
         'account' => App\Http\Controllers\Frontend\ProfileController::class,
         'changepassword' => App\Http\Controllers\Frontend\ChangePasswordController::class,
