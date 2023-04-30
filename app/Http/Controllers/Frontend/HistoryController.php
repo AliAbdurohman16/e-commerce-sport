@@ -88,4 +88,16 @@ class HistoryController extends Controller
 
         return view('frontend.histories.not-yet-paid', compact('transactions'));
     }
+
+    public function received(Request $request)
+    {
+        $order_id = $request->order_id;
+
+        $order = Order::where('id', $order_id);
+        $order->update([
+            'status' => 'Pesanan Diterima',
+        ]);
+
+        return redirect()->back()->with('success', 'Konfirmasi pesanan diterima berhasil!');
+    }
 }

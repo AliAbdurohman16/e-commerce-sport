@@ -1,5 +1,10 @@
 @extends('layouts.frontend.main')
 
+@section('css')
+<!-- Sweat Alert -->
+<link rel="stylesheet" href="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.css"/>
+@endsection
+
 @section('content')
 <!-- Hero Start -->
 <section class="bg-half-170 bg-light d-table w-100">
@@ -7,7 +12,7 @@
         <div class="row mt-5 justify-content-center">
             <div class="col-lg-12 text-center">
                 <div class="pages-heading">
-                    <h4 class="title mb-0"> Belum Bayar </h4>
+                    <h4 class="title mb-0"> Riwayat Pesanan </h4>
                 </div>
             </div><!--end col-->
         </div><!--end row-->
@@ -16,7 +21,7 @@
             <nav aria-label="breadcrumb" class="d-inline-block">
                 <ul class="breadcrumb rounded shadow mb-0 px-4 py-2">
                     <li class="breadcrumb-item"><a href="{{ route('/') }}">Beranda</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Belum Bayar</li>
+                    <li class="breadcrumb-item active" aria-current="page">Riwayat Pesanan</li>
                 </ul>
             </nav>
         </div>
@@ -71,7 +76,9 @@
 
                                     </td>
                                     <td>{{ date('d-m-Y', strtotime($transaction->created_at)) }}</td>
-                                    <td class="text-muted">{{ $transaction->order->status }}</td>
+                                    <td class="{{ $transaction->order->status == 'Dalam Pengiriman' ? 'text-success' : ($transaction->order->status == 'Pesanan Diterima' ? 'text-primary' : 'text-muted') }}">
+                                        {{ $transaction->order->status }}
+                                    </td>
                                     <td>Rp {{ number_format($transaction->gross_amount, 0, ',', '.') }}</td>
                                     <td><a href="javascript:void(0)" class="text-primary" data-bs-toggle="modal" data-bs-target="#detail{{ $transaction->id }}">Detail <i class="uil uil-arrow-right"></i></a></td>
                                 </tr>
@@ -97,9 +104,11 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="alert alert-primary">
-                            Lakukan pembayar pesanan ke VA Number yang tertera!.
-                        </div>
+                        @if ($transaction->order->status == 'Dalam Pengiriman')
+                            <div class="alert alert-primary">
+                                Estimasi pengiriman paket anda akan sampai pada tanggal {{ date('d-m-Y, H:i', strtotime($transaction->order->shippings->first()->estimation)) }}.
+                            </div>
+                        @endif
 
                         <div class="container">
                             <div class="row">
@@ -131,13 +140,41 @@
                                     {{ date('H:i, d-m-Y', strtotime($transaction->created_at)) }}
                                 </div>
 
-                                <div class="col-4">
-                                    <label for="">Waktu Kadaluarsa</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    {{ date('H:i, d-m-Y', strtotime($transaction->expired)) }}
-                                </div>
+                                @if ($transaction->order->status != 'Dalam Proses')
+                                    <div class="col-4">
+                                        <label for="">No Resi</label>
+                                    </div>
+                                    <div class="col-1">:</div>
+                                    <div class="col-7">
+                                        {{ $transaction->order->shippings->first()->resi }}
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="">Jasa Pengiriman</label>
+                                    </div>
+                                    <div class="col-1">:</div>
+                                    <div class="col-7">
+                                        {{ $transaction->order->shippings->first()->provider }}
+                                    </div>
+
+                                    <div class="col-4">
+                                        <label for="">Tanggal Dikirim</label>
+                                    </div>
+                                    <div class="col-1">:</div>
+                                    <div class="col-7">
+                                        {{ date('H:i, d-m-Y', strtotime($transaction->order->updated_at)) }}
+                                    </div>
+                                @endif
+
+                                @if ($transaction->order->status == 'Pesanan Diterima')
+                                    <div class="col-4">
+                                        <label for="">Tanggal Diterima</label>
+                                    </div>
+                                    <div class="col-1">:</div>
+                                    <div class="col-7">
+                                        {{ date('H:i, d-m-Y', strtotime($transaction->order->updated_at)) }}
+                                    </div>
+                                @endif
 
                                 <div class="col-4">
                                     <label for="">Metode Pembayaran</label>
@@ -176,6 +213,13 @@
                 </div>
             </div>
             <div class="modal-footer">
+                @if ($transaction->order->status == 'Dalam Pengiriman')
+                    <form action="{{ route('received') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="order_id" value="{{ $transaction->order_id }}">
+                        <button type="submit" class="btn btn-primary">Diterima</button>
+                    </form>
+                @endif
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
@@ -183,4 +227,22 @@
 </div>
 @endforeach
 <!-- Modal Detail End -->
+@endsection
+
+@section('javascript')
+<script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
+<script>
+    // show dialog success
+    @if (Session::has('success'))
+        swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "{{ Session::get('success') }}",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+            }
+        });
+        @endif
+</script>
 @endsection
