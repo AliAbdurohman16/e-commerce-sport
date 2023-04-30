@@ -27,10 +27,10 @@
                     </ul>
                 </div>
             </li>
-            <li><a href=""><i class="uil uil-shopping-cart me-2"></i>Transaksi</a></li>
+            <li><a href="{{ route('transactions.index') }}"><i class="uil uil-shopping-cart me-2"></i>Transaksi</a></li>
             <li><a href="{{ route('customers.index') }}"><i class="uil uil-users-alt me-2"></i>Pelanggan</a></li>
-            <li><a href=""><i class="uil uil-folder me-2"></i>Laporan</a></li>
-            <li><a href=""><i class="uil uil-setting me-2"></i>Pengaturan</a></li>
+            <li><a href="{{ route('reports.index') }}"><i class="uil uil-folder me-2"></i>Laporan</a></li>
+            <li><a href="{{ route('setting.index') }}"><i class="uil uil-setting me-2"></i>Pengaturan</a></li>
         </ul>
         <!-- sidebar-menu  -->
     </div>

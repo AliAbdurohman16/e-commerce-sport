@@ -63,4 +63,17 @@ class OrderController extends Controller
 
         return view('backend.orders.order-received', compact('orderDetails'));
     }
+
+    public function invoice($order_id)
+    {
+        // get order details data with order
+        $orderDetail = OrderDetail::with(['order.user', 'shippings', 'transactions'])
+                                    ->whereHas('order', function ($query) use ($order_id) {
+                                        $query->where('id', $order_id)
+                                        ->where('status', 'Dalam Proses');
+                                    })
+                                    ->first();
+
+        return view('backend.orders.invoice', compact('orderDetail'));
+    }
 }

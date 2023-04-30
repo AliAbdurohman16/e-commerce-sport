@@ -32,6 +32,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center border-bottom p-3">No</th>
+                                    <th class="border-bottom p-3">Kode Order</th>
                                     <th class="border-bottom p-3">Nama Pembeli</th>
                                     <th class="border-bottom p-3">Foto</th>
                                     <th class="border-bottom p-3">Produk</th>
@@ -48,6 +49,7 @@
                                 @foreach($orderDetails as $detail)
                                     <tr>
                                         <th class="text-center p-3" style="width: 5%;">{{ $loop->iteration }}</th>
+                                        <td class="p-3">{{ $detail->order_id }}</td>
                                         <td class="p-3">{{ $detail->order->user->name }}</td>
                                         <td class="p-3">
                                             @if ($detail->product->images->count() > 0)
@@ -57,23 +59,26 @@
                                                 @endforeach
                                             @endif
                                         </td>
-                                        <td class="p-3">{{ $detail->product->name }}</td>
+                                        <td class="p-3">
+                                            {{ $detail->product->name }}
+                                        </td>
                                         <td class="p-3">{{ $detail->size }}</td>
                                         <td class="p-3">{{ $detail->color }}</td>
                                         <td class="p-3">{{ $detail->quantity }}</td>
                                         @if($detail->product->discounts->count() > 0)
-                                                @php
-                                                    $discount = $detail->product->discounts->first()->discount_percentage; // get discount percentage
-                                                    $discountedPrice = $detail->product->price - ($detail->product->price * ($discount / 100)); // calculate the price after the discount
-                                                @endphp
-                                                <td class="p-3">Rp {{ number_format($discountedPrice, 0, ',', '.') }}</td>
-                                            @else
-                                                <td class="p-3">Rp {{ number_format($detail->product->price, 0, ',', '.') }}</td>
-                                            @endif
+                                            @php
+                                                $discount = $detail->product->discounts->first()->discount_percentage; // get discount percentage
+                                                $discountedPrice = $detail->product->price - ($detail->product->price * ($discount / 100)); // calculate the price after the discount
+                                            @endphp
+                                            <td class="p-3">Rp {{ number_format($discountedPrice, 0, ',', '.') }}</td>
+                                        @else
+                                            <td class="p-3">Rp {{ number_format($detail->product->price, 0, ',', '.') }}</td>
+                                        @endif
                                         <td class="p-3">Rp {{ number_format($detail->total, 0, ',', '.') }}</td>
                                         <td class="p-3">
                                             <button type="button" class="btn btn-info btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#detail{{ $detail->id }}"><i class="fa-solid fa-info"></i> Detail</button>
                                             <button type="button" class="btn btn-warning btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#sent{{ $detail->id }}"><i class="fa-solid fa-truck"></i> Kirim Paket</button>
+                                            <a href="{{ route('orders.invoice', $detail->order_id) }}" class="btn btn-primary btn-sm mb-2"><i class="fa-solid fa-receipt"></i> Invoice</a>
                                         </td>
                                     </tr>
                                 @endforeach

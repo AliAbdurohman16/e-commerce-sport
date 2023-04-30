@@ -40,6 +40,7 @@ Route::middleware('role:user')->group(function () {
 
 Route::middleware('role:admin')->group(function () {
     Route::get('dashboard', [App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('get-revenue-by-month/{year}', [App\Http\Controllers\Backend\DashboardController::class, 'getRevenueByMonth'])->name('get-revenue-by-month');
     Route::resources([
         'categories' => App\Http\Controllers\Backend\CategoryController::class,
         'products' => App\Http\Controllers\Backend\ProductController::class,
@@ -47,11 +48,15 @@ Route::middleware('role:admin')->group(function () {
         'customers' => App\Http\Controllers\Backend\CustomerController::class,
         'profile' => App\Http\Controllers\Backend\ProfileController::class,
         'change-password' => App\Http\Controllers\Backend\ChangePasswordController::class,
-        'setting' => App\Http\Controllers\Backend\DiscountController::class,
+        'setting' => App\Http\Controllers\Backend\SettingController::class,
     ]);
     Route::get('orders/processed', [App\Http\Controllers\Backend\OrderController::class, 'index'])->name('orders.processed');
     Route::post('orders/processed', [App\Http\Controllers\Backend\OrderController::class, 'store'])->name('orders.store');
     Route::get('orders/sent', [App\Http\Controllers\Backend\OrderController::class, 'sent'])->name('orders.sent');
     Route::get('orders/received', [App\Http\Controllers\Backend\OrderController::class, 'received'])->name('orders.received');
+    Route::get('orders/invoice/{order_id}', [App\Http\Controllers\Backend\OrderController::class, 'invoice'])->name('orders.invoice');
+    Route::get('transactions', [App\Http\Controllers\Backend\TransactionController::class, 'index'])->name('transactions.index');
+    Route::get('reports', [App\Http\Controllers\Backend\ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/data', [App\Http\Controllers\Backend\ReportController::class, 'data'])->name('reports.data');
 });
 

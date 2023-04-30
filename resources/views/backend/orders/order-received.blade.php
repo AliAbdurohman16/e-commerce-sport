@@ -31,6 +31,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center border-bottom p-3">No</th>
+                                    <th class="border-bottom p-3">Kode Order</th>
                                     <th class="border-bottom p-3">Nama Pembeli</th>
                                     <th class="border-bottom p-3">Foto</th>
                                     <th class="border-bottom p-3">Produk</th>
@@ -48,6 +49,7 @@
                                 @foreach($orderDetails as $detail)
                                     <tr>
                                         <th class="text-center p-3" style="width: 5%;">{{ $loop->iteration }}</th>
+                                        <td class="p-3">{{ $detail->order_id }}</td>
                                         <td class="p-3">{{ $detail->order->user->name }}</td>
                                         <td class="p-3">
                                             @if ($detail->product->images->count() > 0)

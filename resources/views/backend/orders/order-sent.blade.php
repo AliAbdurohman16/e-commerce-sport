@@ -6,7 +6,6 @@
 <!-- Datatables -->
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/data-tables/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/data-tables/css/responsive.bootstrap5.min.css">
-<link rel="stylesheet" href="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.css"/>
 @endsection
 
 @section('content')
@@ -187,26 +186,11 @@
 <script src="{{ asset('backend') }}/libs/data-tables/js/dataTables.bootstrap5.min.js"></script>
 <script src="{{ asset('backend') }}/libs/data-tables/js/dataTables.responsive.min.js"></script>
 <script src="{{ asset('backend') }}/libs/data-tables/js/responsive.bootstrap5.min.js"></script>
-<script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
 
 <script>
     // show datatable with search and pagination
     $(document).ready(function() {
         $('#table').DataTable();
     });
-
-    // show dialog success
-    @if (Session::has('message'))
-        swal.fire({
-            icon: "success",
-            title: "Berhasil",
-            text: "{{ Session::get('message') }}",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                location.reload();
-            }
-        });
-    @endif
-
 </script>
 @endsection
