@@ -21,9 +21,9 @@ Route::get('products/detail/{slug}', [App\Http\Controllers\Frontend\ProductContr
 Route::post('products/addToCart/{id}', [App\Http\Controllers\Frontend\ProductController::class, 'addToCart'])->name('products.addToCart');
 Route::get('categories/{slug}', [App\Http\Controllers\Frontend\CategoryController::class, 'index'])->name('categories.all');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
-Route::middleware('role:user')->group(function () {
+Route::middleware(['role:user', 'verified'])->group(function () {
     Route::get('carts', [App\Http\Controllers\Frontend\CartController::class, 'index'])->name('carts.index');
     Route::post('carts', [App\Http\Controllers\Frontend\CartController::class, 'store'])->name('carts.store');
     Route::delete('carts/{id}', [App\Http\Controllers\Frontend\CartController::class, 'destroy'])->name('carts.destroy');

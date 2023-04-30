@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Discount;
 use App\Models\Product;
+use App\Models\User;
+use App\Notifications\DiscountNotification;
+use Illuminate\Support\Facades\Notification;
 
 class DiscountController extends Controller
 {
@@ -39,12 +42,18 @@ class DiscountController extends Controller
         ]);
 
         // insert to table discounts
-        Discount::create([
+        $discount = Discount::create([
             'product_id' => $request->product,
             'discount_percentage' => $request->discount_percentage,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ]);
+
+        $users = User::whereDoesntHave('roles', function ($query) {
+                        $query->where('name', '=', 'admin');
+                    })->get();
+
+        Notification::send($users, new DiscountNotification($discount));
 
         return redirect('discounts')->with('message', 'Diskon berhasil ditambahkan!');
     }
