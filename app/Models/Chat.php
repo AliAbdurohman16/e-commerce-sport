@@ -9,7 +9,7 @@ class Chat extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['sender_id', 'recipient_id', 'message'];
+    protected $fillable = ['sender_id', 'recipient_id', 'message', 'read'];
 
     public function sender()
     {

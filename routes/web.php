@@ -37,6 +37,8 @@ Route::middleware(['role:user', 'verified'])->group(function () {
         'account' => App\Http\Controllers\Frontend\ProfileController::class,
         'changepassword' => App\Http\Controllers\Frontend\ChangePasswordController::class,
     ]);
+    Route::post('send', [App\Http\Controllers\Frontend\ChatController::class, 'send'])->name('send');
+    Route::post('delete-all', [App\Http\Controllers\Frontend\ChatController::class, 'deleteAll'])->name('delete-all');
 });
 
 Route::middleware('role:admin')->group(function () {
@@ -59,5 +61,9 @@ Route::middleware('role:admin')->group(function () {
     Route::get('transactions', [App\Http\Controllers\Backend\TransactionController::class, 'index'])->name('transactions.index');
     Route::get('reports', [App\Http\Controllers\Backend\ReportController::class, 'index'])->name('reports.index');
     Route::get('reports/data', [App\Http\Controllers\Backend\ReportController::class, 'data'])->name('reports.data');
+    Route::get('chats', [App\Http\Controllers\Backend\ChatController::class, 'index'])->name('chats.index');
+    Route::get('chats/person/{id}', [App\Http\Controllers\Backend\ChatController::class, 'person'])->name('chats.person');
+    Route::post('chats/send', [App\Http\Controllers\Backend\ChatController::class, 'send'])->name('chats.send');
+    Route::post('chats/delete-all', [App\Http\Controllers\Backend\ChatController::class, 'deleteAll'])->name('chats.delete-all');
 });
 

@@ -17,41 +17,6 @@
         <ul class="list-unstyled mb-0">
             <li class="list-inline-item mb-0 ms-1">
                 <div class="dropdown dropdown-primary">
-                    <button type="button" class="btn btn-icon btn-soft-light dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti ti-message"></i></button>
-                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
-
-                    <div class="dropdown-menu dd-menu shadow rounded border-0 mt-3 p-0" data-simplebar style="height: 320px; width: 290px;">
-                        <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
-                            <h6 class="mb-0 text-dark">Pesan</h6>
-                            <span class="badge bg-soft-danger rounded-pill">2</span>
-                        </div>
-                        <div class="p-3">
-                            <a href="#!" class="dropdown-item features feature-primary key-feature p-0 mt-3">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ asset('backend') }}/images/client/04.jpg" class="avatar avatar-md-sm rounded-circle border shadow me-2" alt="">
-                                    <div class="flex-1">
-                                        <h6 class="mb-0 text-dark title"><span class="fw-bold">Luis</span></h6>
-                                        <small class="text-muted">1 hour ago</small>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="#!" class="dropdown-item features feature-primary key-feature p-0 mt-3">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ asset('backend') }}/images/client/15.jpg" class="avatar avatar-md-sm rounded-circle border shadow me-2" alt="">
-                                    <div class="flex-1">
-                                        <h6 class="mb-0 text-dark title"><span class="fw-bold">Cally</span></h6>
-                                        <small class="text-muted">2 days ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-
-            <li class="list-inline-item mb-0 ms-1">
-                <div class="dropdown dropdown-primary">
                     <button type="button" class="btn btn-soft-light dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @if (Auth::user()->image == 'default/user.png')
                             <img src="{{ asset(Auth::user()->image) }}" class="avatar avatar-ex-small rounded" alt="avatar">

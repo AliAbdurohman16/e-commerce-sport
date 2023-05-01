@@ -1,5 +1,6 @@
 @php
     $setting = App\Models\Setting::find(1);
+    $user = Illuminate\Support\Facades\Auth::user();
 @endphp
 <!doctype html>
 <html lang="en" dir="ltr">
@@ -49,9 +50,14 @@
 
         @include('layouts.frontend.footer')
 
-        <!-- Back to top -->
-        <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"><i data-feather="arrow-up" class="fea icon-sm icons align-middle"></i></a>
-        <!-- Back to top -->
+        <div class="icons-wrapper">
+            @if (Auth::check())
+            <a href="#" id="chat-icon" class="chat-icon fs-5" data-bs-toggle="modal" data-bs-target="#chatModal"><i data-feather="message-circle" class="fea icon-sm icons align-middle"></i></a>
+            @endif
+            <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"><i data-feather="arrow-up" class="fea icon-sm icons align-middle"></i></a>
+        </div>
+
+        @include('layouts.frontend.chat')
 
         <!-- Javascript -->
         <!-- JAVASCRIPT -->
@@ -61,6 +67,7 @@
         <!-- SLIDER -->
         <script src="{{ asset('frontend') }}/libs/tiny-slider/min/tiny-slider.js"></script>
         @yield('javascript')
+        @yield('javascript-chat')
         <!-- Main Js -->
         <script src="{{ asset('frontend') }}/js/plugins.init.js"></script><!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
         <script src="{{ asset('frontend') }}/js/app.js"></script><!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->

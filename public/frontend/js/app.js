@@ -209,7 +209,7 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 try {
     var spy = new Gumshoe('#navmenu-nav a');
 }catch(err) {
-    
+
 }
 //********************* */
 /*     Contact us       */
