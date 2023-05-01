@@ -35,11 +35,6 @@
                                     <div class="overflow-hidden flex-1 ms-2">
                                         <div class="d-flex justify-content-between">
                                             <h6 class="text-dark mb-0 d-block">{{ $list->recipient->name }}</h6>
-                                            <small class="text-muted">{{ $list->created_at->locale('id')->diffForHumans(['short' => true, 'syntax' => false]) }}</small>
-                                        </div>
-                                        <div class="text-muted text-truncate">{{ $list->message }}</div>
-                                    </div>
-                                </a>
                             @else
                                 <a href="{{ route('chats.person', $list->sender_id) }}" class="d-flex chat-list p-2 mt-2 rounded position-relative">
                                     <div class="position-relative">
@@ -53,12 +48,14 @@
                                     <div class="overflow-hidden flex-1 ms-2">
                                         <div class="d-flex justify-content-between">
                                             <h6 class="text-dark mb-0 d-block">{{ $list->sender->name }}</h6>
+                            @endif
                                             <small class="text-muted">{{ $list->created_at->locale('id')->diffForHumans(['short' => true, 'syntax' => false]) }}</small>
                                         </div>
-                                        <div class="text-muted text-truncate">{{ $list->message }}</div>
+                                        <div class="justify-content-between">
+                                            <span class="text-muted h6 mb-0 text-truncate">{{ $list->message }}</span>
+                                        </div>
                                     </div>
                                 </a>
-                            @endif
                             @endforeach
                         </div>
                     </div>

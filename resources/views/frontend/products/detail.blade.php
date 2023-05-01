@@ -63,6 +63,11 @@
 
                     <form method="POST" action="{{ route('products.addToCart', $product->id) }}">
                         @csrf
+                        @if ($order == null)
+                            <input type="hidden" name="order_id" value="{{ 'ORD' . str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT) }}">
+                        @else
+                            <input type="hidden" name="order_id" value="{{ $order->id }}">
+                        @endif
                         <div class="row mt-4 pt-2">
                             <div class="col-12 mt-4">
                                 <div class="d-flex align-items-center">

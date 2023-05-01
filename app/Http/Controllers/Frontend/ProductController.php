@@ -31,7 +31,15 @@ class ProductController extends Controller
                             ->take(10)
                             ->get();
 
-        return view('frontend.products.detail', compact('product', 'relatedProducts'));
+        // get the currently logged in user
+        $user = Auth::user();
+
+        // find or create order
+        $order = Order::where('user_id', $user->id)
+                        ->where('status', 'Belum Checkout')
+                        ->first();
+
+        return view('frontend.products.detail', compact('product', 'relatedProducts', 'order'));
     }
 
     public function search(Request $request)
@@ -83,13 +91,15 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         // find or create order
-        $order = Order::where('user_id', $user->id)
+        $order = Order::where('id', $request->order_id)
+                        ->where('user_id', $user->id)
                         ->where('status', 'Belum Checkout')
                         ->first();
 
         if (!$order) {
             // do something if order is not exist create new order
             $order = new Order([
+                'id' => $request->order_id,
                 'user_id' => $user->id,
             ]);
 

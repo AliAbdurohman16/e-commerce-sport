@@ -94,6 +94,7 @@
                     <div class="p-2 rounded-bottom shadow">
                         <div class="row g-2">
                             <div class="col">
+                                <input type="hidden" id="recipient" value="{{ $recipient->id }}">
                                 <input type="text" class="form-control border" id="chat-message" style="height: 36px;" placeholder="Tuliskan Pesan...">
                             </div>
                             <div class="col-auto">
@@ -129,12 +130,14 @@
 
         function send() {
             var message = document.getElementById("chat-message").value;
+            var recipient = document.getElementById("recipient").value;
 
             $.ajax({
                 url: "{{ route('chats.send') }}",
                 type: "POST",
                 data: {
                     "_token": $('meta[name="csrf-token"]').attr('content'),
+                    recipient: recipient,
                     message: message,
                 },
                 dataType: "json",
@@ -156,6 +159,7 @@
 
         $('#delete-all').click(function() {
             var senderId = $(this).data('sender-id');
+            var recipient = document.getElementById("recipient").value;
 
             $.ajax({
                 url: "{{ route('chats.delete-all') }}",
@@ -163,12 +167,14 @@
                 data: {
                     "_token": $('meta[name="csrf-token"]').attr('content'),
                     sender_id: senderId,
+                    recipient: recipient,
                 },
                 success: function(response) {
                     $('#chat-ul').empty();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(textStatus, errorThrown);
+                    console.log(recipient);
                 }
             });
         });

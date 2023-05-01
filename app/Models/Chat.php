@@ -20,4 +20,14 @@ class Chat extends Model
     {
         return $this->belongsTo(User::class, 'recipient_id');
     }
+
+    public function getSenderNameAttribute()
+    {
+        return $this->sender->name;
+    }
+
+    public function getRecipientNameAttribute()
+    {
+        return $this->recipient->name;
+    }
 }

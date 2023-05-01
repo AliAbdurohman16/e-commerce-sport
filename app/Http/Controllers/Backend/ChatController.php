@@ -12,22 +12,31 @@ class ChatController extends Controller
 {
     public function index()
     {
-        // get data user
         $user = Auth::user();
 
         // get all data chat
         $listChats = Chat::where('sender_id', $user->id)
-                    ->orderBy('created_at', 'asc')
+                    ->orWhere('recipient_id', $user->id)
+                    ->orderBy('created_at', 'desc')
                     ->get()
-                    ->groupBy('recipient_id');
+                    ->groupBy(function ($chat) use ($user) {
+                        if ($chat->sender_id == $user->id) {
+                            return $chat->recipient_id;
+                        } else {
+                            return $chat->sender_id;
+                        }
+                    });
 
         $latestChats = collect();
         foreach ($listChats as $chats) {
-            $latestChats->push($chats->last());
+            $latestChats->push($chats->first());
         }
 
-        return view('backend.chat.index', compact('latestChats'));
+        $users = User::whereIn('id', $latestChats->pluck('sender_id'))
+                ->orWhereIn('id', $latestChats->pluck('recipient_id'))
+                ->get();
 
+        return view('backend.chat.index', compact('latestChats', 'users'));
     }
 
     public function person($id)
@@ -47,31 +56,37 @@ class ChatController extends Controller
                                 ->where('recipient_id', $user->id);
                         })->orderBy('created_at', 'ASC')->get();
 
+
         return view('backend.chat.person', compact('chats', 'recipient'));
     }
 
     public function send(Request $request)
     {
         $admin = Auth::user();
-        $user = Auth::user()->role('user')->first();
+        // $user = Auth::user()->role('user')->first();
         $chat = new Chat;
         $chat->message = $request->message;
         $chat->sender_id = $admin->id;
-        $chat->recipient_id = $user->id;
+        $chat->recipient_id = $request->recipient;
         $chat->save();
         return response()->json(['success' => true]);
     }
 
-    public function deleteAll()
+    public function deleteAll(Request $request)
     {
         $user = Auth::user();
 
-        if (Auth::check()) {
-            $chats = Chat::where('sender_id', $user->id)
-            ->orWhere('recipient_id', '!=', $user->id)
-            ->delete();
+        $chats = Chat::where(function($query) use ($user, $request) {
+                        $query->where('sender_id', $user->id)
+                            ->where('recipient_id', $request->recipient);
+                    })
+                    ->orWhere(function($query) use ($user, $request) {
+                        $query->where('sender_id', $request->recipient)
+                            ->where('recipient_id', $user->id);
+                    })
+                    ->delete();
 
-            return response()->json(['success' => true]);
-        }
+        return response()->json(['success' => true]);
     }
+
 }
