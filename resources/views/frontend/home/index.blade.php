@@ -12,16 +12,16 @@
 
         <div class="carousel-inner">
             <div class="carousel-item active" data-bs-interval="3000">
-                <div class="bg-home slider-rtl-2 d-flex align-items-center" style="background:url('{{ asset('frontend') }}/images/shop/bg2.jpg') center center;">
+                <div class="bg-home slider-rtl-2 d-flex align-items-center" style="background:url('{{ asset('storage/settings/' . $setting->photo_slider_1 ) }}') center center;">
                     <div class="bg-overlay bg-overlay-white opacity-5"></div>
                     <div class="container">
                         <div class="row align-items-center mt-5">
                             <div class="col-lg-7 col-md-7">
                                 <div class="title-heading mt-4">
-                                    <h1 class="display-4 fw-bold mb-3 text-black">New Accessories <br> Collections</h1>
-                                    <p class="para-desc text-black">Launch your campaign and benefit from our expertise on designing and managing conversion centered bootstrap v5 html page.</p>
+                                    <h1 class="display-4 fw-bold mb-3 text-black">{{ $setting->title_slider_1 }}</h1>
+                                    <p class="para-desc text-black">{{ $setting->desc_slider_1 }}</p>
                                     <div class="mt-4">
-                                        <a href="javascript:void(0)" class="btn btn-soft-primary">Shop Now</a>
+                                        <a href="#shop-now" class="btn btn-soft-primary">Belanja Sekarang</a>
                                     </div>
                                 </div>
                             </div><!--end col-->
@@ -31,16 +31,16 @@
             </div>
 
             <div class="carousel-item" data-bs-interval="3000">
-                <div class="bg-home slider-rtl-1 d-flex align-items-center" style="background:url('{{ asset('frontend') }}/images/shop/bg1.jpg') center center;">
+                <div class="bg-home slider-rtl-1 d-flex align-items-center" style="background:url('{{ asset('storage/settings/' . $setting->photo_slider_2 ) }}') center center;">
                     <div class="bg-overlay bg-overlay-white opacity-5"></div>
                     <div class="container">
                         <div class="row align-items-center mt-5">
                             <div class="col-lg-7 col-md-7">
                                 <div class="title-heading mt-4">
-                                    <h1 class="display-4 fw-bold mb-3 text-black">Headphones <br> Speaker</h1>
-                                    <p class="para-desc text-black">Launch your campaign and benefit from our expertise on designing and managing conversion centered bootstrap v5 html page.</p>
+                                    <h1 class="display-4 fw-bold mb-3 text-black">{{ $setting->title_slider_2 }}</h1>
+                                    <p class="para-desc text-black">{{ $setting->desc_slider_2 }}</p>
                                     <div class="mt-4">
-                                        <a href="javascript:void(0)" class="btn btn-soft-primary">Shop Now</a>
+                                        <a href="#shop-now" class="btn btn-soft-primary">Belanja Sekarang</a>
                                     </div>
                                 </div>
                             </div><!--end col-->
@@ -50,16 +50,16 @@
             </div>
 
             <div class="carousel-item" data-bs-interval="3000">
-                <div class="bg-home slider-rtl-3 d-flex align-items-center" style="background:url('{{ asset('frontend') }}/images/shop/bg3.jpg') center center;">
+                <div class="bg-home slider-rtl-3 d-flex align-items-center" style="background:url('{{ asset('storage/settings/' . $setting->photo_slider_3 ) }}') center center;">
                     <div class="bg-overlay bg-overlay-white opacity-5"></div>
                     <div class="container">
                         <div class="row align-items-center mt-5">
                             <div class="col-lg-7 col-md-7">
                                 <div class="title-heading mt-4">
-                                    <h1 class="display-4 fw-bold mb-3 text-black">Modern Furniture, <br> Armchair</h1>
-                                    <p class="para-desc text-black">Launch your campaign and benefit from our expertise on designing and managing conversion centered bootstrap v5 html page.</p>
+                                    <h1 class="display-4 fw-bold mb-3 text-black">{{ $setting->title_slider_3 }}</h1>
+                                    <p class="para-desc text-black">{{ $setting->desc_slider_3 }}</p>
                                     <div class="mt-4">
-                                        <a href="javascript:void(0)" class="btn btn-soft-primary">Shop Now</a>
+                                        <a href="#shop-now" class="btn btn-soft-primary">Belanja Sekarang</a>
                                     </div>
                                 </div>
                             </div><!--end col-->
@@ -77,30 +77,27 @@
     <div class="row">
         <div class="col-md-4 mt-4 pt-2">
             <div class="card shop-features border-0 rounded overflow-hidden">
-                <img src="{{ asset('frontend') }}/images/shop/fea1.jpg" class="img-fluid" alt="">
+                <img src="{{ asset('storage/settings/' . $setting->advertisement_1 ) }}" class="img-fluid" alt="">
                 <div class="category-title ms-md-4 ms-2">
-                    <h4>Summer <br> Collection</h4>
-                    <a href="javascript:void(0)" class="btn btn-sm btn-soft-primary mt-2">Shop Now</a>
+                    <a href="#shop-now" class="btn btn-sm btn-soft-primary mt-2">Belanja Sekarang</a>
                 </div>
             </div>
         </div><!--end col-->
 
         <div class="col-md-4 mt-4 pt-2">
             <div class="card shop-features border-0 rounded overflow-hidden">
-                <img src="{{ asset('frontend') }}/images/shop/fea2.jpg" class="img-fluid" alt="">
+                <img src="{{ asset('storage/settings/' . $setting->advertisement_2 ) }}" class="img-fluid" alt="">
                 <div class="category-title ms-md-4 ms-2">
-                    <h4>Summer <br> Collection</h4>
-                    <a href="javascript:void(0)" class="btn btn-sm btn-soft-primary mt-2">Shop Now</a>
+                    <a href="#shop-now" class="btn btn-sm btn-soft-primary mt-2">Belanja Sekarang</a>
                 </div>
             </div>
         </div><!--end col-->
 
         <div class="col-md-4 mt-4 pt-2">
             <div class="card shop-features border-0 rounded overflow-hidden">
-                <img src="{{ asset('frontend') }}/images/shop/fea3.jpg" class="img-fluid" alt="">
+                <img src="{{ asset('storage/settings/' . $setting->advertisement_3 ) }}" class="img-fluid" alt="">
                 <div class="category-title ms-md-4 ms-2">
-                    <h4>Summer <br> Collection</h4>
-                    <a href="javascript:void(0)" class="btn btn-sm btn-soft-primary mt-2">Shop Now</a>
+                    <a href="#shop-now" class="btn btn-sm btn-soft-primary mt-2">Belanja Sekarang</a>
                 </div>
             </div>
         </div><!--end col-->
@@ -109,28 +106,29 @@
 <!-- Features End -->
 
 <!-- Start -->
-<section class="section">
-    <!-- Start Most Viewed Products -->
+<section class="section" id="shop-now">
+    <!-- Start Recent -->
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h5 class="mb-0">Semua Produk</h5>
+                <h5 class="mb-0">Produk Terbaru</h5>
             </div><!--end col-->
         </div><!--end row-->
 
         <div class="row">
-            @foreach ($products as $product)
+            @foreach ($recentProducts as $recent)
             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
                 <div class="card shop-list border-0 position-relative">
-                    @if ($product->discounts->count() > 0 && $product->discounts->first()->end_date >= now())
                     <ul class="label list-unstyled mb-0">
-                        <li><a href="{{ route('products.discount') }}" class="badge badge-link rounded-pill bg-warning">Diskon {{ $product->discounts->first()->discount_percentage }}%</a></li>
+                        <li><a class="badge badge-link rounded-pill bg-primary">New</a></li>
+                        @if ($recent->discounts->count() > 0 && $recent->discounts->first()->end_date >= now())
+                            <li><a href="{{ route('products.discount') }}" class="badge badge-link rounded-pill bg-warning">Diskon {{ $recent->discounts->first()->discount_percentage }}%</a></li>
+                        @endif
                     </ul>
-                    @endif
                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="{{ route('products.detail', $product->slug) }}">
-                            @if ($product->images->count() > 0)
-                                @foreach ($product->images as $image)
+                        <a href="{{ route('products.detail', $recent->slug) }}">
+                            @if ($recent->images->count() > 0)
+                                @foreach ($recent->images as $image)
                                     <img src="{{ asset('storage/products/' . $image->path ) }}" class="img-fluid" alt="product">
                                     @break
                                 @endforeach
@@ -138,18 +136,18 @@
                         </a>
                     </div>
                     <div class="card-body content pt-4 p-2">
-                        <a href="{{ route('products.detail', $product->slug) }}" class="text-dark product-name h6">{{ $product->name }}</a>
+                        <a href="{{ route('products.detail', $recent->slug) }}" class="text-dark product-name h6">{{ $recent->name }}</a>
                         <div class="d-flex justify-content-between mt-1">
-                            @if($product->discounts->count() > 0 && $product->discounts->first()->end_date >= now())
+                            @if($recent->discounts->count() > 0 && $recent->discounts->first()->end_date >= now())
                             @php
-                                $discount = $product->discounts->first()->discount_percentage; // get discount percentage
-                                $discountedPrice = $product->price - ($product->price * ($discount / 100)); // calculate the price after the discount
+                                $discount = $recent->discounts->first()->discount_percentage; // get discount percentage
+                                $discountedPrice = $recent->price - ($recent->price * ($discount / 100)); // calculate the price after the discount
                             @endphp
                                 <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($discountedPrice, 0, ',', '.') }}
-                                    <del class="text-danger ms-2">Rp {{ number_format($product->price, 0, ',', '.') }}</del>
+                                    <del class="text-danger ms-2">Rp {{ number_format($recent->price, 0, ',', '.') }}</del>
                                 </h6>
                             @else
-                                <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($product->price, 0, ',', '.') }}</h6>
+                                <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($recent->price, 0, ',', '.') }}</h6>
                             @endif
                         </div>
                     </div>
@@ -158,7 +156,7 @@
             @endforeach
         </div><!--end row-->
     </div><!--end container-->
-    <!-- End Most Viewed Product -->
+    <!-- End Recent -->
 
     <!-- Start Categories -->
     <div class="container mt-100 mt-60">
@@ -237,15 +235,15 @@
 
     <!-- Start CTA -->
     <div class="container-fluid mt-100 mt-60">
-        <div class="rounded py-5" style="background: url('{{ asset('frontend') }}/images/shop/cta.jpg') fixed;">
+        <div class="rounded py-5" style="background: url('{{ asset('storage/settings/' . $setting->photo_cta ) }}') fixed;">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="section-title">
-                            <h2 class="fw-bold text-black mb-4">End of Season Clearance <br> Sale upto 30%</h2>
-                            <p class="para-desc text-black mb-0">Launch your campaign and benefit from our expertise on designing and managing conversion centered bootstrap v5 html page.</p>
+                            <h2 class="fw-bold text-black mb-4">{{ $setting->title_cta }}</h2>
+                            <p class="para-desc text-black mb-0">{{ $setting->desc_cta }}</p>
                             <div class="mt-4">
-                                <a href="javascript:void(0)" class="btn btn-primary">Shop Now</a>
+                                <a href="#shop" class="btn btn-primary">Belanja Sekarang</a>
                             </div>
                         </div>
                     </div><!--end col-->
@@ -255,28 +253,27 @@
     </div><!--end container-->
     <!-- End CTA -->
 
-    <!-- Start Recent -->
-    <div class="container mt-100 mt-60">
+    <!-- All Products -->
+    <div class="container mt-100 mt-60" id="shop">
         <div class="row">
             <div class="col-12">
-                <h5 class="mb-0">Produk Terbaru</h5>
+                <h5 class="mb-0">Semua Produk</h5>
             </div><!--end col-->
         </div><!--end row-->
 
         <div class="row">
-            @foreach ($recentProducts as $recent)
+            @foreach ($products as $product)
             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
                 <div class="card shop-list border-0 position-relative">
+                    @if ($product->discounts->count() > 0 && $product->discounts->first()->end_date >= now())
                     <ul class="label list-unstyled mb-0">
-                        <li><a class="badge badge-link rounded-pill bg-primary">New</a></li>
-                        @if ($recent->discounts->count() > 0 && $recent->discounts->first()->end_date >= now())
-                            <li><a href="{{ route('products.discount') }}" class="badge badge-link rounded-pill bg-warning">Diskon {{ $recent->discounts->first()->discount_percentage }}%</a></li>
-                        @endif
+                        <li><a href="{{ route('products.discount') }}" class="badge badge-link rounded-pill bg-warning">Diskon {{ $product->discounts->first()->discount_percentage }}%</a></li>
                     </ul>
+                    @endif
                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="{{ route('products.detail', $recent->slug) }}">
-                            @if ($recent->images->count() > 0)
-                                @foreach ($recent->images as $image)
+                        <a href="{{ route('products.detail', $product->slug) }}">
+                            @if ($product->images->count() > 0)
+                                @foreach ($product->images as $image)
                                     <img src="{{ asset('storage/products/' . $image->path ) }}" class="img-fluid" alt="product">
                                     @break
                                 @endforeach
@@ -284,18 +281,18 @@
                         </a>
                     </div>
                     <div class="card-body content pt-4 p-2">
-                        <a href="{{ route('products.detail', $recent->slug) }}" class="text-dark product-name h6">{{ $recent->name }}</a>
+                        <a href="{{ route('products.detail', $product->slug) }}" class="text-dark product-name h6">{{ $product->name }}</a>
                         <div class="d-flex justify-content-between mt-1">
-                            @if($recent->discounts->count() > 0 && $recent->discounts->first()->end_date >= now())
+                            @if($product->discounts->count() > 0 && $product->discounts->first()->end_date >= now())
                             @php
-                                $discount = $recent->discounts->first()->discount_percentage; // get discount percentage
-                                $discountedPrice = $recent->price - ($recent->price * ($discount / 100)); // calculate the price after the discount
+                                $discount = $product->discounts->first()->discount_percentage; // get discount percentage
+                                $discountedPrice = $product->price - ($product->price * ($discount / 100)); // calculate the price after the discount
                             @endphp
                                 <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($discountedPrice, 0, ',', '.') }}
-                                    <del class="text-danger ms-2">Rp {{ number_format($recent->price, 0, ',', '.') }}</del>
+                                    <del class="text-danger ms-2">Rp {{ number_format($product->price, 0, ',', '.') }}</del>
                                 </h6>
                             @else
-                                <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($recent->price, 0, ',', '.') }}</h6>
+                                <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($product->price, 0, ',', '.') }}</h6>
                             @endif
                         </div>
                     </div>
@@ -304,7 +301,8 @@
             @endforeach
         </div><!--end row-->
     </div><!--end container-->
-    <!-- End Recent -->
+    <!-- End All Products -->
+
 </section><!--end section-->
 <!-- End -->
 @endsection

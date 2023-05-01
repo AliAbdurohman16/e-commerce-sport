@@ -12,7 +12,16 @@ class Order extends Model
     protected $keyType = 'string';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['id','user_id', 'status', 'subtotal'];
+    protected $fillable = ['user_id', 'status', 'subtotal'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = 'ORD' . str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT);
+        });
+    }
 
     public function user()
     {

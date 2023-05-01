@@ -1,4 +1,6 @@
-
+@php
+    $setting = App\Models\Setting::find(1);
+@endphp
 <!doctype html>
 <html lang="en" dir="ltr">
 
@@ -15,7 +17,7 @@
         <meta name="Version" content="v4.2.0" />
 
         <!-- favicon -->
-        <link rel="shortcut icon" href="{{ asset('frontend') }}/images/favicon.ico" />
+        <link rel="shortcut icon" href="{{ asset('storage/settings/' . $setting->favicon ) }}" />
 
         <!-- Css -->
         <link href="{{ asset('frontend') }}/libs/tiny-slider/tiny-slider.css" rel="stylesheet">

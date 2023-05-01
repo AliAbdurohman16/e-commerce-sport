@@ -85,22 +85,18 @@ class ProductController extends Controller
         // find or create order
         $order = Order::where('user_id', $user->id)
                         ->where('status', 'Belum Checkout')
-                        ->orderByDesc('created_at')
                         ->first();
-
 
         if (!$order) {
             // do something if order is not exist create new order
             $order = new Order([
-                'id' => 'ORD' . str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT),
                 'user_id' => $user->id,
-                'status' => "Belum Checkout",
             ]);
 
             $order->save();
+            $order->refresh();
         }
 
-        $order->refresh();
 
         // find existing order detail with the same product, size, and color
         $orderDetail = $order->orderDetails()

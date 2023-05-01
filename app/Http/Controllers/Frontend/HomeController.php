@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -34,6 +35,9 @@ class HomeController extends Controller
         // get all data categories
         $categories = Category::all();
 
-        return view('frontend.home.index', compact('products', 'categories', 'popularProducts', 'recentProducts'));
+        // get setting data
+        $setting = Setting::find(1);
+
+        return view('frontend.home.index', compact('products', 'categories', 'popularProducts', 'recentProducts', 'setting'));
     }
 }

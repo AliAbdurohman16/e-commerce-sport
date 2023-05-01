@@ -29,7 +29,7 @@ class DashboardController extends Controller
         $incomeByWeek = Transaction::whereBetween('updated_at', [now()->startOfWeek(), now()->endOfWeek()])
                                     ->sum('gross_amount');
         $incomeByDay = Transaction::whereDate('updated_at', date('Y-m-d'))->sum('gross_amount');
-        $lastYear = Transaction::orderBy('updated_at', 'asc')->first()->updated_at->year;
+        $lastTransaction = Transaction::orderBy('updated_at', 'asc')->first();
 
         // get top products
         $topProducts = OrderDetail::selectRaw('product_id, SUM(quantity) as total_quantity')
@@ -58,6 +58,13 @@ class DashboardController extends Controller
         // create chart data for lowest products
         $lowestProductsData = $lowestProducts->pluck('total_quantity')->toJson();
         $lowestProductsLabels = $lowestProducts->pluck('product.name')->toJson();
+
+        // checking last transaction
+        if ($lastTransaction) {
+            $lastYear = $lastTransaction->updated_at->year;
+        } else {
+            $lastYear = date('Y');
+        }
 
         return view('backend.dashboard.index', compact('customerCount', 'productCount', 'orderCount', 'income',
                                                     'incomeByYear', 'incomeByMonth', 'incomeByWeek',
