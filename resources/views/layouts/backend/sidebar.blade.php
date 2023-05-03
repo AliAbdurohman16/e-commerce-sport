@@ -24,6 +24,7 @@
                         <li><a href="{{ route('orders.processed') }}">Orderan Diproses</a></li>
                         <li><a href="{{ route('orders.sent') }}">Orderan Dikirim</a></li>
                         <li><a href="{{ route('orders.received') }}">Orderan Diterima</a></li>
+                        <li><a href="{{ route('orders.rejected') }}">Orderan Gagal</a></li>
                     </ul>
                 </div>
             </li>

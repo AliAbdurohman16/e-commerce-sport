@@ -56,6 +56,7 @@ Route::middleware('role:admin')->group(function () {
     Route::post('orders/processed', [App\Http\Controllers\Backend\OrderController::class, 'store'])->name('orders.store');
     Route::get('orders/sent', [App\Http\Controllers\Backend\OrderController::class, 'sent'])->name('orders.sent');
     Route::get('orders/received', [App\Http\Controllers\Backend\OrderController::class, 'received'])->name('orders.received');
+    Route::get('orders/rejected', [App\Http\Controllers\Backend\OrderController::class, 'rejected'])->name('orders.rejected');
     Route::get('orders/invoice/{order_id}', [App\Http\Controllers\Backend\OrderController::class, 'invoice'])->name('orders.invoice');
     Route::get('transactions', [App\Http\Controllers\Backend\TransactionController::class, 'index'])->name('transactions.index');
     Route::post('validate', [App\Http\Controllers\Backend\TransactionController::class, 'validationTrans'])->name('transactions.validate');

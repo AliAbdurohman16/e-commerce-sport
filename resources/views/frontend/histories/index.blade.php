@@ -140,16 +140,7 @@
                                     {{ date('H:i, d-m-Y', strtotime($transaction->created_at)) }}
                                 </div>
 
-                                @if ($transaction->order->status != 'Dalam Proses')
-                                    @if ($transaction->status == 'rejected')
-                                    <div class="col-4">
-                                        <label for="">Tanggal Ditolak</label>
-                                    </div>
-                                    <div class="col-1">:</div>
-                                    <div class="col-7">
-                                        {{ date('H:i, d-m-Y', strtotime($transaction->updated_at)) }}
-                                    </div>
-                                    @else
+                                @if ($transaction->order->status != 'Dalam Proses' && $transaction->order->status != 'Pesanan Gagal')
                                     <div class="col-4">
                                         <label for="">No Resi</label>
                                     </div>
@@ -173,7 +164,16 @@
                                     <div class="col-7">
                                         {{ date('H:i, d-m-Y', strtotime($transaction->order->updated_at)) }}
                                     </div>
-                                    @endif
+                                @endif
+
+                                @if ($transaction->order->status == 'Pesanan Gagal')
+                                    <div class="col-4">
+                                        <label for="">Tanggal Gagal</label>
+                                    </div>
+                                    <div class="col-1">:</div>
+                                    <div class="col-7">
+                                        {{ date('H:i, d-m-Y', strtotime($transaction->updated_at)) }}
+                                    </div>
                                 @endif
 
                                 @if ($transaction->order->status == 'Pesanan Diterima')

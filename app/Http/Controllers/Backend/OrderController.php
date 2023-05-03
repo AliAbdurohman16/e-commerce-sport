@@ -64,6 +64,18 @@ class OrderController extends Controller
         return view('backend.orders.order-received', compact('orderDetails'));
     }
 
+    public function rejected()
+    {
+        // get order details data with order
+        $orderDetails = OrderDetail::with(['order.user', 'shippings', 'transactions'])
+                                    ->whereHas('order', function ($query) {
+                                        $query->where('status', 'Pesanan Gagal');
+                                    })
+                                    ->get();
+
+        return view('backend.orders.order-rejected', compact('orderDetails'));
+    }
+
     public function invoice($order_id)
     {
         // get order details data with order
