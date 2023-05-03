@@ -1,5 +1,10 @@
 @extends('layouts.frontend.main')
 
+@section('css')
+<!-- Sweat Alert -->
+<link rel="stylesheet" href="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.css"/>
+@endsection
+
 @section('content')
 <!-- Hero Start -->
 <section class="bg-half-170 bg-light d-table w-100">
@@ -47,7 +52,6 @@
                                     <th scope="col" class="border-bottom">Tanggal</th>
                                     <th scope="col" class="border-bottom">Status</th>
                                     <th scope="col" class="border-bottom">Total</th>
-                                    <th scope="col" class="border-bottom">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,10 +74,13 @@
                                         @endif
 
                                     </td>
-                                    <td>{{ date('d-m-Y', strtotime($transaction->created_at)) }}</td>
-                                    <td class="text-muted">Belum Bayar</td>
+                                    <td>
+                                        {{ $transaction->status == 'pending' ? date('d/m/Y H:i', strtotime($transaction->created_at)) : date('d/m/Y H:i', strtotime($transaction->updated_at)) }}
+                                    </td>
+                                    <td class="{{ $transaction->status == 'success' ? 'text-success' : ($transaction->status == 'rejected' ? 'text-danger' : 'text-muted') }}">
+                                        {{ $transaction->status == 'success' ? 'Sukses' : ($transaction->status == 'rejected' ? 'Gagal' : 'Pending') }}
+                                    </td>
                                     <td>Rp {{ number_format($transaction->gross_amount, 0, ',', '.') }}</td>
-                                    <td><a href="javascript:void(0)" class="text-primary" data-bs-toggle="modal" data-bs-target="#pay{{ $transaction->id }}">Bayar <i class="uil uil-money-bill"></i></a></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -98,7 +105,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="alert alert-primary">
-                            Lakukan pembayar pesanan ke VA Number yang tertera!.
+                            Pesanan menunggu di validasi terlebih dahulu!.
                         </div>
 
                         <div class="container">
@@ -140,30 +147,6 @@
                                 </div>
 
                                 <div class="col-4">
-                                    <label for="">Metode Pembayaran</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    Transfer Bank
-                                </div>
-
-                                <div class="col-4">
-                                    <label for="">Nama Bank</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    {{ strtoupper($transaction->bank) }}
-                                </div>
-
-                                <div class="col-4">
-                                    <label for="">VA Number</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    {{ $transaction->va_number }}
-                                </div>
-
-                                <div class="col-4">
                                     <label for="">Total</label>
                                 </div>
                                 <div class="col-1">:</div>
@@ -183,4 +166,23 @@
 </div>
 @endforeach
 <!-- Modal Edit End -->
+@endsection
+
+@section('javascript')
+<!-- Sweat Alert -->
+<script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
+<script type="text/javascript">
+    // show dialog success
+    @if (Session::has('success'))
+        swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "{{ Session::get('success') }}",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+            }
+        });
+    @endif
+</script>
 @endsection

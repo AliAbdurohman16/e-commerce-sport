@@ -47,6 +47,11 @@ class ChatController extends Controller
         // get data user yang dituju
         $recipient = User::findOrFail($id);
 
+        $reads = Chat::where('recipient_id', $user->id)
+                        ->where('sender_id', $recipient->id)
+                        ->where('status', 'unread')
+                        ->update(['status' => 'read']);
+
         // get all data chat
         $chats = Chat::where(function($query) use ($user, $recipient) {
                             $query->where('sender_id', $user->id)
@@ -56,14 +61,12 @@ class ChatController extends Controller
                                 ->where('recipient_id', $user->id);
                         })->orderBy('created_at', 'ASC')->get();
 
-
         return view('backend.chat.person', compact('chats', 'recipient'));
     }
 
     public function send(Request $request)
     {
         $admin = Auth::user();
-        // $user = Auth::user()->role('user')->first();
         $chat = new Chat;
         $chat->message = $request->message;
         $chat->sender_id = $admin->id;

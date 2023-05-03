@@ -142,8 +142,7 @@
                 },
                 dataType: "json",
                 success: function(response) {
-                    var chat = $("#chat-ul");
-                    var html = '<li class="chat-right"><div class="d-inline-block"><div class="d-flex chat-type mb-3"><div class="position-relative chat-user-image"><img src="{{ asset(Auth::user()->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar"><i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i></div><div class="chat-msg" style="max-width: 500px;"><p class="msg text-white small shadow px-3 py-2 rounded mb-1 bg-primary">' + message + '</p><small class="text-muted msg-time"><i class="ti ti-clock me-1"></i>just now</small></div></div></div></li>';
+                    var html = '<li class="chat-right"><div class="d-inline-block"><div class="d-flex chat-type mb-3"><div class="position-relative chat-user-image"><img src="{{ asset(Auth::user()->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar"><i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i></div><div class="chat-msg" style="max-width: 500px;"><p class="msg text-white small shadow px-3 py-2 rounded mb-1 bg-primary">' + message + '</p><small class="text-muted msg-time"><i class="ti ti-clock me-1"></i>Baru saja</small></div></div></div></li>';
                     chat.append(html);
 
                     chat.scrollTop(chat[0].scrollHeight);

@@ -29,9 +29,8 @@ Route::middleware(['role:user', 'verified'])->group(function () {
     Route::delete('carts/{id}', [App\Http\Controllers\Frontend\CartController::class, 'destroy'])->name('carts.destroy');
     Route::get('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'store'])->name('checkout.store');
-    Route::post('payment', [App\Http\Controllers\Frontend\CheckoutController::class, 'payment'])->name('checkout.payment');
     Route::get('history', [App\Http\Controllers\Frontend\HistoryController::class, 'index'])->name('history.index');
-    Route::get('not-yet-paid', [App\Http\Controllers\Frontend\HistoryController::class, 'notYetPaid'])->name('history.not-yet-paid');
+    Route::get('payment', [App\Http\Controllers\Frontend\HistoryController::class, 'payment'])->name('history.payment');
     Route::post('received', [App\Http\Controllers\Frontend\HistoryController::class, 'received'])->name('received');
     Route::resources([
         'account' => App\Http\Controllers\Frontend\ProfileController::class,
@@ -59,6 +58,8 @@ Route::middleware('role:admin')->group(function () {
     Route::get('orders/received', [App\Http\Controllers\Backend\OrderController::class, 'received'])->name('orders.received');
     Route::get('orders/invoice/{order_id}', [App\Http\Controllers\Backend\OrderController::class, 'invoice'])->name('orders.invoice');
     Route::get('transactions', [App\Http\Controllers\Backend\TransactionController::class, 'index'])->name('transactions.index');
+    Route::post('validate', [App\Http\Controllers\Backend\TransactionController::class, 'validationTrans'])->name('transactions.validate');
+    Route::post('rejected', [App\Http\Controllers\Backend\TransactionController::class, 'rejected'])->name('transactions.rejected');
     Route::get('reports', [App\Http\Controllers\Backend\ReportController::class, 'index'])->name('reports.index');
     Route::get('reports/data', [App\Http\Controllers\Backend\ReportController::class, 'data'])->name('reports.data');
     Route::get('chats', [App\Http\Controllers\Backend\ChatController::class, 'index'])->name('chats.index');

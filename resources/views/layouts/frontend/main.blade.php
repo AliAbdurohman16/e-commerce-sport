@@ -52,12 +52,25 @@
 
         <div class="icons-wrapper">
             @if (Auth::check())
+            @php
+                $count = App\Models\Chat::where('recipient_id', $user->id)
+                    ->where('status', 'unread')
+                    ->whereHas('sender', function ($query) use ($user) {
+                        $query->where('id', '!=', $user->id);
+                    })
+                    ->orderBy('created_at', 'ASC')
+                    ->get()
+                    ->count();
+            @endphp
+            @if ($count > 0)
+            {{-- <span class="position-absolute top-0 translate-middle badge rounded-pill bg-danger">{{ $count }}</span> --}}
+            @endif
             <a href="#" id="chat-icon" class="chat-icon fs-5" data-bs-toggle="modal" data-bs-target="#chatModal"><i data-feather="message-circle" class="fea icon-sm icons align-middle"></i></a>
             @endif
             <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"><i data-feather="arrow-up" class="fea icon-sm icons align-middle"></i></a>
         </div>
 
-        @include('layouts.frontend.chat')
+        @include('frontend.chat.index')
 
         <!-- Javascript -->
         <!-- JAVASCRIPT -->

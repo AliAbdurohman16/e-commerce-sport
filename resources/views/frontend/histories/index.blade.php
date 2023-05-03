@@ -76,7 +76,7 @@
 
                                     </td>
                                     <td>{{ date('d-m-Y', strtotime($transaction->created_at)) }}</td>
-                                    <td class="{{ $transaction->order->status == 'Dalam Pengiriman' ? 'text-success' : ($transaction->order->status == 'Pesanan Diterima' ? 'text-primary' : 'text-muted') }}">
+                                    <td class="{{ $transaction->order->status == 'Dalam Pengiriman' ? 'text-success' : ($transaction->order->status == 'Pesanan Diterima' ? 'text-primary' : ($transaction->order->status == 'Pesanan Gagal' ? 'text-danger' : 'text-muted')) }}">
                                         {{ $transaction->order->status }}
                                     </td>
                                     <td>Rp {{ number_format($transaction->gross_amount, 0, ',', '.') }}</td>
@@ -141,6 +141,15 @@
                                 </div>
 
                                 @if ($transaction->order->status != 'Dalam Proses')
+                                    @if ($transaction->status == 'rejected')
+                                    <div class="col-4">
+                                        <label for="">Tanggal Ditolak</label>
+                                    </div>
+                                    <div class="col-1">:</div>
+                                    <div class="col-7">
+                                        {{ date('H:i, d-m-Y', strtotime($transaction->updated_at)) }}
+                                    </div>
+                                    @else
                                     <div class="col-4">
                                         <label for="">No Resi</label>
                                     </div>
@@ -164,6 +173,7 @@
                                     <div class="col-7">
                                         {{ date('H:i, d-m-Y', strtotime($transaction->order->updated_at)) }}
                                     </div>
+                                    @endif
                                 @endif
 
                                 @if ($transaction->order->status == 'Pesanan Diterima')
@@ -175,30 +185,6 @@
                                         {{ date('H:i, d-m-Y', strtotime($transaction->order->updated_at)) }}
                                     </div>
                                 @endif
-
-                                <div class="col-4">
-                                    <label for="">Metode Pembayaran</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    Transfer Bank
-                                </div>
-
-                                <div class="col-4">
-                                    <label for="">Nama Bank</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    {{ strtoupper($transaction->bank) }}
-                                </div>
-
-                                <div class="col-4">
-                                    <label for="">VA Number</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    {{ $transaction->va_number }}
-                                </div>
 
                                 <div class="col-4">
                                     <label for="">Total</label>

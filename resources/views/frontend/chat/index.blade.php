@@ -1,15 +1,20 @@
 @php
-    $user = Illuminate\Support\Facades\Auth::user();
-    if (Auth::check()) {
-        $chats = App\Models\Chat::where('sender_id', $user->id)
-                     ->orWhere('recipient_id', $user->id)
-                     ->orderBy('created_at', 'ASC')
-                     ->get();
-    }
+    use Illuminate\Support\Facades\Auth;
 @endphp
+
 @if (Auth::check())
 
 <div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
+    @php
+        $user = Auth::user();
+        if (Auth::check()) {
+            $chats = App\Models\Chat::where('sender_id', $user->id)
+                         ->orWhere('recipient_id', $user->id)
+                         ->orderBy('created_at', 'ASC')
+                         ->get();
+
+        }
+    @endphp
     <div class="modal-dialog modal-fullscreen-lg-down">
         <div class="modal-content">
             <div class="modal-header">
@@ -93,6 +98,27 @@
 @section('javascript-chat')
 <script>
     $(document).ready(function() {
+        $('#chat-icon').click(function() {
+            @php
+                $user = Auth::user();
+                if (Auth::check()) {
+                    $reads = App\Models\Chat::where('recipient_id', $user->id)
+                                ->where('status', 'unread')
+                                ->whereHas('sender', function ($query) use ($user) {
+                                    $query->where('id', '!=', $user->id);
+                                })
+                                ->orderBy('created_at', 'ASC')
+                                ->get();
+
+                    foreach ($reads as $read) {
+                        $read->status = 'read';
+                        $read->save();
+                    }
+
+                }
+            @endphp
+        });
+
         $('#chatModal').on('shown.bs.modal', function() {
             var chat = $("#chat-ul");
             chat.scrollTop(chat[0].scrollHeight);
@@ -104,7 +130,6 @@
                 send();
             }
         });
-
 
         $('#send-message').click(function(event) {
             event.preventDefault();
@@ -124,7 +149,7 @@
                 dataType: "json",
                 success: function(response) {
                     var chat = $("#chat-ul");
-                    var html = '<li class="chat-right"><div class="d-inline-block"><div class="d-flex chat-type mb-3"><div class="position-relative chat-user-image"><img src="{{ asset(Auth::user()->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar"><i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i></div><div class="chat-msg" style="max-width: 500px;"><p class="msg text-white small shadow px-3 py-2 rounded mb-1 bg-primary">' + message + '</p><small class="text-muted msg-time"><i class="ti ti-clock me-1"></i>just now</small></div></div></div></li>';
+                    var html = '<li class="chat-right"><div class="d-inline-block"><div class="d-flex chat-type mb-3"><div class="position-relative chat-user-image"><img src="{{ asset(Auth::user()->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar"><i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i></div><div class="chat-msg" style="max-width: 500px;"><p class="msg text-white small shadow px-3 py-2 rounded mb-1 bg-primary">' + message + '</p><small class="text-muted msg-time"><i class="ti ti-clock me-1"></i>Baru saja</small></div></div></div></li>';
                     chat.append(html);
 
                     chat.scrollTop(chat[0].scrollHeight);

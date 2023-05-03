@@ -6,6 +6,8 @@
 <!-- Datatables -->
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/data-tables/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/data-tables/css/responsive.bootstrap5.min.css">
+<!-- Sweat Alert -->
+<link rel="stylesheet" href="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.css"/>
 @endsection
 
 @section('content')
@@ -30,13 +32,16 @@
                             <thead>
                                 <tr>
                                     <th class="text-center border-bottom p-3">No</th>
+                                    <th class="border-bottom p-3">Bukti Transfer</th>
                                     <th class="border-bottom p-3">Kode Order</th>
                                     <th class="border-bottom p-3">Nama Pembeli</th>
-                                    <th class="border-bottom p-3">Metode Pembayaran</th>
-                                    <th class="border-bottom p-3">Nama Bank</th>
-                                    <th class="border-bottom p-3">VA Number</th>
                                     <th class="border-bottom p-3">Total</th>
                                     <th class="border-bottom p-3">Status</th>
+                                    @foreach($transactions as $transaction)
+                                    @if ($transaction->status == 'pending')
+                                    <th class="border-bottom p-3">Aksi</th>
+                                    @endif
+                                    @endforeach
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,11 +49,13 @@
                                 @foreach($transactions as $transaction)
                                     <tr>
                                         <th class="text-center p-3" style="width: 5%;">{{ $loop->iteration }}</th>
+                                        <td class="p-3">
+                                            <a href="{{ asset('storage/checkout/' . $transaction->receipt) }}" target="_blank">
+                                                <img src="{{ asset('storage/checkout/' . $transaction->receipt) }}" width="70px" class="img-fluid" alt="image-receipt">
+                                              </a>
+                                        </td>
                                         <td class="p-3">{{ $transaction->order_id }}</td>
                                         <td class="p-3">{{ $transaction->user->name }}</td>
-                                        <td class="p-3">Transfer Bank</td>
-                                        <td class="p-3">{{ $transaction->bank }}</td>
-                                        <td class="p-3">{{ $transaction->va_number }}</td>
                                         <td class="p-3">Rp {{ number_format($transaction->gross_amount, 0, ',', '.') }}</td>
                                         <td class="p-3">
                                             @if ($transaction->status == 'pending')
@@ -65,6 +72,20 @@
                                                 </div>
                                             @endif
                                         </td>
+                                        @if ($transaction->status == 'pending')
+                                        <td class="p-3">
+                                            <form action="{{ route('transactions.validate') }}" method="POST" class="d-flex mb-2">
+                                                @csrf
+                                                <input type="hidden" name="order_id" value="{{ $transaction->order_id }}">
+                                                <button type="submit" class="btn btn-success btn-sm">Validasi</button>
+                                            </form>
+                                            <form action="{{ route('transactions.rejected') }}" method="POST" class="d-flex">
+                                                @csrf
+                                                <input type="hidden" name="order_id" value="{{ $transaction->order_id }}">
+                                                <button type="submit" class="btn btn-danger btn-sm">Tolak</button>
+                                            </form>
+                                        </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                                 <!-- End -->
@@ -86,11 +107,26 @@
 <script src="{{ asset('backend') }}/libs/data-tables/js/dataTables.bootstrap5.min.js"></script>
 <script src="{{ asset('backend') }}/libs/data-tables/js/dataTables.responsive.min.js"></script>
 <script src="{{ asset('backend') }}/libs/data-tables/js/responsive.bootstrap5.min.js"></script>
+<!-- Sweat Alert -->
+<script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
 
 <script>
     // show datatable with search and pagination
     $(document).ready(function() {
         $('#table').DataTable();
     });
+
+    // show dialog success
+    @if (Session::has('message'))
+        swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "{{ Session::get('message') }}",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+            }
+        });
+    @endif
 </script>
 @endsection

@@ -52,7 +52,19 @@
                                             <small class="text-muted">{{ $list->created_at->locale('id')->diffForHumans(['short' => true, 'syntax' => false]) }}</small>
                                         </div>
                                         <div class="justify-content-between">
-                                            <span class="text-muted h6 mb-0 text-truncate">{{ $list->message }}</span>
+                                            @php
+                                                if ($list->sender_id == Auth::id()) {
+                                                    $count = 0;
+                                                } else {
+                                                    $count = \App\Models\Chat::where('sender_id', $list->sender_id)
+                                                                                ->where('status', 'unread')
+                                                                                ->count();
+                                                }
+                                            @endphp
+                                            @if ($count > 0)
+                                            <span class="badge bg-soft-danger float-end">{{ $count }}</span>
+                                            @endif
+                                            <span class="{{ $count > 0 ? 'text-dark' : 'text-muted'}} h6 mb-0 text-truncate">{{ $list->message }}</span>
                                         </div>
                                     </div>
                                 </a>

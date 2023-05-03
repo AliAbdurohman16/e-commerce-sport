@@ -135,30 +135,6 @@
                                 </div>
 
                                 <div class="col-4">
-                                    <label for="">Metode Pembayaran</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    Transfer Bank
-                                </div>
-
-                                <div class="col-4">
-                                    <label for="">Nama Bank</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    {{ strtoupper($detail->order->transactions->first()->bank) }}
-                                </div>
-
-                                <div class="col-4">
-                                    <label for="">VA Number</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    {{ $detail->order->transactions->first()->va_number }}
-                                </div>
-
-                                <div class="col-4">
                                     <label for="">Jumlah</label>
                                 </div>
                                 <div class="col-1">:</div>

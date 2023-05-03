@@ -66,59 +66,26 @@ class CheckoutController extends Controller
             $amount = $detail->order->subtotal + $total_shipping_cost;
         }
 
-        // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = config('midtrans.server_key');
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
-        // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = true;
-        // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
-
-        $params = array(
-            "transaction_details" => array(
-                // "order_id" => rand(),
-                "order_id" => $detail->order_id,
-                "gross_amount" => intval($amount),
-                "shipping_cost" => intval($total_shipping_cost),
-            ),
-            "credit_card" => array(
-                "secure" => true
-            ),
-            "customer_details" => array(
-                "first_name" => $user->name,
-                "email" => $user->email,
-                "phone" => $user->telephone,
-                "billing_address" => array(
-                    "first_name" => $user->name,
-                    "email" => $user->email,
-                    "phone" => $user->telephone,
-                    "address" => $user->address,
-                    "city" => $user->subdistrict,
-                    "postal_code" => $user->postal_code,
-                    "country_code" => "IDN"
-                ),
-                "shipping_address" => array(
-                    "first_name" => $user->name,
-                    "email" => $user->email,
-                    "phone" => $user->telephone,
-                    "address" => $user->address,
-                    "city" => $user->subdistrict,
-                    "postal_code" => $user->postal_code,
-                    "country_code" => "IDN"
-                ),
-            ),
-        );
-
-        $snap_token = \Midtrans\Snap::getSnapToken($params);
-
-        return view('frontend.checkout.index', compact('order_details', 'user', 'snap_token', 'total_shipping_cost', 'amount'));
+        return view('frontend.checkout.index', compact('order_details', 'user', 'total_shipping_cost', 'amount'));
     }
 
     public function store(Request $request)
     {
         // get data
         $user = Auth::user();
+
+        // validation
+        $request->validate([
+            'name' => 'required',
+            'telephone' => 'required',
+            'address' => 'required',
+            'province' => 'required',
+            'city' => 'required',
+            'subdistrict' => 'required',
+            'village' => 'required',
+            'postal_code' => 'required',
+            'receipt' => 'required|mimes:jpg,png,jpeg|image|max:2048',
+        ]);
 
         // update to table
         $user->update([
@@ -132,11 +99,6 @@ class CheckoutController extends Controller
             'postal_code' => $request->postal_code,
         ]);
 
-        return response()->json(['success' => true]);
-    }
-
-    public function payment(Request $request)
-    {
         // Update status order by order_id
         $order = Order::where('id', $request->order_id)->first();
         $order->status = 'Sudah Checkout';
@@ -154,16 +116,20 @@ class CheckoutController extends Controller
             $product->save();
         }
 
+        // process upload receipt
+        if ($request->hasFile('receipt')) {
+            $receiptPath = $request->file('receipt')->store('public/checkout');
+            $receiptName = basename($receiptPath);
+        } else {
+            $receiptName = '';
+        }
+
         // insert data POST request
         $payment = Transaction::create([
             'user_id' => Auth::user()->id,
             'order_id' => $request->order_id,
-            'payment_type' => $request->payment_type,
-            'bank' => $request->bank,
-            'va_number' => $request->va_number,
             'gross_amount' => $request->gross_amount,
-            'status' => $request->transaction_status,
-            'expired' => date('Y-m-d H:i:s', strtotime($request->expired . ' +1 days')),
+            'receipt' => $receiptName,
         ]);
 
         // insert data shipping
@@ -172,7 +138,6 @@ class CheckoutController extends Controller
             'cost' => $request->shipping_cost
         ]);
 
-        return response()->json(['success' => true, 'message' => 'Checokut berhasil!']);
+        return redirect('payment')->with('success', 'Checkout berhasil!');
     }
-
 }
