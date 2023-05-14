@@ -11,7 +11,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- favicon -->
-        <link rel="shortcut icon" href="{{ asset('backend') }}/images/favicon.ico" />
+        <link rel="shortcut icon" href="{{ asset('storage/settings/' . $setting->favicon ) }}" />
         <!-- Css -->
         <link href="{{ asset('backend') }}/libs/simplebar/simplebar.min.css" rel="stylesheet">
         <!-- Bootstrap Css -->

@@ -17,7 +17,7 @@
         <meta name="Version" content="v4.2.0" />
 
         <!-- favicon -->
-        <link rel="shortcut icon" href="{{ asset('frontend') }}/images/favicon.ico" />
+        <link rel="shortcut icon" href="{{ asset('storage/settings/' . $setting->favicon ) }}" />
 
         <!-- Css -->
         <!-- Bootstrap Css -->
