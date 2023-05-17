@@ -21,6 +21,14 @@ class ProductController extends Controller
 
     public function show($slug)
     {
+        // get the currently logged in user
+        $user = Auth::user();
+
+        // if the user is not logged in, redirect to the login page
+        if (!$user) {
+            return redirect('login');
+        }
+
         // get data where slug
         $product = Product::with(['images', 'discounts'])->where('slug', $slug)->firstOrFail();
 

@@ -4,60 +4,20 @@
 <!-- Hero Start -->
 <section class="home-slider position-relative">
     <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-
         <div class="carousel-inner">
             <div class="carousel-item active" data-bs-interval="3000">
-                <div class="bg-home slider-rtl-2 d-flex align-items-center" style="background:url('{{ asset('storage/settings/' . $setting->photo_slider_1 ) }}') center center;">
+                @if ($setting->photo_slider == 'frontend/images/slider.jpeg')
+                <div class="bg-home slider-rtl-2 d-flex align-items-center" style="background:url('{{ asset($setting->photo_slider ) }}') center center;">
+                @else
+                <div class="bg-home slider-rtl-2 d-flex align-items-center" style="background:url('{{ asset('storage/settings/' . $setting->photo_slider ) }}') center center;">
+                @endif
                     <div class="bg-overlay bg-overlay-white opacity-5"></div>
                     <div class="container">
                         <div class="row align-items-center mt-5">
                             <div class="col-lg-7 col-md-7">
                                 <div class="title-heading mt-4">
-                                    <h1 class="display-4 fw-bold mb-3 text-black">{{ $setting->title_slider_1 }}</h1>
-                                    <p class="para-desc text-black">{{ $setting->desc_slider_1 }}</p>
-                                    <div class="mt-4">
-                                        <a href="#shop-now" class="btn btn-soft-primary">Belanja Sekarang</a>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </div><!--end container-->
-                </div>
-            </div>
-
-            <div class="carousel-item" data-bs-interval="3000">
-                <div class="bg-home slider-rtl-1 d-flex align-items-center" style="background:url('{{ asset('storage/settings/' . $setting->photo_slider_2 ) }}') center center;">
-                    <div class="bg-overlay bg-overlay-white opacity-5"></div>
-                    <div class="container">
-                        <div class="row align-items-center mt-5">
-                            <div class="col-lg-7 col-md-7">
-                                <div class="title-heading mt-4">
-                                    <h1 class="display-4 fw-bold mb-3 text-black">{{ $setting->title_slider_2 }}</h1>
-                                    <p class="para-desc text-black">{{ $setting->desc_slider_2 }}</p>
-                                    <div class="mt-4">
-                                        <a href="#shop-now" class="btn btn-soft-primary">Belanja Sekarang</a>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </div><!--end container-->
-                </div>
-            </div>
-
-            <div class="carousel-item" data-bs-interval="3000">
-                <div class="bg-home slider-rtl-3 d-flex align-items-center" style="background:url('{{ asset('storage/settings/' . $setting->photo_slider_3 ) }}') center center;">
-                    <div class="bg-overlay bg-overlay-white opacity-5"></div>
-                    <div class="container">
-                        <div class="row align-items-center mt-5">
-                            <div class="col-lg-7 col-md-7">
-                                <div class="title-heading mt-4">
-                                    <h1 class="display-4 fw-bold mb-3 text-black">{{ $setting->title_slider_3 }}</h1>
-                                    <p class="para-desc text-black">{{ $setting->desc_slider_3 }}</p>
+                                    <h1 class="display-4 fw-bold mb-3 text-black">{{ $setting->title_slider }}</h1>
+                                    <p class="para-desc text-black">{{ $setting->desc_slider }}</p>
                                     <div class="mt-4">
                                         <a href="#shop-now" class="btn btn-soft-primary">Belanja Sekarang</a>
                                     </div>
@@ -71,39 +31,6 @@
     </div>
 </section><!--end section-->
 <!-- Hero End -->
-
-<!-- Features Start -->
-<div class="container-fluid mt-4">
-    <div class="row">
-        <div class="col-md-4 mt-4 pt-2">
-            <div class="card shop-features border-0 rounded overflow-hidden">
-                <img src="{{ asset('storage/settings/' . $setting->advertisement_1 ) }}" class="img-fluid" alt="">
-                <div class="category-title ms-md-4 ms-2">
-                    <a href="#shop-now" class="btn btn-sm btn-soft-primary mt-2">Belanja Sekarang</a>
-                </div>
-            </div>
-        </div><!--end col-->
-
-        <div class="col-md-4 mt-4 pt-2">
-            <div class="card shop-features border-0 rounded overflow-hidden">
-                <img src="{{ asset('storage/settings/' . $setting->advertisement_2 ) }}" class="img-fluid" alt="">
-                <div class="category-title ms-md-4 ms-2">
-                    <a href="#shop-now" class="btn btn-sm btn-soft-primary mt-2">Belanja Sekarang</a>
-                </div>
-            </div>
-        </div><!--end col-->
-
-        <div class="col-md-4 mt-4 pt-2">
-            <div class="card shop-features border-0 rounded overflow-hidden">
-                <img src="{{ asset('storage/settings/' . $setting->advertisement_3 ) }}" class="img-fluid" alt="">
-                <div class="category-title ms-md-4 ms-2">
-                    <a href="#shop-now" class="btn btn-sm btn-soft-primary mt-2">Belanja Sekarang</a>
-                </div>
-            </div>
-        </div><!--end col-->
-    </div><!--end row-->
-</div><!--end container-->
-<!-- Features End -->
 
 <!-- Start -->
 <section class="section" id="shop-now">
@@ -232,26 +159,6 @@
         </div><!--end row-->
     </div><!--end container-->
     <!-- End Popular -->
-
-    <!-- Start CTA -->
-    <div class="container-fluid mt-100 mt-60">
-        <div class="rounded py-5" style="background: url('{{ asset('storage/settings/' . $setting->photo_cta ) }}') fixed;">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section-title">
-                            <h2 class="fw-bold text-black mb-4">{{ $setting->title_cta }}</h2>
-                            <p class="para-desc text-black mb-0">{{ $setting->desc_cta }}</p>
-                            <div class="mt-4">
-                                <a href="#shop" class="btn btn-primary">Belanja Sekarang</a>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-->
-        </div>
-    </div><!--end container-->
-    <!-- End CTA -->
 
     <!-- All Products -->
     <div class="container mt-100 mt-60" id="shop">

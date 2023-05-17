@@ -15,24 +15,11 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('logo')->default('default/image.png');
-            $table->string('favicon')->default('default/image.png');
-            $table->string('photo_slider_1')->default('default/image.png');
-            $table->string('photo_slider_2')->default('default/image.png');
-            $table->string('photo_slider_3')->default('default/image.png');
-            $table->string('title_slider_1');
-            $table->string('title_slider_2');
-            $table->string('title_slider_3');
-            $table->string('desc_slider_1');
-            $table->string('desc_slider_2');
-            $table->string('desc_slider_3');
-            $table->string('advertisement_1')->default('default/image.png');
-            $table->string('advertisement_2')->default('default/image.png');
-            $table->string('advertisement_3')->default('default/image.png');
-            $table->string('photo_cta')->default('default/image.png');
-            $table->string('title_cta');
-            $table->string('desc_cta');
+            $table->string('photo_slider')->default('frontend/images/slider.jpeg');
+            $table->string('title_slider');
+            $table->string('desc_slider');
+            $table->string('name_bank');
+            $table->string('no_rek');
             $table->string('about_footer');
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();

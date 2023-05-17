@@ -43,6 +43,7 @@
                         <span class="h5 mb-0">Pesanan</span>
                         <span class="badge bg-primary rounded-pill">{{ $order_details->count() }}</span>
                     </div>
+                    <div class="alert alert-primary">Silahkan lakukan pembayaran dengan transfer ke : <br> Bank : {{ $setting->name_bank }} <br> Rekening : {{ $setting->no_rek }}</div>
                     <ul class="list-group mb-3 border">
                         @foreach ($order_details as $order_detail)
                             <li class="d-flex justify-content-between lh-sm p-3 border-bottom">

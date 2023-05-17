@@ -3,8 +3,8 @@
     <div class="container">
         <!-- Logo container-->
         <a class="logo" href="index.html">
-            <img src="{{ asset('storage/settings/' . $setting->logo ) }}" height="24" class="logo-light-mode" alt="">
-            <img src="{{ asset('storage/settings/' . $setting->logo ) }}" height="24" class="logo-dark-mode" alt="">
+            <img src="{{ asset('frontend/images/logo.png' ) }}" height="50" class="logo-light-mode" alt="logo">
+            Rania Sport
         </a>
         <!-- End Logo container-->
 

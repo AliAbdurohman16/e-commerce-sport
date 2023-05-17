@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Shipping;
 use App\Models\Product;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
@@ -64,9 +65,12 @@ class CheckoutController extends Controller
 
             // create amount
             $amount = $detail->order->subtotal + $total_shipping_cost;
+
+            // get data setting
+            $setting = Setting::find(1);
         }
 
-        return view('frontend.checkout.index', compact('order_details', 'user', 'total_shipping_cost', 'amount'));
+        return view('frontend.checkout.index', compact('order_details', 'user', 'total_shipping_cost', 'amount', 'setting'));
     }
 
     public function store(Request $request)

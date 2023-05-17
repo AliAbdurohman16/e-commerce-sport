@@ -3,7 +3,10 @@
     <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
         <div class="sidebar-brand">
             <a href="index.html">
-                {{ $setting->name }}
+                <span class="sidebar-colored">
+                    <img src="{{ asset('frontend/images/logo.png' ) }}" height="50" alt="logo">
+                </span>
+                Rania Sport
             </a>
         </div>
 
@@ -27,6 +30,7 @@
             <li><a href="{{ route('transactions.index') }}"><i class="uil uil-shopping-cart me-2"></i>Transaksi</a></li>
             <li><a href="{{ route('customers.index') }}"><i class="uil uil-users-alt me-2"></i>Pelanggan</a></li>
             <li><a href="{{ route('reports.index') }}"><i class="uil uil-folder me-2"></i>Laporan</a></li>
+            <li><a href="{{ route('profile.index') }}"><i class="uil uil-user me-2"></i>Laporan</a></li>
             <li><a href="{{ route('setting.index') }}"><i class="uil uil-setting me-2"></i>Pengaturan</a></li>
         </ul>
         <!-- sidebar-menu  -->

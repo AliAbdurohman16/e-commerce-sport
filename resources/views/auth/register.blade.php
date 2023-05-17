@@ -13,7 +13,7 @@
         <div class="row align-items-center">
             <div class="col-lg-7 col-md-6">
                 <div class="me-lg-5">
-                    <img src="{{ asset('frontend') }}/images/user/signup.svg" class="img-fluid d-block mx-auto" alt="">
+                    <img src="{{ asset('frontend/images/bg.png') }}" class="img-fluid d-block mx-auto" alt="">
                 </div>
             </div>
             <div class="col-lg-5 col-md-6">

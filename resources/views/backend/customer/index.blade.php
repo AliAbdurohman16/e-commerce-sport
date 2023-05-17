@@ -59,7 +59,7 @@
                                         <td class="p-3">{{ $customer->telephone }}</td>
                                         <td class="p-3">{{ $customer->email }}</td>
                                         <td style="width: 5%;">
-                                            <a href="customers/{{ $customer->id }}/edit" class="btn btn-warning btn-sm mb-2"><i class="fa-solid fa-pen"></i> Edit</a>
+                                            {{-- <a href="customers/{{ $customer->id }}/edit" class="btn btn-warning btn-sm mb-2"><i class="fa-solid fa-pen"></i> Edit</a> --}}
                                             <button type="button" class="btn btn-danger btn-sm mb-2 btn-delete" data-id="{{ $customer->id }}"><i class="fa-solid fa-trash"></i> Hapus</button>
                                         </td>
                                     </tr>

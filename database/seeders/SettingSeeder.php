@@ -16,16 +16,11 @@ class SettingSeeder extends Seeder
     public function run()
     {
         Setting::create([
-            'name' => 'Rania Sport',
-            'title_slider_1' => 'New Accessories Collections',
-            'title_slider_2' => 'Headphones Speaker',
-            'title_slider_3' => 'Modern Furniture, Armchair',
-            'desc_slider_1' => 'Launch your campaign and benefit from our expertise on designing and managing conversion centered bootstrap v5 html page.',
-            'desc_slider_2' => 'Launch your campaign and benefit from our expertise on designing and managing conversion centered bootstrap v5 html page.',
-            'desc_slider_3' => 'Launch your campaign and benefit from our expertise on designing and managing conversion centered bootstrap v5 html page.',
-            'title_cta' => 'End of Season Clearance Sale upto 30%',
-            'desc_cta' => 'Launch your campaign and benefit from our expertise on designing and managing conversion centered bootstrap v5 html page.',
-            'about_footer' => 'Start working with Landrick that can provide everything you.',
+            'title_slider' => 'Selamat Datang di Rania Sport!',
+            'desc_slider' => 'Nikmati pengalaman berbelanja online yang mudah, cepat, dan aman untuk produk olahraga favorit Anda.',
+            'name_bank' => 'BRI',
+            'no_rek' => '3209832839923',
+            'about_footer' => 'Kami adalah toko online yang menghadirkan pilihan lengkap perlengkapan olahraga dari berbagai kategori.',
         ]);
     }
 }
