@@ -51,6 +51,7 @@ Route::middleware('role:admin')->group(function () {
         'profile' => App\Http\Controllers\Backend\ProfileController::class,
         'change-password' => App\Http\Controllers\Backend\ChangePasswordController::class,
         'setting' => App\Http\Controllers\Backend\SettingController::class,
+        'sales' => App\Http\Controllers\Backend\SaleController::class,
     ]);
     Route::get('orders/processed', [App\Http\Controllers\Backend\OrderController::class, 'index'])->name('orders.processed');
     Route::post('orders/processed', [App\Http\Controllers\Backend\OrderController::class, 'store'])->name('orders.store');
