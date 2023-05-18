@@ -23,7 +23,7 @@ Route::get('categories/{slug}', [App\Http\Controllers\Frontend\CategoryControlle
 
 Auth::routes();
 
-Route::middleware(['role:user', 'verified'])->group(function () {
+Route::middleware(['role:user'])->group(function () {
     Route::get('carts', [App\Http\Controllers\Frontend\CartController::class, 'index'])->name('carts.index');
     Route::post('carts', [App\Http\Controllers\Frontend\CartController::class, 'store'])->name('carts.store');
     Route::delete('carts/{id}', [App\Http\Controllers\Frontend\CartController::class, 'destroy'])->name('carts.destroy');
