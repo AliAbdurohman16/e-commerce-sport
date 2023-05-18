@@ -19,9 +19,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="d-flex">
-                    <img src="{{ asset('storage/settings/' . $setting->favicon ) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                    <img src="{{ asset('frontend/images/logo.png') }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                     <div class="overflow-hidden ms-3">
-                         <a href="#" class="text-dark mb-0 h6 d-block text-truncate">{{ $setting->name }}</a>
+                         <a href="#" class="text-dark mb-0 h6 d-block text-truncate">Rania Sport</a>
                         <small class="text-muted">
                             <i class="mdi mdi-checkbox-blank-circle {{ Auth::check() && Auth::user()->hasRole('admin') ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i>
                             {{ Auth::check() && Auth::user()->hasRole('admin') ? 'Online' : 'Offline' }}
