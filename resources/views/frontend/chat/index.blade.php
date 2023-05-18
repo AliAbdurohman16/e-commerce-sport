@@ -65,7 +65,7 @@
                                     <div class="d-inline-block">
                                         <div class="d-flex chat-type mb-3">
                                             <div class="position-relative">
-                                                <img src="{{ asset('storage/settings/' . $setting->favicon ) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                                <img src="{{ asset('frontend/images/logo.png') }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                 <i class="mdi mdi-checkbox-blank-circle {{ Auth::check() && Auth::user()->hasRole('admin') ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i>
                                             </div>
 
