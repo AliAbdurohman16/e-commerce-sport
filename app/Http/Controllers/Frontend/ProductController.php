@@ -57,9 +57,15 @@ class ProductController extends Controller
 
         // retrieve products that match the search input
         $products = Product::with(['images', 'discounts'])
-                    ->where('name', 'LIKE', "%$search%")
-                    ->orWhere('description', 'LIKE', "%$search%")
-                    ->paginate(8);
+                            ->where(function ($query) use ($search) {
+                                $query->where('name', 'LIKE', "%$search%")
+                                    ->orWhere('description', 'LIKE', "%$search%")
+                                    ->orWhereHas('category', function ($query) use ($search) {
+                                        $query->where('name', 'LIKE', "%$search%")
+                                            ->orWhere('slug', 'LIKE', "%$search%");
+                                    });
+                            })
+                            ->paginate(8);
 
         return view('frontend.search.index', compact('products', 'search'));
     }

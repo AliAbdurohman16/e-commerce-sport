@@ -45,11 +45,11 @@
                                     <div class="d-inline-block">
                                         <div class="d-flex chat-type mb-3">
                                             <div class="position-relative chat-user-image">
-                                                @if (Auth::user()->image == 'default/user.png')
+                                                {{-- @if (Auth::user()->image == 'default/user.png')
                                                     <img src="{{ asset(Auth::user()->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar">
                                                 @else
                                                     <img src="{{ asset('storage/users/' . Auth::user()->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar">
-                                                @endif
+                                                @endif --}}
                                                 <i class="mdi mdi-checkbox-blank-circle {{ Auth::check() ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i>
                                             </div>
 
@@ -64,10 +64,10 @@
                                 <li>
                                     <div class="d-inline-block">
                                         <div class="d-flex chat-type mb-3">
-                                            <div class="position-relative">
+                                            {{-- <div class="position-relative">
                                                 <img src="{{ asset('frontend/images/logo.png') }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                 <i class="mdi mdi-checkbox-blank-circle {{ Auth::check() && Auth::user()->hasRole('admin') ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i>
-                                            </div>
+                                            </div> --}}
 
                                             <div class="chat-msg" style="max-width: 500px;">
                                                 <p class="msg text-muted small shadow px-3 py-2 rounded mb-1">{{ $chat->message }}</p>

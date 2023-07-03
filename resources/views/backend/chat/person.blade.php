@@ -51,14 +51,14 @@
                                 <li class="chat-right">
                                     <div class="d-inline-block">
                                         <div class="d-flex chat-type mb-3">
-                                            <div class="position-relative chat-user-image">
+                                            {{-- <div class="position-relative chat-user-image">
                                                 @if (Auth::user()->image == 'default/user.png')
                                                     <img src="{{ asset(Auth::user()->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar">
                                                 @else
                                                     <img src="{{ asset('storage/users/' . Auth::user()->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar">
                                                 @endif
                                                 <i class="mdi mdi-checkbox-blank-circle {{ Auth::check() ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i>
-                                            </div>
+                                            </div> --}}
 
                                             <div class="chat-msg" style="max-width: 500px;">
                                                 <p class="msg text-white small shadow px-3 py-2 rounded mb-1 bg-primary">{{ $chat->message }}</p>
@@ -71,14 +71,14 @@
                                 <li>
                                     <div class="d-inline-block">
                                         <div class="d-flex chat-type mb-3">
-                                            <div class="position-relative">
+                                            {{-- <div class="position-relative">
                                                 @if ($chat->sender->image == 'default/user.png')
                                                     <img src="{{ asset($chat->sender->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar">
                                                 @else
                                                     <img src="{{ asset('storage/users/' . $chat->sender->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar">
                                                 @endif
                                                 <i class="mdi mdi-checkbox-blank-circle {{ Auth::check() && $chat->sender->hasRole('admin') ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i>
-                                            </div>
+                                            </div> --}}
 
                                             <div class="chat-msg" style="max-width: 500px;">
                                                 <p class="msg text-muted small shadow px-3 py-2 rounded mb-1">{{ $chat->message }}</p>
