@@ -53,18 +53,6 @@
                                     </div>
                                 </div><!--end col-->
 
-                                <div class="col-lg-12">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="mb-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{ old('remember') ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="flexCheckDefault">Ingat saya</label>
-                                            </div>
-                                        </div>
-                                        <p class="forgot-pass mb-0"><a href="{{ route('password.request') }}" class="text-dark fw-bold">Lupa kata sandi ?</a></p>
-                                    </div>
-                                </div><!--end col-->
-
                                 <div class="col-lg-12 mb-0">
                                     <div class="d-grid">
                                         <button type="submit" class="btn btn-primary">Masuk</button>

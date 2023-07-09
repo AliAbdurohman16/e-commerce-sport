@@ -51,15 +51,6 @@
                                 <li class="chat-right">
                                     <div class="d-inline-block">
                                         <div class="d-flex chat-type mb-3">
-                                            {{-- <div class="position-relative chat-user-image">
-                                                @if (Auth::user()->image == 'default/user.png')
-                                                    <img src="{{ asset(Auth::user()->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar">
-                                                @else
-                                                    <img src="{{ asset('storage/users/' . Auth::user()->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar">
-                                                @endif
-                                                <i class="mdi mdi-checkbox-blank-circle {{ Auth::check() ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i>
-                                            </div> --}}
-
                                             <div class="chat-msg" style="max-width: 500px;">
                                                 <p class="msg text-white small shadow px-3 py-2 rounded mb-1 bg-primary">{{ $chat->message }}</p>
                                                 <small class="text-muted msg-time"><i class="ti ti-clock me-1"></i>{{ $chat->created_at->locale('id')->diffForHumans() }}</small>
@@ -71,15 +62,6 @@
                                 <li>
                                     <div class="d-inline-block">
                                         <div class="d-flex chat-type mb-3">
-                                            {{-- <div class="position-relative">
-                                                @if ($chat->sender->image == 'default/user.png')
-                                                    <img src="{{ asset($chat->sender->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar">
-                                                @else
-                                                    <img src="{{ asset('storage/users/' . $chat->sender->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar">
-                                                @endif
-                                                <i class="mdi mdi-checkbox-blank-circle {{ Auth::check() && $chat->sender->hasRole('admin') ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i>
-                                            </div> --}}
-
                                             <div class="chat-msg" style="max-width: 500px;">
                                                 <p class="msg text-muted small shadow px-3 py-2 rounded mb-1">{{ $chat->message }}</p>
                                                 <small class="text-muted msg-time"><i class="ti ti-clock me-1"></i>{{ $chat->created_at->locale('id')->diffForHumans() }}</small>
@@ -142,7 +124,8 @@
                 },
                 dataType: "json",
                 success: function(response) {
-                    var html = '<li class="chat-right"><div class="d-inline-block"><div class="d-flex chat-type mb-3"><div class="position-relative chat-user-image"><img src="{{ asset(Auth::user()->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar"><i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i></div><div class="chat-msg" style="max-width: 500px;"><p class="msg text-white small shadow px-3 py-2 rounded mb-1 bg-primary">' + message + '</p><small class="text-muted msg-time"><i class="ti ti-clock me-1"></i>Baru saja</small></div></div></div></li>';
+                    var chat = $("#chat-ul");
+                    var html = '<li class="chat-right"><div class="d-inline-block"><div class="d-flex chat-type mb-3"><div class="chat-msg" style="max-width: 500px;"><p class="msg text-white small shadow px-3 py-2 rounded mb-1 bg-primary">' + message + '</p><small class="text-muted msg-time"><i class="ti ti-clock me-1"></i>Baru saja</small></div></div></div></li>';
                     chat.append(html);
 
                     chat.scrollTop(chat[0].scrollHeight);

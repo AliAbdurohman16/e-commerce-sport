@@ -12,12 +12,12 @@
 <div class="container-fluid">
     <div class="layout-specing">
         <div class="d-md-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Orderan Diterima</h5>
+            <h5 class="mb-0">Orderan Gagal</h5>
 
             <nav aria-label="breadcrumb" class="d-inline-block">
                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                     <li class="breadcrumb-item text-capitalize"><a href="#">Orderan</a></li>
-                    <li class="breadcrumb-item text-capitalize"><a href="#">Diterima</a></li>
+                    <li class="breadcrumb-item text-capitalize"><a href="#">Gagal</a></li>
                     <li class="breadcrumb-item text-capitalize active" aria-current="page">list</li>
                 </ul>
             </nav>
