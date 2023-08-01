@@ -66,12 +66,14 @@ class OrderController extends Controller
 
     public function rejected()
     {
-        // get order details data with order
+        // Get order details data with order
         $orderDetails = OrderDetail::with(['order.user', 'shippings', 'transactions'])
                                     ->whereHas('order', function ($query) {
-                                        $query->where('status', 'Pesanan Gagal');
+                                        $query->where('status', 'Pesanan Gagal')
+                                            ->orWhere('status', 'Dibatalkan');
                                     })
                                     ->get();
+
 
         return view('backend.orders.order-rejected', compact('orderDetails'));
     }

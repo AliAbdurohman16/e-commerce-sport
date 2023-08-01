@@ -12,6 +12,7 @@ use App\Models\Shipping;
 use App\Models\Product;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class CheckoutController extends Controller
 {
@@ -88,7 +89,6 @@ class CheckoutController extends Controller
             'subdistrict' => 'required',
             'village' => 'required',
             'postal_code' => 'required',
-            'receipt' => 'required|mimes:jpg,png,jpeg|image|max:2048',
         ]);
 
         // update to table
@@ -105,7 +105,7 @@ class CheckoutController extends Controller
 
         // Update status order by order_id
         $order = Order::where('id', $request->order_id)->first();
-        $order->status = 'Sudah Checkout';
+        $order->status = 'Belum Bayar';
         $order->save();
 
         // Update stock of products in the order
@@ -120,20 +120,12 @@ class CheckoutController extends Controller
             $product->save();
         }
 
-        // process upload receipt
-        if ($request->hasFile('receipt')) {
-            $receiptPath = $request->file('receipt')->store('public/checkout');
-            $receiptName = basename($receiptPath);
-        } else {
-            $receiptName = '';
-        }
-
         // insert data POST request
-        $payment = Transaction::create([
+        $transaction = Transaction::create([
             'user_id' => Auth::user()->id,
             'order_id' => $request->order_id,
             'gross_amount' => $request->gross_amount,
-            'receipt' => $receiptName,
+            'expired' => Carbon::now()->addDay(),
         ]);
 
         // insert data shipping
@@ -142,6 +134,76 @@ class CheckoutController extends Controller
             'cost' => $request->shipping_cost
         ]);
 
-        return redirect('payment')->with('success', 'Checkout berhasil!');
+        return redirect()->route('payment', ['id' => $transaction->id]);
+    }
+
+    public function payment($id)
+    {
+        $transaction = Transaction::find($id);
+
+        if ($transaction->status == 'expired') {
+            return redirect('payment-history');
+        }
+
+        // get data setting
+        $setting = Setting::find(1);
+
+        // get order details data for the logged in user
+        $order_details = OrderDetail::whereHas('order', function ($query) {
+            $query->where('user_id', Auth::user()->id)
+            ->where('status', 'Belum Bayar');
+        })->get();
+
+
+        $shipping = Shipping::where('order_id', $transaction->order_id)->first();
+
+        return view('frontend.checkout.payment', compact('setting', 'order_details', 'transaction', 'shipping'));
+    }
+
+    public function pay(Request $request,$id)
+    {
+        $transaction = Transaction::find($id);
+
+        $request->validate([
+            'receipt' => 'required|mimes:jpg,png,jpeg|image|max:2048',
+        ]);
+
+        // process upload receipt
+        if ($request->hasFile('receipt')) {
+            $receiptPath = $request->file('receipt')->store('public/checkout');
+            $receiptName = basename($receiptPath);
+        } else {
+            $receiptName = '';
+        }
+
+        // update to table
+        $transaction->update([
+            'receipt' => $receiptName,
+            'status' => 'pending',
+        ]);
+
+        // Update status order by order_id
+        $order = Order::where('id', $transaction->order_id)->first();
+        $order->status = 'Sudah Bayar';
+        $order->save();
+
+        return redirect('payment-history')->with('success', 'Konfirmasi anda berhasil!');
+    }
+
+    public function payCancel(Request $request,$id)
+    {
+        $transaction = Transaction::find($id);
+
+        // update to table
+        $transaction->update([
+            'status' => 'cancel',
+        ]);
+
+        // Update status order by order_id
+        $order = Order::where('id', $transaction->order_id)->first();
+        $order->status = 'Dibatalkan';
+        $order->save();
+
+        return redirect('payment-history')->with('success', 'Pesanan anda berhasil dibatalkan!');
     }
 }

@@ -18,6 +18,7 @@ class HistoryController extends Controller
 
         // get data transaction
         $transactions = Transaction::where('user_id', $user->id)
+                                    ->where('status', '!=', 'belum bayar')
                                     ->where('status', '!=', 'pending')
                                     ->get();
 
@@ -27,7 +28,7 @@ class HistoryController extends Controller
         return view('frontend.histories.index', compact('transactions'));
     }
 
-    public function payment()
+    public function paymentHistory()
     {
         // get the currently logged in user
         $user = Auth::user();
@@ -35,7 +36,7 @@ class HistoryController extends Controller
         // get data transaction
         $transactions = Transaction::where('user_id', $user->id)->get();
 
-        return view('frontend.histories.payment', compact('transactions'));
+        return view('frontend.histories.payment-history', compact('transactions'));
     }
 
     public function received(Request $request)

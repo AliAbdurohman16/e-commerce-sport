@@ -140,7 +140,7 @@
                                     {{ date('H:i, d-m-Y', strtotime($transaction->created_at)) }}
                                 </div>
 
-                                @if ($transaction->order->status != 'Dalam Proses' && $transaction->order->status != 'Pesanan Gagal')
+                                @if ($transaction->order->status != 'Dalam Proses' && $transaction->order->status != 'Pesanan Gagal' && $transaction->order->status != 'Dibatalkan')
                                     <div class="col-4">
                                         <label for="">No Resi</label>
                                     </div>

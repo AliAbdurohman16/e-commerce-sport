@@ -10,14 +10,14 @@ use App\Models\User;
 use App\Notifications\DiscountNotification;
 use Illuminate\Support\Facades\Notification;
 
-class DiscountController extends Controller
+class DiscountLowestProductController extends Controller
 {
     public function index()
     {
         // get data
         $discounts = Discount::all();
 
-        return view('backend.discounts.index', compact('discounts'));
+        return view('backend.discounts.lowest.index', compact('discounts'));
     }
 
     public function create()
@@ -28,7 +28,7 @@ class DiscountController extends Controller
         // get all data products
         $products = Product::all();
 
-        return view('backend.discounts.add', compact('discounts', 'products'));
+        return view('backend.discounts.lowest.add', compact('discounts', 'products'));
     }
 
     public function store(Request $request)
@@ -66,7 +66,7 @@ class DiscountController extends Controller
         // get all data products
         $products = Product::all();
 
-        return view('backend.discounts.edit', compact('discounts', 'products'));
+        return view('backend.discounts.lowest.edit', compact('discounts', 'products'));
     }
 
     public function update(Request $request, $id)

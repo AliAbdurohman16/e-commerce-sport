@@ -29,8 +29,11 @@ Route::middleware(['role:user'])->group(function () {
     Route::delete('carts/{id}', [App\Http\Controllers\Frontend\CartController::class, 'destroy'])->name('carts.destroy');
     Route::get('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('checkout', [App\Http\Controllers\Frontend\CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('payment/{id}', [App\Http\Controllers\Frontend\CheckoutController::class, 'payment'])->name('payment');
+    Route::put('pay/{id}', [App\Http\Controllers\Frontend\CheckoutController::class, 'pay'])->name('pay');
+    Route::put('pay-cancel/{id}', [App\Http\Controllers\Frontend\CheckoutController::class, 'payCancel'])->name('pay-cancel');
     Route::get('history', [App\Http\Controllers\Frontend\HistoryController::class, 'index'])->name('history.index');
-    Route::get('payment', [App\Http\Controllers\Frontend\HistoryController::class, 'payment'])->name('history.payment');
+    Route::get('payment-history', [App\Http\Controllers\Frontend\HistoryController::class, 'paymentHistory'])->name('payment-history');
     Route::post('received', [App\Http\Controllers\Frontend\HistoryController::class, 'received'])->name('received');
     Route::resources([
         'account' => App\Http\Controllers\Frontend\ProfileController::class,
@@ -46,7 +49,8 @@ Route::middleware('role:admin')->group(function () {
     Route::resources([
         'categories' => App\Http\Controllers\Backend\CategoryController::class,
         'products' => App\Http\Controllers\Backend\ProductController::class,
-        'discounts' => App\Http\Controllers\Backend\DiscountController::class,
+        'discounts-all-product' => App\Http\Controllers\Backend\DiscountAllProductController::class,
+        'discounts-lowest-product' => App\Http\Controllers\Backend\DiscountLowestProductController::class,
         'customers' => App\Http\Controllers\Backend\CustomerController::class,
         'profile' => App\Http\Controllers\Backend\ProfileController::class,
         'change-password' => App\Http\Controllers\Backend\ChangePasswordController::class,

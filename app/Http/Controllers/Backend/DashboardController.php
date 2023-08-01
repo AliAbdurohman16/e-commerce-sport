@@ -19,7 +19,7 @@ class DashboardController extends Controller
         })->count();
         $productCount = Product::count();
         $orderCount = OrderDetail::whereHas('order', function ($query) {
-                                        $query->whereNotIn('status', ['Belum Checkout', 'Sudah Checkout']);
+                                        $query->whereNotIn('status', ['Belum Checkout', 'Sudah Bayar', 'Dibatalkan']);
                                     })
                                     ->count();
         $income = Transaction::sum('gross_amount');
@@ -34,7 +34,7 @@ class DashboardController extends Controller
         // get top products
         $topProducts = OrderDetail::selectRaw('product_id, SUM(quantity) as total_quantity')
                             ->whereHas('order', function ($query) {
-                                $query->whereNotIn('status', ['Belum Checkout', 'Sudah Checkout']);
+                                $query->whereNotIn('status', ['Belum Checkout', 'Sudah Bayar', 'Dibatalkan']);
                             })
                             ->groupBy('product_id')
                             ->orderBy('total_quantity', 'desc')
@@ -48,7 +48,7 @@ class DashboardController extends Controller
         // get lowest products
         $lowestProducts = OrderDetail::selectRaw('product_id, SUM(quantity) as total_quantity')
                             ->whereHas('order', function ($query) {
-                                $query->whereNotIn('status', ['Belum Checkout', 'Sudah Checkout']);
+                                $query->whereNotIn('status', ['Belum Checkout', 'Sudah Bayar', 'Dibatalkan']);
                             })
                             ->groupBy('product_id')
                             ->orderBy('total_quantity', 'asc')

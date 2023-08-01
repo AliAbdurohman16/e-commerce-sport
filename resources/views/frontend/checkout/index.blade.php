@@ -43,7 +43,6 @@
                         <span class="h5 mb-0">Pesanan</span>
                         <span class="badge bg-primary rounded-pill">{{ $order_details->count() }}</span>
                     </div>
-                    <div class="alert alert-primary">Silahkan lakukan pembayaran dengan transfer ke : <br> Bank : {{ $setting->name_bank }} <br> Rekening : {{ $setting->no_rek }}</div>
                     <ul class="list-group mb-3 border">
                         @foreach ($order_details as $order_detail)
                             <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
@@ -84,7 +83,7 @@
             <div class="col-md-7 col-lg-8">
                 <div class="card rounded shadow p-4 border-0">
                     <h4 class="mb-3">Alamat saya</h4>
-                    <form action="{{ route('checkout.store') }}" method="POST" enctype="multipart/form-data" id="form">
+                    <form action="{{ route('checkout.store') }}" method="POST" id="form">
                         @csrf
                         <div class="row g-3 mb-3">
                             <div class="col-12">
@@ -176,12 +175,6 @@
                                 <input type="hidden" name="order_id" value="{{ $order_detail->order_id }}">
                                 <input type="hidden" name="gross_amount" value="{{ $amount }}">
                                 <input type="hidden" name="shipping_cost" value="{{ $total_shipping_cost }}">
-                                <input type="file" class="form-control @error('receipt') is-invalid @enderror" id="receipt" name="receipt">
-                                @error('receipt')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </div>
                         </div>
                         <button type="submit" class="w-100 btn btn-primary" id="checkout">Lanjutkan checkout</button>

@@ -14,7 +14,15 @@
             <li><a href="{{ route('dashboard') }}"><i class="uil uil-estate me-2"></i>Dashboard</a></li>
             <li><a href="{{ route('categories.index') }}"><i class="uil uil-apps me-2"></i>Kategori</a></li>
             <li><a href="{{ route('products.index') }}"><i class="uil uil-shopping-bag me-2"></i>Produk</a></li>
-            <li><a href="{{ route('discounts.index') }}"><i class="uil uil-percentage me-2"></i>Diskon</a></li>
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i class="uil uil-percentage me-2"></i>Diskon</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="{{ route('discounts-all-product.index') }}">Diskon Semua Produk</a></li>
+                        <li><a href="{{ route('discounts-lowest-product.index') }}">Diskon Produk Kurang Laris</a></li>
+                    </ul>
+                </div>
+            </li>
             <li><a href="{{ route('chats.index') }}"><i class="uil uil-chat me-2"></i>Pesan</a></li>
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-invoice me-2"></i>Orderan</a>

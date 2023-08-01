@@ -144,7 +144,7 @@
                                 <a class="dropdown-item text-dark" href="{{ route('dashboard') }}"><i class="uil uil-estate align-middle me-1"></i> Dashboard</a>
                             @else
                                 <a class="dropdown-item text-dark" href="{{ route('account.index') }}"><i class="uil uil-user align-middle me-1"></i> Akun Anda</a>
-                                <a class="dropdown-item text-dark" href="{{ route('history.payment') }}"><i class="uil uil-money-bill align-middle me-1"></i> Riwayat Pembayaran</a>
+                                <a class="dropdown-item text-dark" href="{{ route('payment-history') }}"><i class="uil uil-money-bill align-middle me-1"></i> Riwayat Pembayaran</a>
                                 <a class="dropdown-item text-dark" href="{{ route('history.index') }}"><i class="uil uil-clipboard-notes align-middle me-1"></i> Riwayat Pesanan</a>
                                 <a class="dropdown-item text-dark" href="{{ route('changepassword.index') }}"><i class="uil uil-key-skeleton align-middle me-1"></i> Ganti Kata Sandi</a>
                             @endif

@@ -1,14 +1,8 @@
 @extends('layouts.backend.main')
 
-@section('title', 'Diskon')
+@section('title', 'Diskon Semua Produk')
 
 @section('css')
-<!-- Datatables -->
-<link rel="stylesheet" href="{{ asset('backend') }}/libs/data-tables/css/dataTables.bootstrap5.min.css">
-<link rel="stylesheet" href="{{ asset('backend') }}/libs/data-tables/css/responsive.bootstrap5.min.css">
-<link rel="stylesheet" href="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.css"/>
-<link rel="stylesheet" href="{{ asset('backend') }}/libs/tagsinput/tagsinput.css"/>
-<link rel="stylesheet" href="{{ asset('backend') }}/css/tag-input.css"/>
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/select2/select2.min.css"/>
 <link rel="stylesheet" href="{{ asset('backend') }}/css/select2.css"/>
 @endsection
@@ -17,23 +11,23 @@
 <div class="container-fluid">
     <div class="layout-specing">
         <div class="d-md-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Diskon</h5>
+            <h5 class="mb-0">Diskon Semua Produk</h5>
 
             <nav aria-label="breadcrumb" class="d-inline-block">
                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                    <li class="breadcrumb-item text-capitalize"><a href="{{ route('discounts.index') }}">Diskon</a></li>
+                    <li class="breadcrumb-item text-capitalize"><a href="{{ route('discounts-all-product.index') }}">Diskon Semua Produk</a></li>
                     <li class="breadcrumb-item text-capitalize active" aria-current="page">Tambah Data</li>
                 </ul>
             </nav>
         </div>
 
-        <a href="{{ route('discounts.index') }}" class="btn btn-warning btn-sm mt-4"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+        <a href="{{ route('discounts-all-product.index') }}" class="btn btn-warning btn-sm mt-4"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
 
         <div class="col-lg-8 mt-4">
             <div class="card">
                 <div class="container">
                     <div class="card-body">
-                        <form action="{{ route('discounts.store') }}" method="POST">
+                        <form action="{{ route('discounts-all-product.store') }}" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12">
@@ -111,27 +105,11 @@
 @endsection
 
 @section('javascript')
-<!-- Datatables -->
-<script src="{{ asset('backend') }}/libs/data-tables/js/jquery.dataTables.min.js"></script>
-<script src="{{ asset('backend') }}/libs/data-tables/js/dataTables.bootstrap5.min.js"></script>
-<script src="{{ asset('backend') }}/libs/data-tables/js/dataTables.responsive.min.js"></script>
-<script src="{{ asset('backend') }}/libs/data-tables/js/responsive.bootstrap5.min.js"></script>
-<script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
-<script src="{{ asset('backend') }}/libs/tagsinput/tagsinput.min.js"></script>
-<script src="{{ asset('backend') }}/libs/autoNumeric/autoNumeric.min.js"></script>
 <script src="{{ asset('backend') }}/libs/select2/select2.min.js"></script>
 <script>
     // show select2
     $(document).ready(function() {
         $('.select2').select2();
-    });
-
-    // show price to IDR
-    new AutoNumeric('#price', {
-        currencySymbol : 'Rp ',
-        decimalCharacter : ',',
-        digitGroupSeparator : '.',
-        decimalPlaces: 0,
     });
 </script>
 @endsection

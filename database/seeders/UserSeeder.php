@@ -26,6 +26,17 @@ class UserSeeder extends Seeder
 
         $admin->assignRole('admin');
 
+        $customer_service = User::create([
+            'name' => 'Customer Service',
+            'email' => 'customerservice@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('1234567890'),
+            'telephone' => '083123456789',
+            'address' => 'Kuningan',
+        ]);
+
+        $customer_service->assignRole('customer service');
+
         $user = User::create([
             'name' => 'User',
             'email' => 'user@gmail.com',

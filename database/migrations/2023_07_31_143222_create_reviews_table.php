@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('discounts', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->integer('discount_percentage');
-            $table->string('type');
-            $table->dateTime('start_date')->nullable();
-            $table->dateTime('end_date')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->string('rating');
+            $table->text('comment');
             $table->timestamps();
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('discounts');
+        Schema::dropIfExists('reviews');
     }
 };
