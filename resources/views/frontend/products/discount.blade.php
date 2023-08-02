@@ -57,18 +57,29 @@
                     <div class="card-body content pt-4 p-2">
                         <a href="{{ route('products.detail', $product->slug) }}" class="text-dark product-name h6">{{ $product->name }}</a>
                         <div class="d-flex justify-content-between mt-1">
-                            @if($product->discounts->count() > 0)
+                            <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($product->price, 0, ',', '.') }}</h6>
+
+                            <!-- Rating -->
+                            <ul class="list-unstyled text-warning mb-0">
+                                @php
+                                    $ratingValue = 5;
+                                    $currentRating = $ratingsByProductId[$product->id]['rating'] ?? 0;
+                                @endphp
+                                @for ($i = 1; $i <= $ratingValue; $i++)
+                                    <li class="list-inline-item">
+                                        <i class="mdi mdi-star {{ $i <= $currentRating ? 'text-warning' : 'text-muted' }}"></i>
+                                    </li>
+                                @endfor
+                            </ul>
+                            <!-- End Rating -->
+                        </div>
+                        @if($product->discounts->count() > 0)
                             @php
                                 $discount = $product->discounts->first()->discount_percentage; // get discount percentage
                                 $discountedPrice = $product->price - ($product->price * ($discount / 100)); // calculate the price after the discount
                             @endphp
-                                <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($discountedPrice, 0, ',', '.') }}
-                                    <del class="text-danger ms-2">Rp {{ number_format($product->price, 0, ',', '.') }}</del>
-                                </h6>
-                            @else
-                                <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($product->price, 0, ',', '.') }}</h6>
-                            @endif
-                        </div>
+                                <del class="text-danger small fst-italic">Rp {{ number_format($product->price, 0, ',', '.') }}</del>
+                        @endif
                     </div>
                 </div>
             </div><!--end col-->

@@ -61,6 +61,19 @@
                         <h5 class="text-muted">Rp {{ number_format($product->price, 0, ',', '.') }}</h5>
                     @endif
 
+                    @php
+                        $ratingValue = 5;
+                        $currentRating = $rating->rating ?? 0;
+                    @endphp
+
+                    <ul class="list-unstyled mb-0">
+                        @for ($i = 1; $i <= $ratingValue; $i++)
+                            <li class="list-inline-item">
+                                <i class="mdi mdi-star {{ $i <= $currentRating ? 'text-warning' : 'text-muted' }}"></i>
+                            </li>
+                        @endfor
+                    </ul>
+
                     <form method="POST" action="{{ route('products.addToCart', $product->id) }}">
                         @csrf
                         @if ($order == null)
@@ -158,6 +171,14 @@
                             </div>
                         </a><!--end nav link-->
                     </li><!--end nav item-->
+
+                    <li class="nav-item m-1">
+                        <a class="nav-link py-2 px-5 rounded" id="review-comments" data-bs-toggle="pill" href="#review" role="tab" aria-controls="review" aria-selected="false">
+                            <div class="text-center">
+                                <h6 class="mb-0">Review</h6>
+                            </div>
+                        </a><!--end nav link-->
+                    </li><!--end nav item-->
                 </ul>
 
                 <div class="tab-content mt-4" id="pills-tabContent">
@@ -197,6 +218,52 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+
+                    <div class="card border-0 tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-comments">
+                        <div class="container">
+                            <div class="col-lg-12">
+                                <ul class="media-list list-unstyled mb-0">
+                                    @foreach ($reviews as $review)
+                                        <li class="mb-4">
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <a class="pe-3" href="#">
+                                                        @if ($review->user->image == 'default/user.png')
+                                                            <img src="{{ asset($review->user->image) }}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="avatar">
+                                                        @else
+                                                            <img src="{{ asset('storage/users/' . $review->user->image) }}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="avatar">
+                                                        @endif
+                                                    </a>
+                                                    <div class="flex-1 commentor-detail">
+                                                        <h6 class="mb-0"><a href="javascript:void(0)" class="text-dark media-heading">{{ $review->user->name }}</a></h6>
+                                                        <small class="text-muted">{{ $review->created_at->format('d F Y, H:i') }}</small>
+                                                    </div>
+                                                </div>
+
+                                                @php
+                                                    $ratingValue = 5;
+                                                    $currentRating = $review->rating ?? 0;
+                                                @endphp
+
+                                                <ul class="list-unstyled mb-0">
+                                                    @for ($i = 1; $i <= $ratingValue; $i++)
+                                                        <li class="list-inline-item">
+                                                            <i class="mdi mdi-star {{ $i <= $currentRating ? 'text-warning' : 'text-muted' }}"></i>
+                                                        </li>
+                                                    @endfor
+                                                </ul>
+                                            </div>
+                                            <div class="mt-3">
+                                                @if ($review->comment != null)
+                                                    <p class="text-muted fst-italic p-3 bg-light rounded">" {{ $review->comment }} "</p>
+                                                @endif
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div><!--end col-->
+                        </div>
                     </div>
                 </div>
             </div>
