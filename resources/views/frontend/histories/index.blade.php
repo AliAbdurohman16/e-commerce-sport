@@ -80,7 +80,14 @@
                                         {{ $transaction->order->status }}
                                     </td>
                                     <td>Rp {{ number_format($transaction->gross_amount, 0, ',', '.') }}</td>
-                                    <td><a href="javascript:void(0)" class="text-primary" data-bs-toggle="modal" data-bs-target="#detail{{ $transaction->id }}">Detail <i class="uil uil-arrow-right"></i></a></td>
+                                    <td>
+                                        <a href="javascript:void(0)" class="text-primary" data-bs-toggle="modal" data-bs-target="#detail{{ $transaction->id }}">Detail <i class="uil uil-arrow-right"></i></a><br>
+                                        @if ($transaction->order->status == 'Pesanan Diterima')
+                                            @if ($transaction->order->review == null)
+                                                <a href="javascript:void(0)" class="text-primary" data-bs-toggle="modal" data-bs-target="#review{{ $transaction->id }}">Review <i class="uil uil-arrow-right"></i></a>
+                                            @endif
+                                        @endif
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -213,6 +220,56 @@
 </div>
 @endforeach
 <!-- Modal Detail End -->
+
+<!-- Modal Review -->
+@foreach ($transactions as $transaction)
+<div class="modal fade" id="review{{ $transaction->id }}" tabindex="-1" aria-labelledby="LoginForm-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded shadow border-0">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LoginForm-title">Review</h5>
+                <button type="button" class="btn btn-icon btn-close" data-bs-dismiss="modal" id="close-modal"><i class="uil uil-times fs-4 text-dark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form class="ms-lg-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="text-center">
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(1)"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(2)"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(3)"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(4)"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(5)"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <div class="mb-3">
+                                        <div class="form-icon position-relative">
+                                            <i data-feather="message-circle" class="fea icon-sm icons"></i>
+                                            <textarea id="message" placeholder="Komentar" rows="5" name="message" class="form-control ps-5" required=""></textarea>
+                                        </div>
+                                    </div>
+                                </div><!--end col-->
+
+                                <div class="col-md-12">
+                                    <div class="send d-grid">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div><!--end col-->
+                            </div><!--end row-->
+                        </form><!--end form-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+<!-- Modal Review End -->
 @endsection
 
 @section('javascript')
@@ -229,6 +286,44 @@
                 location.reload();
             }
         });
-        @endif
+    @endif
+
+    function setRating(rating) {
+        const stars = document.querySelectorAll(".icon-large");
+
+        // Highlight the selected stars
+        for (let i = 0; i < rating; i++) {
+            stars[i].classList.remove("text-muted");
+            stars[i].classList.add("text-warning");
+        }
+
+        // Dim the stars after the selected ones
+        for (let i = rating; i < stars.length; i++) {
+            stars[i].classList.remove("text-warning");
+            stars[i].classList.add("text-muted");
+        }
+
+        // Update the current rating
+        currentRating = rating;
+    }
+
+    function resetRating() {
+        const stars = document.querySelectorAll(".icon-large");
+        for (let i = 0; i < stars.length; i++) {
+            if (i < currentRating) {
+                stars[i].classList.remove("text-muted");
+                stars[i].classList.add("text-warning");
+            } else {
+                stars[i].classList.remove("text-warning");
+                stars[i].classList.add("text-muted");
+            }
+        }
+        currentRating = 0;
+    }
+
+    // Handle modal 'hidden' event to reset the rating when modal is closed
+    $('.modal').on('hidden.bs.modal', function () {
+        resetRating();
+    });
 </script>
 @endsection
