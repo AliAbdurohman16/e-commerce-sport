@@ -35,6 +35,7 @@ Route::middleware(['role:user'])->group(function () {
     Route::get('history', [App\Http\Controllers\Frontend\HistoryController::class, 'index'])->name('history.index');
     Route::get('payment-history', [App\Http\Controllers\Frontend\HistoryController::class, 'paymentHistory'])->name('payment-history');
     Route::post('received', [App\Http\Controllers\Frontend\HistoryController::class, 'received'])->name('received');
+    Route::post('review', [App\Http\Controllers\Frontend\HistoryController::class, 'review'])->name('review');
     Route::resources([
         'account' => App\Http\Controllers\Frontend\ProfileController::class,
         'changepassword' => App\Http\Controllers\Frontend\ChangePasswordController::class,
