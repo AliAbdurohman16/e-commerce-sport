@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Setting;
+use App\Models\Review;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -38,6 +39,23 @@ class HomeController extends Controller
         // get setting data
         $setting = Setting::find(1);
 
-        return view('frontend.home.index', compact('products', 'categories', 'popularProducts', 'recentProducts', 'setting'));
+        // get data rating
+        $ratings = Review::select('product_id', 'rating')
+                        ->selectRaw('COUNT(*) as total')
+                        ->groupBy('product_id', 'rating')
+                        ->orderByDesc('total')
+                        ->orderByDesc('rating')
+                        ->get();
+
+        // mapping rating data into associative arrays based on product_id
+        $ratingsByProductId = [];
+        foreach ($ratings as $rating) {
+            $productId = $rating->product_id;
+            if (!isset($ratingsByProductId[$productId])) {
+                $ratingsByProductId[$productId] = ['rating' => $rating->rating, 'total' => $rating->total];
+            }
+        }
+
+        return view('frontend.home.index', compact('products', 'categories', 'popularProducts', 'recentProducts', 'setting', 'ratingsByProductId'));
     }
 }
