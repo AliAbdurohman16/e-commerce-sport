@@ -70,4 +70,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Chat::class, 'recipient_id');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
