@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
@@ -16,7 +17,26 @@ class ProductController extends Controller
         // get data
         $products = Product::with(['images', 'discounts'])->latest()->paginate(8);
 
-        return view('frontend.products.index', compact('products'));
+        // get data rating
+        $ratings = Review::select('product_id', 'rating')
+                            ->selectRaw('COUNT(*) as total')
+                            ->groupBy('product_id', 'rating')
+                            ->orderByDesc('total')
+                            ->orderByDesc('rating')
+                            ->get();
+
+        // mapping rating data into associative arrays based on product_id
+        $ratingsByProductId = [];
+        foreach ($ratings as $rating) {
+            $productId = $rating->product_id;
+            if (!isset($ratingsByProductId[$productId])) {
+                $ratingsByProductId[$productId] = ['rating' => $rating->rating, 'total' => $rating->total];
+            }
+        }
+
+        // dd($ratingsByProductId);
+
+        return view('frontend.products.index', compact('products', 'ratingsByProductId'));
     }
 
     public function show($slug)
@@ -31,6 +51,17 @@ class ProductController extends Controller
 
         // get data where slug
         $product = Product::with(['images', 'discounts'])->where('slug', $slug)->firstOrFail();
+
+        // get data rating
+        $rating = Review::select('rating')
+                        ->selectRaw('COUNT(*) as total')
+                        ->where('product_id', $product->id)
+                        ->groupBy('rating')
+                        ->orderByDesc('total')
+                        ->first();
+
+        // get data review
+        $reviews = Review::where('product_id', $product->id)->get();
 
         // get related products
         $relatedProducts = Product::with(['images', 'discounts'])
@@ -47,7 +78,7 @@ class ProductController extends Controller
                         ->where('status', 'Belum Checkout')
                         ->first();
 
-        return view('frontend.products.detail', compact('product', 'relatedProducts', 'order'));
+        return view('frontend.products.detail', compact('product', 'rating', 'reviews', 'relatedProducts', 'order'));
     }
 
     public function search(Request $request)
@@ -81,7 +112,24 @@ class ProductController extends Controller
                     ->latest()
                     ->paginate(8);
 
-        return view('frontend.products.discount', compact('products'));
+        // get data rating
+        $ratings = Review::select('product_id', 'rating')
+                        ->selectRaw('COUNT(*) as total')
+                        ->groupBy('product_id', 'rating')
+                        ->orderByDesc('total')
+                        ->orderByDesc('rating')
+                        ->get();
+
+        // mapping rating data into associative arrays based on product_id
+        $ratingsByProductId = [];
+        foreach ($ratings as $rating) {
+            $productId = $rating->product_id;
+            if (!isset($ratingsByProductId[$productId])) {
+                $ratingsByProductId[$productId] = ['rating' => $rating->rating, 'total' => $rating->total];
+            }
+        }
+
+        return view('frontend.products.discount', compact('products', 'ratingsByProductId'));
     }
 
     public function addToCart(Request $request, $id)
