@@ -57,38 +57,37 @@
                             </thead>
                             <tbody>
                                 @foreach ($transactions as $transaction)
-                                <tr>
-                                    <th scope="row">{{ $transaction->order_id }}</th>
-                                    <td>
-                                        @if ($transaction->order->orderDetails->count() > 0)
-                                            @foreach ($transaction->order->orderDetails as $order)
-                                                {{ $order->product->name }}
-                                                @if ($order->size && $order->color != '')
-                                                    ({{ $order->size }}, {{ $order->color }}, x{{ $order->quantity }})
-                                                @elseif ($order->size != '')
-                                                    ({{ $order->size }}, x{{ $order->quantity }})
-                                                @elseif ($order->color != '')
-                                                    ({{ $order->color }}, x{{ $order->quantity }})
-                                                @endif
-                                                <br>
-                                            @endforeach
-                                        @endif
+                                    @if ($transaction->order->orderDetails)
+                                        @foreach ($transaction->order->orderDetails as $order)
+                                            <tr>
+                                                <th scope="row">{{ $transaction->order_id }}</th>
+                                                <td>
+                                                    {{ $order->product->name }}
+                                                        @if ($order->size && $order->color != '')
+                                                        ({{ $order->size }}, {{ $order->color }}, x{{ $order->quantity }})
+                                                    @elseif ($order->size != '')
+                                                        ({{ $order->size }}, x{{ $order->quantity }})
+                                                    @elseif ($order->color != '')
+                                                        ({{ $order->color }}, x{{ $order->quantity }})
+                                                    @endif
 
-                                    </td>
-                                    <td>{{ date('d-m-Y', strtotime($transaction->created_at)) }}</td>
-                                    <td class="{{ $transaction->order->status == 'Dalam Pengiriman' ? 'text-success' : ($transaction->order->status == 'Pesanan Diterima' ? 'text-primary' : ($transaction->order->status == 'Pesanan Gagal' ? 'text-danger' : 'text-muted')) }}">
-                                        {{ $transaction->order->status }}
-                                    </td>
-                                    <td>Rp {{ number_format($transaction->gross_amount, 0, ',', '.') }}</td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-primary" data-bs-toggle="modal" data-bs-target="#detail{{ $transaction->id }}">Detail <i class="uil uil-arrow-right"></i></a><br>
-                                        @if ($transaction->order->status == 'Pesanan Diterima')
-                                            @if ($transaction->order->review == null)
-                                                <a href="javascript:void(0)" class="text-primary" data-bs-toggle="modal" data-bs-target="#review{{ $transaction->id }}">Review <i class="uil uil-arrow-right"></i></a>
-                                            @endif
-                                        @endif
-                                    </td>
-                                </tr>
+                                                </td>
+                                                <td>{{ date('d-m-Y', strtotime($transaction->created_at)) }}</td>
+                                                <td class="{{ $transaction->order->status == 'Dalam Pengiriman' ? 'text-success' : ($transaction->order->status == 'Pesanan Diterima' ? 'text-primary' : ($transaction->order->status == 'Pesanan Gagal' ? 'text-danger' : 'text-muted')) }}">
+                                                    {{ $transaction->order->status }}
+                                                </td>
+                                                <td>Rp {{ number_format($transaction->gross_amount, 0, ',', '.') }}</td>
+                                                <td>
+                                                    <a href="javascript:void(0)" class="text-primary" data-bs-toggle="modal" data-bs-target="#detail{{ $order->product_id }}">Detail <i class="uil uil-arrow-right"></i></a><br>
+                                                    @if ($transaction->order->status == 'Pesanan Diterima')
+                                                        @if ($order->review == null)
+                                                            <a href="javascript:void(0)" class="text-primary" data-bs-toggle="modal" data-bs-target="#review{{ $order->product_id }}">Review <i class="uil uil-arrow-right"></i></a>
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -101,31 +100,31 @@
 <!-- End -->
 <!-- Modal Detail -->
 @foreach ($transactions as $transaction)
-<div class="modal fade" id="detail{{ $transaction->id }}" tabindex="-1" aria-labelledby="LoginForm-title" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded shadow border-0">
-            <div class="modal-header border-bottom">
-                <h5 class="modal-title" id="LoginForm-title">Data Pesanan</h5>
-                <button type="button" class="btn btn-icon btn-close" data-bs-dismiss="modal" id="close-modal"><i class="uil uil-times fs-4 text-dark"></i></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        @if ($transaction->order->status == 'Dalam Pengiriman')
-                            <div class="alert alert-primary">
-                                Estimasi pengiriman paket anda akan sampai pada tanggal {{ date('d-m-Y, H:i', strtotime($transaction->order->shippings->first()->estimation)) }}.
-                            </div>
-                        @endif
+    @if ($transaction->order->orderDetails)
+        @foreach ($transaction->order->orderDetails as $order)
+        <div class="modal fade" id="detail{{ $order->product_id }}" tabindex="-1" aria-labelledby="LoginForm-title" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded shadow border-0">
+                    <div class="modal-header border-bottom">
+                        <h5 class="modal-title" id="LoginForm-title">Data Pesanan</h5>
+                        <button type="button" class="btn btn-icon btn-close" data-bs-dismiss="modal" id="close-modal"><i class="uil uil-times fs-4 text-dark"></i></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @if ($transaction->order->status == 'Dalam Pengiriman')
+                                    <div class="alert alert-primary">
+                                        Estimasi pengiriman paket anda akan sampai pada tanggal {{ date('d-m-Y, H:i', strtotime($transaction->order->shippings->first()->estimation)) }}.
+                                    </div>
+                                @endif
 
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label for="">Produk</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    @if ($transaction->order->orderDetails->count() > 0)
-                                        @foreach ($transaction->order->orderDetails as $order)
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label for="">Produk</label>
+                                        </div>
+                                        <div class="col-1">:</div>
+                                        <div class="col-7">
                                             {{ $order->product->name }}
                                             @if ($order->size && $order->color != '')
                                                 ({{ $order->size }}, {{ $order->color }}, x{{ $order->quantity }})
@@ -134,140 +133,142 @@
                                             @elseif ($order->color != '')
                                                 ({{ $order->color }}, x{{ $order->quantity }})
                                             @endif
-                                            <br>
-                                        @endforeach
-                                    @endif
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label for="">Tanggal Pesanan</label>
+                                        </div>
+                                        <div class="col-1">:</div>
+                                        <div class="col-7">
+                                            {{ date('H:i, d-m-Y', strtotime($transaction->created_at)) }}
+                                        </div>
+
+                                        @if ($transaction->order->status != 'Dalam Proses' && $transaction->order->status != 'Pesanan Gagal' && $transaction->order->status != 'Dibatalkan')
+                                            <div class="col-4">
+                                                <label for="">No Resi</label>
+                                            </div>
+                                            <div class="col-1">:</div>
+                                            <div class="col-7">
+                                                {{ $transaction->order->shippings->first()->resi }}
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label for="">Jasa Pengiriman</label>
+                                            </div>
+                                            <div class="col-1">:</div>
+                                            <div class="col-7">
+                                                {{ $transaction->order->shippings->first()->provider }}
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label for="">Tanggal Dikirim</label>
+                                            </div>
+                                            <div class="col-1">:</div>
+                                            <div class="col-7">
+                                                {{ date('H:i, d-m-Y', strtotime($transaction->order->updated_at)) }}
+                                            </div>
+                                        @endif
+
+                                        @if ($transaction->order->status == 'Pesanan Gagal')
+                                            <div class="col-4">
+                                                <label for="">Tanggal Gagal</label>
+                                            </div>
+                                            <div class="col-1">:</div>
+                                            <div class="col-7">
+                                                {{ date('H:i, d-m-Y', strtotime($transaction->updated_at)) }}
+                                            </div>
+                                        @endif
+
+                                        @if ($transaction->order->status == 'Pesanan Diterima')
+                                            <div class="col-4">
+                                                <label for="">Tanggal Diterima</label>
+                                            </div>
+                                            <div class="col-1">:</div>
+                                            <div class="col-7">
+                                                {{ date('H:i, d-m-Y', strtotime($transaction->order->updated_at)) }}
+                                            </div>
+                                        @endif
+
+                                        <div class="col-4">
+                                            <label for="">Total</label>
+                                        </div>
+                                        <div class="col-1">:</div>
+                                        <div class="col-7">
+                                            Rp {{ number_format($transaction->gross_amount, 0, ',', '.') }}
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        @if ($transaction->order->status == 'Dalam Pengiriman')
+                            <form action="{{ route('received') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="order_id" value="{{ $transaction->order_id }}">
+                                <button type="submit" class="btn btn-primary">Diterima</button>
+                            </form>
+                        @endif
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    @endif
+@endforeach
+<!-- Modal Detail End -->
 
-                                <div class="col-4">
-                                    <label for="">Tanggal Pesanan</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    {{ date('H:i, d-m-Y', strtotime($transaction->created_at)) }}
-                                </div>
+<!-- Modal Review -->
+@foreach ($transactions as $transaction)
+    @if ($transaction->order->orderDetails)
+        @foreach ($transaction->order->orderDetails as $order)
+            <div class="modal fade" id="review{{ $order->product_id }}" tabindex="-1" aria-labelledby="LoginForm-title" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content rounded shadow border-0">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="LoginForm-title">Review</h5>
+                            <button type="button" class="btn btn-icon btn-close" data-bs-dismiss="modal" id="close-modal"><i class="uil uil-times fs-4 text-dark"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <input type="hidden" id="order_id" name="order_id" value="{{ $order->order_id }}">
+                                        <div class="col-12">
+                                            <div class="text-center">
+                                                <ul class="list-unstyled mb-0">
+                                                    <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(1, {{ $order->product_id }})"></i></li>
+                                                    <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(2, {{ $order->product_id }})"></i></li>
+                                                    <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(3, {{ $order->product_id }})"></i></li>
+                                                    <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(4, {{ $order->product_id }})"></i></li>
+                                                    <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(5, {{ $order->product_id }})"></i></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <div class="mb-3">
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="message-circle" class="fea icon-sm icons"></i>
+                                                    <textarea id="comment_{{ $order->product_id }}" placeholder="Komentar" rows="5" name="comment" class="form-control ps-5"></textarea>
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
 
-                                @if ($transaction->order->status != 'Dalam Proses' && $transaction->order->status != 'Pesanan Gagal' && $transaction->order->status != 'Dibatalkan')
-                                    <div class="col-4">
-                                        <label for="">No Resi</label>
-                                    </div>
-                                    <div class="col-1">:</div>
-                                    <div class="col-7">
-                                        {{ $transaction->order->shippings->first()->resi }}
-                                    </div>
-
-                                    <div class="col-4">
-                                        <label for="">Jasa Pengiriman</label>
-                                    </div>
-                                    <div class="col-1">:</div>
-                                    <div class="col-7">
-                                        {{ $transaction->order->shippings->first()->provider }}
-                                    </div>
-
-                                    <div class="col-4">
-                                        <label for="">Tanggal Dikirim</label>
-                                    </div>
-                                    <div class="col-1">:</div>
-                                    <div class="col-7">
-                                        {{ date('H:i, d-m-Y', strtotime($transaction->order->updated_at)) }}
-                                    </div>
-                                @endif
-
-                                @if ($transaction->order->status == 'Pesanan Gagal')
-                                    <div class="col-4">
-                                        <label for="">Tanggal Gagal</label>
-                                    </div>
-                                    <div class="col-1">:</div>
-                                    <div class="col-7">
-                                        {{ date('H:i, d-m-Y', strtotime($transaction->updated_at)) }}
-                                    </div>
-                                @endif
-
-                                @if ($transaction->order->status == 'Pesanan Diterima')
-                                    <div class="col-4">
-                                        <label for="">Tanggal Diterima</label>
-                                    </div>
-                                    <div class="col-1">:</div>
-                                    <div class="col-7">
-                                        {{ date('H:i, d-m-Y', strtotime($transaction->order->updated_at)) }}
-                                    </div>
-                                @endif
-
-                                <div class="col-4">
-                                    <label for="">Total</label>
-                                </div>
-                                <div class="col-1">:</div>
-                                <div class="col-7">
-                                    Rp {{ number_format($transaction->gross_amount, 0, ',', '.') }}
+                                        <div class="col-md-12">
+                                            <div class="send d-grid">
+                                                <button type="button" class="btn btn-primary btn-submit" data-id="{{ $order->product_id }}">Submit</button>
+                                            </div>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                @if ($transaction->order->status == 'Dalam Pengiriman')
-                    <form action="{{ route('received') }}" method="post">
-                        @csrf
-                        <input type="hidden" name="order_id" value="{{ $transaction->order_id }}">
-                        <button type="submit" class="btn btn-primary">Diterima</button>
-                    </form>
-                @endif
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
-<!-- Modal Detail End -->
-
-<!-- Modal Review -->
-@foreach ($transactions as $transaction)
-<div class="modal fade" id="review{{ $transaction->id }}" tabindex="-1" aria-labelledby="LoginForm-title" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded shadow border-0">
-            <div class="modal-header">
-                <h5 class="modal-title" id="LoginForm-title">Review</h5>
-                <button type="button" class="btn btn-icon btn-close" data-bs-dismiss="modal" id="close-modal"><i class="uil uil-times fs-4 text-dark"></i></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <form class="ms-lg-4">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="text-center">
-                                        <ul class="list-unstyled mb-0">
-                                            <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(1)"></i></li>
-                                            <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(2)"></i></li>
-                                            <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(3)"></i></li>
-                                            <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(4)"></i></li>
-                                            <li class="list-inline-item"><i class="mdi mdi-star icon-large text-muted" onclick="setRating(5)"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mt-3">
-                                    <div class="mb-3">
-                                        <div class="form-icon position-relative">
-                                            <i data-feather="message-circle" class="fea icon-sm icons"></i>
-                                            <textarea id="message" placeholder="Komentar" rows="5" name="message" class="form-control ps-5" required=""></textarea>
-                                        </div>
-                                    </div>
-                                </div><!--end col-->
-
-                                <div class="col-md-12">
-                                    <div class="send d-grid">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
-                        </form><!--end form-->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+        @endforeach
+    @endif
 @endforeach
 <!-- Modal Review End -->
 @endsection
@@ -288,8 +289,10 @@
         });
     @endif
 
-    function setRating(rating) {
-        const stars = document.querySelectorAll(".icon-large");
+    let currentRating = 0;
+
+    function setRating(rating, productId) {
+        const stars = document.querySelectorAll(`#review${productId} .icon-large`);
 
         // Highlight the selected stars
         for (let i = 0; i < rating; i++) {
@@ -320,6 +323,43 @@
         }
         currentRating = 0;
     }
+
+    $(".btn-submit").click(function() {
+        if (currentRating !== 0) {
+            let id = $(this).data("id");
+            const orderId = $("#order_id").val();
+            const comment = $("#comment_" + id).val();
+            // Assuming you have an AJAX call to save the rating for the current question
+            $.ajax({
+                url: 'review/' + id,
+                type: 'PUT',
+                data: {
+                    "id": id,
+                    "_token": $('meta[name="csrf-token"]').attr('content'),
+                    rating: currentRating,
+                    order_id: orderId,
+                    comment: comment,
+                },
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: response.message,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error saving rating:', error);
+                    console.log('Status:', xhr.status);
+                    console.log('Status Text:', xhr.statusText);
+                    console.log('Response Text:', xhr.responseText);
+                }
+            });
+        }
+    });
 
     // Handle modal 'hidden' event to reset the rating when modal is closed
     $('.modal').on('hidden.bs.modal', function () {
