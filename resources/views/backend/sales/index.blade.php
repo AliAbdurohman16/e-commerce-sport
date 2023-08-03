@@ -1,6 +1,6 @@
 @extends('layouts.backend.main')
 
-@section('title', 'Kategori')
+@section('title', 'Data Penjualan')
 
 @section('css')
 <!-- Datatables -->
