@@ -67,7 +67,7 @@ class DashboardController extends Controller
         $productIds = $discountData->pluck('product_id')->toArray();
 
         // Get the total quantities of the products from the OrderDetail table
-        $discountLowestProducts = OrderDetail::selectRaw('product_id, SUM(quantity) as total')
+        $saleDiscountLowestProducts = OrderDetail::selectRaw('product_id, SUM(quantity) as total')
                                             ->whereIn('product_id', $productIds)
                                             ->whereHas('order', function ($query) {
                                                 $query->whereNotIn('status', ['Belum Checkout', 'Sudah Bayar', 'Dibatalkan']);
@@ -77,9 +77,9 @@ class DashboardController extends Controller
                                             ->take(5)
                                             ->get();
 
-        // create chart data for discount lowest products
-        $discountLowestProductsData = $discountLowestProducts->pluck('total')->toJson();
-        $discountLowestProductsLabels = $discountLowestProducts->pluck('product.name')->toJson();
+        // create chart data for sale discount lowest products
+        $saleDiscountLowestProductsData = $saleDiscountLowestProducts->pluck('total')->toJson();
+        $saleDiscountLowestProductsLabels = $saleDiscountLowestProducts->pluck('product.name')->toJson();
 
         // checking last transaction
         if ($lastTransaction) {
@@ -92,7 +92,7 @@ class DashboardController extends Controller
                                                     'incomeByYear', 'incomeByMonth', 'incomeByWeek',
                                                     'incomeByDay', 'lastYear', 'topProductsData',
                                                     'topProductsLabels', 'lowestProductsData', 'lowestProductsLabels',
-                                                    'discountLowestProductsData', 'discountLowestProductsLabels'));
+                                                    'saleDiscountLowestProductsData', 'saleDiscountLowestProductsLabels'));
     }
 
     public function getRevenueByMonth($year = null)

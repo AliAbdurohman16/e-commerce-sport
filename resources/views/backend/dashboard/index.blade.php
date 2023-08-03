@@ -323,11 +323,11 @@
         var chart = new ApexCharts(document.querySelector("#lowest-product"), options);
         chart.render();
 
-        // Chart for discount product lowest
+        // Chart for sale discount product lowest
         var options = {
             series: [{
                 name: 'Total',
-                data: {!! $discountLowestProductsData !!},
+                data: {!! $saleDiscountLowestProductsData !!},
             }],
             chart: {
                 type: 'bar',
@@ -349,7 +349,7 @@
                 colors: ['transparent']
             },
             xaxis: {
-                categories: {!! $discountLowestProductsLabels !!},
+                categories: {!! $saleDiscountLowestProductsLabels !!},
             },
             yaxis: {
                 title: {
