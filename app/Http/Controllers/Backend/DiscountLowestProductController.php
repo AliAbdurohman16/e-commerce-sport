@@ -22,9 +22,6 @@ class DiscountLowestProductController extends Controller
 
     public function create()
     {
-        // get data discount
-        $discounts = Discount::all();
-
         // get all data products
         $products = Product::all();
 
@@ -61,13 +58,10 @@ class DiscountLowestProductController extends Controller
 
     public function edit($id)
     {
-        // get data find or fail by id
-        $discounts = Discount::findOrFail($id);
-
         // get all data products
         $products = Product::all();
 
-        return view('backend.discounts.lowest.edit', compact('discounts', 'products'));
+        return view('backend.discounts.lowest.edit', compact('products'));
     }
 
     public function update(Request $request, $id)
