@@ -15,7 +15,7 @@ class DiscountLowestProductController extends Controller
     public function index()
     {
         // get data
-        $discounts = Discount::all();
+        $discounts = Discount::where('type', 'Kurang Laris');
 
         return view('backend.discounts.lowest.index', compact('discounts'));
     }
