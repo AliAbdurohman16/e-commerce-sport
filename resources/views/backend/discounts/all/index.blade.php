@@ -25,11 +25,13 @@
 
         <div class="row">
             <div class="col-12 mt-4">
+                @if (Auth::user()->hasRole('admin'))
                 <div class="d-grid gap-2 d-md-flex">
                     <a href="{{ route('discounts-all-product.create') }}" class="btn btn-primary mb-3 btn-sm">
                         Tambah Data +
                     </a>
                 </div>
+                @endif
                 <div class="table-responsive shadow rounded">
                     <div class="card-body">
                         <table class="table table-center bg-white mb-0" id="table">
@@ -41,7 +43,9 @@
                                     <th class="border-bottom p-3">Tanggal Mulai</th>
                                     <th class="border-bottom p-3">Tanggal Berakhir</th>
                                     <th class="border-bottom p-3">Status</th>
+                                    @if (Auth::user()->hasRole('admin'))
                                     <th class="border-bottom p-3">Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,10 +62,12 @@
                                                 {{ now() >= $discount->end_date ? 'Kedaluwarsa' : 'Aktif' }}
                                             </span>
                                         </td>
+                                        @if (Auth::user()->hasRole('admin'))
                                         <td style="width: 5%;">
                                             <a href="discounts-all-product/{{ $discount->id }}/edit" class="btn btn-warning btn-sm mb-2"><i class="fa-solid fa-pen"></i> Edit</a>
                                             <button type="button" class="btn btn-danger btn-sm mb-2 btn-delete" data-id="{{ $discount->id }}"><i class="fa-solid fa-trash"></i> Hapus</button>
                                         </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                                 <!-- End -->
