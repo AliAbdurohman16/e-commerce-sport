@@ -25,7 +25,7 @@ class DiscountAllProductController extends Controller
         // get all data products
         $products = Product::all();
 
-        return view('backend.discounts.all.add', compact('discounts', 'products'));
+        return view('backend.discounts.all.add', compact('products'));
     }
 
     public function store(Request $request)
