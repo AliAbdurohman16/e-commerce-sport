@@ -22,9 +22,6 @@ class DiscountAllProductController extends Controller
 
     public function create()
     {
-        // get data discount
-        $discounts = Discount::all();
-
         // get all data products
         $products = Product::all();
 
