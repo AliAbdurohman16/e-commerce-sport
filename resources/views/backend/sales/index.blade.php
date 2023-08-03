@@ -40,13 +40,13 @@
                             </thead>
                             <tbody>
                                 <!-- Start -->
-                                @foreach($sales as $transaction)
+                                @foreach($sales as $sale)
                                     <tr>
                                         <th class="text-center">{{ $loop->iteration }}</th>
-                                        <td class="p-3">{{ $transaction->order_id }}</td>
-                                        <td class="p-3">{{ $transaction->order->user->name }}</td>
+                                        <td class="p-3">{{ $sale->order_id }}</td>
+                                        <td class="p-3">{{ $sale->order->user->name }}</td>
                                         <td class="p-3">
-                                            @foreach ($transaction->order->orderDetails as $orderDetails)
+                                            @foreach ($sale->order->orderDetails as $orderDetails)
                                             @if ($orderDetails->count() > 1)
                                             {{ $orderDetails->product->name }} ({{ $orderDetails->size }}, {{ $orderDetails->color }}, x{{ $orderDetails->quantity }})<br>
                                             @else
@@ -54,8 +54,8 @@
                                             @endif
                                             @endforeach
                                         </td>
-                                        <td class="p-3">{{ date('d-m-Y', strtotime($transaction->created_at)) }}</td>
-                                        <td class="p-3">Rp {{ number_format($transaction->gross_amount, 0, ',', '.') }}</td>
+                                        <td class="p-3">{{ date('d-m-Y', strtotime($sale->created_at)) }}</td>
+                                        <td class="p-3">Rp {{ number_format($sale->gross_amount, 0, ',', '.') }}</td>
                                     </tr>
                                 @endforeach
                                 <!-- End -->
