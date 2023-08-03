@@ -53,7 +53,9 @@
             @endif
             {{-- <li><a href="{{ route('reports.index') }}"><i class="uil uil-folder me-2"></i>Laporan</a></li> --}}
             <li><a href="{{ route('profile.index') }}"><i class="uil uil-user me-2"></i>Profil</a></li>
+            @if (Auth::user()->hasRole('admin'))
             <li><a href="{{ route('setting.index') }}"><i class="uil uil-setting me-2"></i>Pengaturan</a></li>
+            @endif
         </ul>
         <!-- sidebar-menu  -->
     </div>

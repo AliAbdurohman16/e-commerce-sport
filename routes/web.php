@@ -44,7 +44,7 @@ Route::middleware(['role:user'])->group(function () {
     Route::post('delete-all', [App\Http\Controllers\Frontend\ChatController::class, 'deleteAll'])->name('delete-all');
 });
 
-Route::middleware('role:admin')->group(function () {
+Route::middleware(['role:admin|customer_service'])->group(function () {
     Route::get('dashboard', [App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('dashboard');
     Route::get('get-revenue-by-month/{year}', [App\Http\Controllers\Backend\DashboardController::class, 'getRevenueByMonth'])->name('get-revenue-by-month');
     Route::resources([
