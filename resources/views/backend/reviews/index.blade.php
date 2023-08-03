@@ -34,27 +34,30 @@
                                     <th class="border-bottom p-3">Pengguna</th>
                                     <th class="border-bottom p-3">Rating</th>
                                     <th class="border-bottom p-3">Komentar</th>
-                                    <th class="border-bottom p-3">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- Start -->
-                                @foreach($reviews as $reviews)
+                                @foreach($reviews as $review)
                                     <tr>
                                         <th class="text-center">{{ $loop->iteration }}</th>
-                                        <td class="p-3">{{ $reviews->order_id }}</td>
-                                        <td class="p-3">{{ $reviews->order->user->name }}</td>
+                                        <td class="p-3">{{ $review->product->name }}</td>
+                                        <td class="p-3">{{ $review->user->name }}</td>
                                         <td class="p-3">
-                                            @foreach ($reviews->order->orderDetails as $orderDetails)
-                                            @if ($orderDetails->count() > 1)
-                                            {{ $orderDetails->product->name }} ({{ $orderDetails->size }}, {{ $orderDetails->color }}, x{{ $orderDetails->quantity }})<br>
-                                            @else
-                                            {{ $orderDetails->product->name }} ({{ $orderDetails->size }}, {{ $orderDetails->color }}, x{{ $orderDetails->quantity }})
-                                            @endif
-                                            @endforeach
+                                            @php
+                                                $ratingValue = 5;
+                                                $currentRating = $review->rating ?? 0;
+                                            @endphp
+
+                                            <ul class="list-unstyled mb-0">
+                                                @for ($i = 1; $i <= $ratingValue; $i++)
+                                                    <li class="list-inline-item">
+                                                        <i class="mdi mdi-star icon-large {{ $i <= $currentRating ? 'text-warning' : 'text-muted' }}"></i>
+                                                    </li>
+                                                @endfor
+                                            </ul>
                                         </td>
-                                        <td class="p-3">{{ date('d-m-Y', strtotime($reviews->created_at)) }}</td>
-                                        <td class="p-3">Rp {{ number_format($reviews->gross_amount, 0, ',', '.') }}</td>
+                                        <td class="p-3">{{ $review->comment }}</td>
                                     </tr>
                                 @endforeach
                                 <!-- End -->
