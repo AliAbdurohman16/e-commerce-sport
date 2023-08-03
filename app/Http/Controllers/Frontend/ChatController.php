@@ -12,7 +12,7 @@ class ChatController extends Controller
     public function send(Request $request)
     {
         $user = Auth::user();
-        $customer_service = Auth::user()->role('customer service')->first();
+        $customer_service = Auth::user()->role('customer_service')->first();
         $chat = new Chat;
         $chat->message = $request->message;
         $chat->sender_id = $user->id;
