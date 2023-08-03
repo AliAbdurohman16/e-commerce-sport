@@ -45,6 +45,34 @@
                 <a href="#!" class="features feature-primary d-flex justify-content-between align-items-center rounded shadow p-3">
                     <div class="d-flex align-items-center">
                         <div class="icon text-center rounded-pill">
+                            <i class="uil uil-shopping-bag fs-4 mb-0"></i>
+                        </div>
+                        <div class="flex-1 ms-3">
+                            <h6 class="mb-0 text-muted">Diskon Semua Produk</h6>
+                            <p class="fs-5 text-dark fw-bold mb-0"><span class="counter-value" data-target="{{ $discountAllProduct }}"></span></p>
+                        </div>
+                    </div>
+                </a>
+            </div><!--end col-->
+
+            <div class="col mt-4">
+                <a href="#!" class="features feature-primary d-flex justify-content-between align-items-center rounded shadow p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="icon text-center rounded-pill">
+                            <i class="uil uil-shopping-bag fs-4 mb-0"></i>
+                        </div>
+                        <div class="flex-1 ms-3">
+                            <h6 class="mb-0 text-muted">Diskon Produk Kurang Laris</h6>
+                            <p class="fs-5 text-dark fw-bold mb-0"><span class="counter-value" data-target="{{ $discountLowestProduct }}"></span></p>
+                        </div>
+                    </div>
+                </a>
+            </div><!--end col-->
+
+            <div class="col mt-4">
+                <a href="#!" class="features feature-primary d-flex justify-content-between align-items-center rounded shadow p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="icon text-center rounded-pill">
                             <i class="uil uil-invoice fs-4 mb-0"></i>
                         </div>
                         <div class="flex-1 ms-3">

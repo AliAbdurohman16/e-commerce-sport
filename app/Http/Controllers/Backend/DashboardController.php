@@ -23,6 +23,8 @@ class DashboardController extends Controller
                                         $query->whereNotIn('status', ['Belum Checkout', 'Sudah Bayar', 'Dibatalkan']);
                                     })
                                     ->count();
+        $discountAllProduct = Discount::where('type', 'Semua Produk')->count();
+        $discountLowestProduct = Discount::where('type', 'Kurang Laris')->count();
         $income = Transaction::sum('gross_amount');
         $incomeByYear = Transaction::whereYear('updated_at', date('Y'))->sum('gross_amount');
         $incomeByMonth = Transaction::whereYear('updated_at', date('Y'))
@@ -92,7 +94,8 @@ class DashboardController extends Controller
                                                     'incomeByYear', 'incomeByMonth', 'incomeByWeek',
                                                     'incomeByDay', 'lastYear', 'topProductsData',
                                                     'topProductsLabels', 'lowestProductsData', 'lowestProductsLabels',
-                                                    'saleDiscountLowestProductsData', 'saleDiscountLowestProductsLabels'));
+                                                    'saleDiscountLowestProductsData', 'saleDiscountLowestProductsLabels',
+                                                    'discountAllProduct', 'discountLowestProduct'));
     }
 
     public function getRevenueByMonth($year = null)
