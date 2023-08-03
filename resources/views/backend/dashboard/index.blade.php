@@ -13,6 +13,7 @@
         </div>
 
         <div class="row row-cols-xl-4 row-cols-md-2 row-cols-1">
+            @if (Auth::user()->hasRole('admin'))
             <div class="col mt-4">
                 <a href="#!" class="features feature-primary d-flex justify-content-between align-items-center rounded shadow p-3">
                     <div class="d-flex align-items-center">
@@ -26,6 +27,7 @@
                     </div>
                 </a>
             </div><!--end col-->
+            @endif
 
             <div class="col mt-4">
                 <a href="#!" class="features feature-primary d-flex justify-content-between align-items-center rounded shadow p-3">
@@ -69,6 +71,7 @@
                 </a>
             </div><!--end col-->
 
+            @if (Auth::user()->hasRole('admin'))
             <div class="col mt-4">
                 <a href="#!" class="features feature-primary d-flex justify-content-between align-items-center rounded shadow p-3">
                     <div class="d-flex align-items-center">
@@ -152,8 +155,10 @@
                     </div>
                 </a>
             </div><!--end col-->
+            @endif
         </div><!--end row-->
 
+        @if (Auth::user()->hasRole('admin'))
         <div class="row">
             <div class="col-xl-12 col-lg-7 mt-4">
                 <div class="card shadow border-0 p-4 pb-0 rounded">
@@ -199,6 +204,7 @@
                 </div>
             </div><!--end col-->
         </div><!--end row-->
+        @endif
     </div>
 </div>
 @endsection

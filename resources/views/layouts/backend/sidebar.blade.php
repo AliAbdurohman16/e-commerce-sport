@@ -12,7 +12,9 @@
 
         <ul class="sidebar-menu">
             <li><a href="{{ route('dashboard') }}"><i class="uil uil-estate me-2"></i>Dashboard</a></li>
+            @if (Auth::user()->hasRole('admin'))
             <li><a href="{{ route('categories.index') }}"><i class="uil uil-apps me-2"></i>Kategori</a></li>
+            @endif
             <li><a href="{{ route('products.index') }}"><i class="uil uil-shopping-bag me-2"></i>Produk</a></li>
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-percentage me-2"></i>Diskon</a>
@@ -24,6 +26,7 @@
                 </div>
             </li>
             <li><a href="{{ route('chats.index') }}"><i class="uil uil-chat me-2"></i>Pesan</a></li>
+            @if (Auth::user()->hasRole('admin'))
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-invoice me-2"></i>Orderan</a>
                 <div class="sidebar-submenu">
@@ -47,6 +50,7 @@
                     </ul>
                 </div>
             </li>
+            @endif
             {{-- <li><a href="{{ route('reports.index') }}"><i class="uil uil-folder me-2"></i>Laporan</a></li> --}}
             <li><a href="{{ route('profile.index') }}"><i class="uil uil-user me-2"></i>Profil</a></li>
             <li><a href="{{ route('setting.index') }}"><i class="uil uil-setting me-2"></i>Pengaturan</a></li>
