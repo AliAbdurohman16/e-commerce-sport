@@ -45,6 +45,7 @@ class DiscountLowestProductController extends Controller
         $discount = Discount::create([
             'product_id' => $request->product,
             'discount_percentage' => $request->discount_percentage,
+            'type' => 'Kurang Laris',
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ]);
@@ -55,7 +56,7 @@ class DiscountLowestProductController extends Controller
 
         Notification::send($users, new DiscountNotification($discount));
 
-        return redirect('discounts')->with('message', 'Diskon berhasil ditambahkan!');
+        return redirect('discounts-lowest-product')->with('message', 'Diskon berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -86,11 +87,12 @@ class DiscountLowestProductController extends Controller
         $discount->update([
             'product_id' => $request->product,
             'discount_percentage' => $request->discount_percentage,
+            'type' => 'Kurang Laris',
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ]);
 
-        return redirect('discounts')->with('message', 'Diskon berhasil diubah!');
+        return redirect('discounts-lowest-product')->with('message', 'Diskon berhasil diubah!');
     }
 
     public function destroy($id)
