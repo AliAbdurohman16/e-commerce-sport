@@ -38,6 +38,15 @@
             <li><a href="{{ route('transactions.index') }}"><i class="uil uil-shopping-cart me-2"></i>Transaksi</a></li>
             <li><a href="{{ route('customers.index') }}"><i class="uil uil-users-alt me-2"></i>Pelanggan</a></li>
             <li><a href="{{ route('sales.index') }}"><i class="uil uil-folder me-2"></i>Data Penjualan</a></li>
+            <li class="sidebar-dropdown">
+                <a href="javascript:void(0)"><i class="uil uil-star me-2"></i>Review</a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li><a href="{{ route('reviews-data') }}">Data Review</a></li>
+                        <li><a href="{{ route('reviews-chart') }}">Chart Review</a></li>
+                    </ul>
+                </div>
+            </li>
             {{-- <li><a href="{{ route('reports.index') }}"><i class="uil uil-folder me-2"></i>Laporan</a></li> --}}
             <li><a href="{{ route('profile.index') }}"><i class="uil uil-user me-2"></i>Profil</a></li>
             <li><a href="{{ route('setting.index') }}"><i class="uil uil-setting me-2"></i>Pengaturan</a></li>
