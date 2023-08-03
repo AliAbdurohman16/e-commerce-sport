@@ -35,10 +35,10 @@
                                         <label class="form-label">Nama Produk <span class="text-danger">*</span></label>
                                         <select name="product" id="product" class="form-control select2 @error('product') is-invalid @enderror">
                                             <option value="">Pilih Produk</option>
-                                            @foreach ($products as $product)
-                                                <option value="{{ $product->id }}"
-                                                    {{ old('product') == $product->id ? 'selected' : '' }}>
-                                                    {{ $product->name }}
+                                            @foreach ($orders as $order)
+                                                <option value="{{ $order->product_id }}"
+                                                    {{ old('product') == $order->product_id ? 'selected' : '' }}>
+                                                    {{ $order->product->name }}
                                                 </option>
                                             @endforeach
                                         </select>
