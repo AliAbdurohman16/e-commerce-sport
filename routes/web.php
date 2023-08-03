@@ -73,5 +73,7 @@ Route::middleware('role:admin')->group(function () {
     Route::get('chats/person/{id}', [App\Http\Controllers\Backend\ChatController::class, 'person'])->name('chats.person');
     Route::post('chats/send', [App\Http\Controllers\Backend\ChatController::class, 'send'])->name('chats.send');
     Route::post('chats/delete-all', [App\Http\Controllers\Backend\ChatController::class, 'deleteAll'])->name('chats.delete-all');
+    Route::post('chats/reviews-data', [App\Http\Controllers\Backend\ReviewController::class, 'index'])->name('reviews-data');
+    Route::post('chats/reviews-chart', [App\Http\Controllers\Backend\ReviewController::class, 'chart'])->name('reviews-chart');
 });
 
