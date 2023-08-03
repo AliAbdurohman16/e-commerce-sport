@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Discount;
-use App\Models\Product;
+use App\Models\OrderDetail;
 use App\Models\User;
 use App\Notifications\DiscountNotification;
 use Illuminate\Support\Facades\Notification;
@@ -15,7 +15,7 @@ class DiscountLowestProductController extends Controller
     public function index()
     {
         // get data
-        $discounts = Discount::where('type', 'Kurang Laris');
+        $discounts = Discount::where('type', 'Kurang Laris')->get();
 
         return view('backend.discounts.lowest.index', compact('discounts'));
     }
@@ -23,9 +23,17 @@ class DiscountLowestProductController extends Controller
     public function create()
     {
         // get all data products
-        $products = Product::all();
+        $orders = OrderDetail::selectRaw('product_id, SUM(quantity) as total')
+                                ->whereHas('order', function ($query) {
+                                    $query->whereNotIn('status', ['Belum Checkout', 'Sudah Bayar', 'Dibatalkan']);
+                                })
+                                ->groupBy('product_id')
+                                ->orderBy('total', 'asc')
+                                ->take(5)
+                                ->get();
+        // dd($orders->product);
 
-        return view('backend.discounts.lowest.add', compact('discounts', 'products'));
+        return view('backend.discounts.lowest.add', compact('orders'));
     }
 
     public function store(Request $request)
@@ -62,9 +70,16 @@ class DiscountLowestProductController extends Controller
         $discounts = Discount::findOrFail($id);
 
         // get all data products
-        $products = Product::all();
+        $orders = OrderDetail::selectRaw('product_id, SUM(quantity) as total')
+                                ->whereHas('order', function ($query) {
+                                    $query->whereNotIn('status', ['Belum Checkout', 'Sudah Bayar', 'Dibatalkan']);
+                                })
+                                ->groupBy('product_id')
+                                ->orderBy('total', 'asc')
+                                ->take(5)
+                                ->get();
 
-        return view('backend.discounts.lowest.edit', compact('discounts', 'products'));
+        return view('backend.discounts.lowest.edit', compact('discounts', 'orders'));
     }
 
     public function update(Request $request, $id)
