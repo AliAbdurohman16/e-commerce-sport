@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\OrderDetail;
 use App\Models\Transaction;
+use App\Models\Discount;
 
 class DashboardController extends Controller
 {
@@ -59,6 +60,27 @@ class DashboardController extends Controller
         $lowestProductsData = $lowestProducts->pluck('total_quantity')->toJson();
         $lowestProductsLabels = $lowestProducts->pluck('product.name')->toJson();
 
+        // Retrieve all discount data from the 'discount' table
+        $discountData = Discount::where('type', 'Kurang Laris')->get();
+
+        // Get the product IDs from $discountData
+        $productIds = $discountData->pluck('product_id')->toArray();
+
+        // Get the total quantities of the products from the OrderDetail table
+        $discountLowestProducts = OrderDetail::selectRaw('product_id, SUM(quantity) as total')
+                                            ->whereIn('product_id', $productIds)
+                                            ->whereHas('order', function ($query) {
+                                                $query->whereNotIn('status', ['Belum Checkout', 'Sudah Bayar', 'Dibatalkan']);
+                                            })
+                                            ->groupBy('product_id')
+                                            ->orderBy('total', 'asc')
+                                            ->take(5)
+                                            ->get();
+
+        // create chart data for discount lowest products
+        $discountLowestProductsData = $discountLowestProducts->pluck('total')->toJson();
+        $discountLowestProductsLabels = $discountLowestProducts->pluck('product.name')->toJson();
+
         // checking last transaction
         if ($lastTransaction) {
             $lastYear = $lastTransaction->updated_at->year;
@@ -69,7 +91,8 @@ class DashboardController extends Controller
         return view('backend.dashboard.index', compact('customerCount', 'productCount', 'orderCount', 'income',
                                                     'incomeByYear', 'incomeByMonth', 'incomeByWeek',
                                                     'incomeByDay', 'lastYear', 'topProductsData',
-                                                    'topProductsLabels', 'lowestProductsData', 'lowestProductsLabels'));
+                                                    'topProductsLabels', 'lowestProductsData', 'lowestProductsLabels',
+                                                    'discountLowestProductsData', 'discountLowestProductsLabels'));
     }
 
     public function getRevenueByMonth($year = null)

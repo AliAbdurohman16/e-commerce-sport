@@ -161,6 +161,15 @@
                     <div id="lowest-product"></div>
                 </div>
             </div><!--end col-->
+
+            <div class="col-xl-12 col-lg-7 mt-4">
+                <div class="card shadow border-0 p-4 pb-0 rounded">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="mb-0 fw-bold">Grafik Penjualan Diskon Produk Kurang Laris</h6>
+                    </div>
+                    <div id="discount" class="apex-chart"></div>
+                </div>
+            </div><!--end col-->
         </div><!--end row-->
     </div>
 </div>
@@ -314,6 +323,53 @@
         var chart = new ApexCharts(document.querySelector("#lowest-product"), options);
         chart.render();
 
+        // Chart for discount product lowest
+        var options = {
+            series: [{
+                name: 'Total',
+                data: {!! $discountLowestProductsData !!},
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+            bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
+            },
+                dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: {!! $discountLowestProductsLabels !!},
+            },
+            yaxis: {
+                title: {
+                    text: 'Jumlah yang dibeli'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return  val + " Jumlah yang dibeli"
+                    }
+                }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#discount"), options);
+        chart.render();
     });
 
 
