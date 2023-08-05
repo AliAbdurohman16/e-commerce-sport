@@ -7,7 +7,7 @@
                 @else
                     <img src="{{ asset('storage/users/' . $list->recipient->image) }}" class="avatar avatar-md-sm rounded-circle border shadow" alt="avatar">
                 @endif
-                <i class="mdi mdi-checkbox-blank-circle {{ $list->recipient_id == Auth::id() ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i>
+                <i class="mdi mdi-checkbox-blank-circle {{ $list->recipient->is_online == 1 ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i>
             </div>
             <div class="overflow-hidden flex-1 ms-2">
                 <div class="d-flex justify-content-between">

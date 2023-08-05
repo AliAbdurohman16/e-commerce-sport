@@ -1,5 +1,6 @@
 @php
     use Illuminate\Support\Facades\Auth;
+    use App\Models\User;
 @endphp
 
 @if (Auth::check())
@@ -7,6 +8,7 @@
 <div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
     @php
         $user = Auth::user();
+        $userOnline = User::where('id', 2)->first();
         if (Auth::check()) {
             $chats = App\Models\Chat::where('sender_id', $user->id)
                          ->orWhere('recipient_id', $user->id)
@@ -23,8 +25,8 @@
                     <div class="overflow-hidden ms-3">
                          <a href="#" class="text-dark mb-0 h6 d-block text-truncate">Rania Sport</a>
                         <small class="text-muted">
-                            <i class="mdi mdi-checkbox-blank-circle {{ Auth::check() && Auth::user()->hasRole('admin') ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i>
-                            {{ Auth::check() && Auth::user()->hasRole('admin') ? 'Online' : 'Offline' }}
+                            <i class="mdi mdi-checkbox-blank-circle {{ $userOnline->is_online == 1 ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i>
+                            {{ $userOnline->is_online == 1 ? 'Online' : 'Offline' }}
                         </small>
                     </div>
                 </div>

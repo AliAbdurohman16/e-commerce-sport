@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('subdistrict')->nullable();
             $table->string('village')->nullable();
             $table->integer('postal_code')->nullable();
+            $table->integer('is_online', 1)->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

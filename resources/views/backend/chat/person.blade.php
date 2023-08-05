@@ -9,7 +9,7 @@
             @endif
             <div class="overflow-hidden ms-3">
                 <a href="#" class="text-dark mb-0 h6 d-block text-truncate">{{ $recipient->name }}</a>
-                <small class="text-muted"><i class="mdi mdi-checkbox-blank-circle {{ $recipient->id == Auth::id() ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i> {{ $recipient->id == Auth::id() ? 'Online' : 'Offline' }}</small>
+                <small class="text-muted"><i class="mdi mdi-checkbox-blank-circle {{ $recipient->is_online == 1 ? 'text-success' : 'text-danger' }} on-off align-text-bottom"></i> {{ $recipient->is_online == 1 ? 'Online' : 'Offline' }}</small>
             </div>
         </div>
 

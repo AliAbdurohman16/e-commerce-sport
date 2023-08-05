@@ -30,6 +30,7 @@ class User extends Authenticatable
         'subdistrict',
         'village',
         'postal_code',
+        'is_online',
     ];
 
     /**
