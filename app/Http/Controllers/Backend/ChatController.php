@@ -12,9 +12,12 @@ class ChatController extends Controller
 {
     public function index()
     {
+        return view('backend.chat.index');
+    }
+
+    public function list(Request $request) {
         $user = Auth::user();
 
-        // get all data chat
         $listChats = Chat::where('sender_id', $user->id)
                     ->orWhere('recipient_id', $user->id)
                     ->orderBy('created_at', 'desc')
@@ -36,10 +39,41 @@ class ChatController extends Controller
                 ->orWhereIn('id', $latestChats->pluck('recipient_id'))
                 ->get();
 
-        return view('backend.chat.index', compact('latestChats', 'users'));
+        $listView = view('backend.chat.list', compact('latestChats', 'users'))->render();
+
+        $data = [
+            'listView' => $listView,
+        ];
+
+        return response()->json($data);
+    }
+
+    public function new()
+    {
+        // get data users
+        $users = User::all();
+
+        $listUser = view('backend.chat.new', compact('users'))->render();
+
+        $data = [
+            'listUser' => $listUser,
+        ];
+
+        return response()->json($data);
     }
 
     public function person($id)
+    {
+        // get data user
+        $user = Auth::user();
+
+        // get data user yang dituju
+        $recipient = User::findOrFail($id);
+
+        return view('backend.chat.person', compact('recipient'));
+    }
+
+    public function content($id)
     {
         // get data user
         $user = Auth::user();
@@ -61,7 +95,9 @@ class ChatController extends Controller
                                 ->where('recipient_id', $user->id);
                         })->orderBy('created_at', 'ASC')->get();
 
-        return view('backend.chat.person', compact('chats', 'recipient'));
+
+        $content = view('backend.chat.content', compact('chats'))->render();
+        return response()->json(['content' => $content]);
     }
 
     public function send(Request $request)

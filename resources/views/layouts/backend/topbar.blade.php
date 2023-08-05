@@ -33,7 +33,7 @@
                             @endif
                             <div class="flex-1 ms-2">
                                 <span class="d-block">{{ Auth::user()->name }}</span>
-                                <small class="text-muted">{{ Auth::user()->hasRole('admin') ? 'Administrator' : 'User' }}</small>
+                                <small class="text-muted">{{ Auth::user()->hasRole('admin') ? 'Administrator' : 'Customer Service' }}</small>
                             </div>
                         </a>
                         <a class="dropdown-item text-dark" href="{{ route('dashboard') }}"><span class="mb-0 d-inline-block me-1"><i class="ti ti-home"></i></span> Dashboard</a>
