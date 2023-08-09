@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
             'address' => 'Kuningan',
         ]);
 
-        $customer_service->assignRole('customer service');
+        $customer_service->assignRole('customer_service');
 
         $user = User::create([
             'name' => 'User',
