@@ -170,12 +170,9 @@
                                 @enderror
                             </div>
 
-                            <div class="col-md-6">
-                                <label for="receipt" class="form-label">Bukti Transfer</label>
-                                <input type="hidden" name="order_id" value="{{ $order_detail->order_id }}">
-                                <input type="hidden" name="gross_amount" value="{{ $amount }}">
-                                <input type="hidden" name="shipping_cost" value="{{ $total_shipping_cost }}">
-                            </div>
+                            <input type="hidden" name="order_id" value="{{ $order_detail->order_id }}">
+                            <input type="hidden" name="gross_amount" value="{{ $amount }}">
+                            <input type="hidden" name="shipping_cost" value="{{ $total_shipping_cost }}">
                         </div>
                         <button type="submit" class="w-100 btn btn-primary" id="checkout">Lanjutkan checkout</button>
                     </form>
