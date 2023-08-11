@@ -51,14 +51,14 @@ class ChatController extends Controller
     public function new()
     {
         // Check if the user has the 'admin' role
-        if (auth()->user()->hasRole('admin')) {
-            // Get data users with roles 'admin' and 'customer_service'
+        if (Auth::user()->hasRole('admin')) {
+            // Get data users with roles 'admin'
             $users = User::whereHas('roles', function ($query) {
-                $query->whereIn('name', ['admin', 'customer_service']);
+                $query->whereNot('name', 'user');
             })->get();
         } else {
             // For non-admin users, they will only get their own data (optional)
-            $users = User::where('id', auth()->user()->id)->get();
+            $users = User::all();
         }
 
         $listUser = view('backend.chat.new', compact('users'))->render();
