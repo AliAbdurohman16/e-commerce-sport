@@ -76,7 +76,7 @@ Route::middleware(['role:admin|customer_service'])->group(function () {
     Route::get('chats/content/{id}', [App\Http\Controllers\Backend\ChatController::class, 'content'])->name('chats.content');
     Route::post('chats/send', [App\Http\Controllers\Backend\ChatController::class, 'send'])->name('chats.send');
     Route::post('chats/delete-all', [App\Http\Controllers\Backend\ChatController::class, 'deleteAll'])->name('chats.delete-all');
-    Route::post('chats/reviews-data', [App\Http\Controllers\Backend\ReviewController::class, 'index'])->name('reviews-data');
-    Route::post('chats/reviews-chart', [App\Http\Controllers\Backend\ReviewController::class, 'chart'])->name('reviews-chart');
+    Route::post('reviews-data', [App\Http\Controllers\Backend\ReviewController::class, 'index'])->name('reviews-data');
+    Route::post('reviews-chart', [App\Http\Controllers\Backend\ReviewController::class, 'chart'])->name('reviews-chart');
 });
 
