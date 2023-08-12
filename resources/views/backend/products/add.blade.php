@@ -3,14 +3,11 @@
 @section('title', 'Produk')
 
 @section('css')
-<!-- Datatables -->
-<link rel="stylesheet" href="{{ asset('backend') }}/libs/data-tables/css/dataTables.bootstrap5.min.css">
-<link rel="stylesheet" href="{{ asset('backend') }}/libs/data-tables/css/responsive.bootstrap5.min.css">
-<link rel="stylesheet" href="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.css"/>
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/tagsinput/tagsinput.css"/>
 <link rel="stylesheet" href="{{ asset('backend') }}/css/tag-input.css"/>
 <link rel="stylesheet" href="{{ asset('backend') }}/libs/select2/select2.min.css"/>
 <link rel="stylesheet" href="{{ asset('backend') }}/css/select2.css"/>
+<link rel="stylesheet" href="{{ asset('backend') }}/libs/summernote/summernote.min.css"/>
 @endsection
 
 @section('content')
@@ -166,19 +163,15 @@
 @endsection
 
 @section('javascript')
-<!-- Datatables -->
-<script src="{{ asset('backend') }}/libs/data-tables/js/jquery.dataTables.min.js"></script>
-<script src="{{ asset('backend') }}/libs/data-tables/js/dataTables.bootstrap5.min.js"></script>
-<script src="{{ asset('backend') }}/libs/data-tables/js/dataTables.responsive.min.js"></script>
-<script src="{{ asset('backend') }}/libs/data-tables/js/responsive.bootstrap5.min.js"></script>
-<script src="{{ asset('backend') }}/libs/sweetalert2/sweetalert2.min.js"></script>
 <script src="{{ asset('backend') }}/libs/tagsinput/tagsinput.min.js"></script>
 <script src="{{ asset('backend') }}/libs/autoNumeric/autoNumeric.min.js"></script>
 <script src="{{ asset('backend') }}/libs/select2/select2.min.js"></script>
+<script src="{{ asset('backend') }}/libs/summernote/summernote.min.js"></script>
 <script>
     // show select2
     $(document).ready(function() {
         $('.select2').select2();
+        $('#description').summernote();
     });
 
     // show price to IDR
