@@ -57,7 +57,12 @@
                     <div class="card-body content pt-4 p-2">
                         <a href="{{ route('products.detail', $product->slug) }}" class="text-dark product-name h6">{{ $product->name }}</a>
                         <div class="d-flex justify-content-between mt-1">
-                            <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($product->price, 0, ',', '.') }}</h6>
+                            @php
+                                $discountedPrice = ($product->discounts->count() > 0 && $product->discounts->first()->end_date >= now())
+                                    ? ($product->price - ($product->price * ($product->discounts->first()->discount_percentage / 100)))
+                                    : $product->price;
+                            @endphp
+                            <h6 class="text-dark small fst-italic mb-0 mt-1">Rp {{ number_format($discountedPrice, 0, ',', '.') }}</h6>
 
                             <!-- Rating -->
                             <ul class="list-unstyled text-warning mb-0">
@@ -73,13 +78,7 @@
                             </ul>
                             <!-- End Rating -->
                         </div>
-                        @if($product->discounts->count() > 0)
-                            @php
-                                $discount = $product->discounts->first()->discount_percentage; // get discount percentage
-                                $discountedPrice = $product->price - ($product->price * ($discount / 100)); // calculate the price after the discount
-                            @endphp
-                                <del class="text-danger small fst-italic">Rp {{ number_format($product->price, 0, ',', '.') }}</del>
-                        @endif
+                        <del class="text-danger small fst-italic">Rp {{ number_format($product->price, 0, ',', '.') }}</del>
                     </div>
                 </div>
             </div><!--end col-->

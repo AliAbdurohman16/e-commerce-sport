@@ -183,7 +183,7 @@
 
                 <div class="tab-content mt-4" id="pills-tabContent">
                     <div class="card border-0 tab-pane fade show active p-4 rounded shadow" id="description" role="tabpanel" aria-labelledby="description-data">
-                        <p class="text-muted mb-0">{{ $product->description }}</p>
+                        <p class="text-muted mb-0">{!! $product->description !!}</p>
                     </div>
 
                     <div class="card border-0 tab-pane fade" id="additional" role="tabpanel" aria-labelledby="additional-info">
