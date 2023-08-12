@@ -71,7 +71,7 @@
                         <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 p-4" style="width: 400px;">
                             <form action="{{ route('carts.store') }}" method="post">
                             @csrf
-                            <div class="pb-4">
+                            <div class="pb-4" style="height: 230px; max-height: 100%; padding-right: 20px; overflow-y: auto;">
                                 @foreach ($order_details as $order)
                                 <input type="hidden" name="id[]" value="{{ $order->id }}">
                                 <input type="hidden" name="quantity[]" value="{{ $order->quantity }}">
@@ -120,7 +120,7 @@
                                 @endforeach
                             </div>
 
-                            <div class="d-flex align-items-center justify-content-between pt-4 border-top">
+                            <div class="d-flex align-items-center justify-content-between pt-4 border-top mt-3">
                                 <h6 class="text-dark mb-0">Total(Rp):</h6>
                                 <h6 class="text-dark mb-0" id="subtotal-price">Rp {{ number_format($total, 0, ',', '.') }}</h6>
                             </div>
