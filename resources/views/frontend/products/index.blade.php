@@ -77,7 +77,9 @@
                             </ul>
                             <!-- End Rating -->
                         </div>
-                        <del class="text-danger small fst-italic">Rp {{ number_format($product->price, 0, ',', '.') }}</del>
+                        @if ($product->discounts->count() > 0 && $product->discounts->first()->end_date >= now())
+                            <del class="text-danger small fst-italic">Rp {{ number_format($product->price, 0, ',', '.') }}</del>
+                        @endif
                     </div>
                 </div>
             </div><!--end col-->

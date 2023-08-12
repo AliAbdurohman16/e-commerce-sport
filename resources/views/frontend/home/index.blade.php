@@ -86,7 +86,9 @@
                             </ul>
                             <!-- End Rating -->
                         </div>
-                        <del class="text-danger small fst-italic">Rp {{ number_format($recent->price, 0, ',', '.') }}</del>
+                        @if ($recent->discounts->count() > 0 && $recent->discounts->first()->end_date >= now())
+                            <del class="text-danger small fst-italic">Rp {{ number_format($recent->price, 0, ',', '.') }}</del>
+                        @endif
                     </div>
                 </div>
             </div><!--end col-->
@@ -120,6 +122,7 @@
     <!-- Start Categories -->
 
     <!-- Start Popular -->
+    @if ($popularProducts->count() > 0)
     <div class="container mt-100 mt-60">
         <div class="row">
             <div class="col-12">
@@ -171,13 +174,16 @@
                             </ul>
                             <!-- End Rating -->
                         </div>
-                        <del class="text-danger small fst-italic">Rp {{ number_format($popular->price, 0, ',', '.') }}</del>
+                        @if ($popular->discounts->count() > 0 && $popular->discounts->first()->end_date >= now())
+                            <del class="text-danger small fst-italic">Rp {{ number_format($popular->price, 0, ',', '.') }}</del>
+                        @endif
                     </div>
                 </div>
             </div><!--end col-->
             @endforeach
         </div><!--end row-->
     </div><!--end container-->
+    @endif
     <!-- End Popular -->
 
     <!-- All Products -->
@@ -231,7 +237,9 @@
                             </ul>
                             <!-- End Rating -->
                         </div>
-                        <del class="text-danger small fst-italic">Rp {{ number_format($product->price, 0, ',', '.') }}</del>
+                        @if ($product->discounts->count() > 0 && $product->discounts->first()->end_date >= now())
+                            <del class="text-danger small fst-italic">Rp {{ number_format($product->price, 0, ',', '.') }}</del>
+                        @endif
                     </div>
                 </div>
             </div><!--end col-->
