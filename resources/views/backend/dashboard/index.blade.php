@@ -160,7 +160,7 @@
 
         @if (Auth::user()->hasRole('admin'))
         <div class="row">
-            <div class="col-xl-12 col-lg-7 mt-4">
+            <div class="col-xl-12 col-lg-12 mt-4">
                 <div class="card shadow border-0 p-4 pb-0 rounded">
                     <div class="d-flex justify-content-between">
                         <h6 class="mb-0 fw-bold">Grafik Bar Pendapatan</h6>
@@ -177,7 +177,7 @@
                 </div>
             </div><!--end col-->
 
-            <div class="col-xl-6 col-lg-5 mt-4">
+            <div class="col-xl-6 col-lg-6 mt-4">
                 <div class="card rounded shadow border-0 p-4">
                     <div class="d-flex justify-content-between mb-4">
                         <h6 class="mb-0">Top Produk Terlaris</h6>
@@ -186,7 +186,7 @@
                 </div>
             </div><!--end col-->
 
-            <div class="col-xl-6 col-lg-5 mt-4">
+            <div class="col-xl-6 col-lg-6 mt-4">
                 <div class="card rounded shadow border-0 p-4">
                     <div class="d-flex justify-content-between mb-4">
                         <h6 class="mb-0">Produk Kurang Laris</h6>
@@ -195,7 +195,7 @@
                 </div>
             </div><!--end col-->
 
-            <div class="col-xl-12 col-lg-7 mt-4">
+            <div class="col-xl-12 col-lg-12 mt-4">
                 <div class="card shadow border-0 p-4 pb-0 rounded">
                     <div class="d-flex justify-content-between">
                         <h6 class="mb-0 fw-bold">Grafik Penjualan Diskon Produk Kurang Laris</h6>
@@ -307,7 +307,7 @@
 
         var options = {
             chart: {
-                width: 380,
+                width: 480,
                 type: 'pie',
             },
             labels: {!! $topProductsLabels !!},
@@ -336,7 +336,7 @@
 
         var options = {
             chart: {
-                width: 380,
+                width: 480,
                 type: 'pie',
             },
             labels: {!! $lowestProductsLabels !!},
