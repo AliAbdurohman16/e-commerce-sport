@@ -23,7 +23,7 @@
         </div>
 
         <ul class="buy-button list-inline mb-0">
-            <li class="list-inline-item mb-0">
+            <li class="list-inline-item mb-0 pe-2">
                 <div class="dropdown">
                     <button type="button" class="btn dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="uil uil-search text-dark fs-5 align-middle"></i>
@@ -48,7 +48,7 @@
                 </li>
                 @endif
             @else
-                <li class="list-inline-item mb-0 pe-1 position-relative">
+                <li class="list-inline-item mb-0 pe-2 position-relative">
                     <div class="dropdown">
                         @php
                         // get order data for the logged in user
