@@ -116,53 +116,6 @@
 
                 contentChat(userId);
 
-                $(document.body).on('keyup', '#chat-message', function(event) {
-                    if (event.keyCode === 13) {
-                        event.preventDefault();
-                        send();
-                    }
-                });
-
-                $('#send-message').click(function(event) {
-                    event.preventDefault();
-                    send();
-                });
-
-                function send() {
-                    var message = document.getElementById("chat-message").value;
-                    var recipient = document.getElementById("recipient").value;
-
-                    $.ajax({
-                        url: "{{ route('chats.send') }}",
-                        type: "POST",
-                        data: {
-                            "_token": $('meta[name="csrf-token"]').attr('content'),
-                            recipient: recipient,
-                            message: message,
-                        },
-                        dataType: "json",
-                        success: function(response) {
-                            contentChat(userId);
-
-                            $("#chat-message").val("");
-
-                            const chatLinks = document.querySelectorAll('.chat-list');
-                                chatLinks.forEach(link => {
-                                    link.classList.remove('active');
-                                    if (link.getAttribute('data-id') === userId) {
-                                        link.classList.add('active');
-                                    }
-                            });
-
-                            listChat();
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    });
-                }
-
-
                 $('#delete-all').click(function() {
                     var senderId = $(this).data('sender-id');
                     var recipient = document.getElementById("recipient").value;
@@ -177,10 +130,11 @@
                         },
                         success: function(response) {
                             $('#chat-ul').empty();
+
+                            listChat()
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             console.log(textStatus, errorThrown);
-                            console.log(recipient);
                         }
                     });
                 });
@@ -188,6 +142,52 @@
         };
 
         xhr.send();
+    }
+
+    $(document.body).on('keyup', '#chat-message', function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            send();
+        }
+    });
+
+    $('#send-message').click(function(event) {
+        event.preventDefault();
+        send();
+    });
+
+    function send() {
+        var message = document.getElementById("chat-message").value;
+        var recipient = document.getElementById("recipient").value;
+
+        $.ajax({
+            url: "{{ route('chats.send') }}",
+            type: "POST",
+            data: {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                recipient: recipient,
+                message: message,
+            },
+            dataType: "json",
+            success: function(response) {
+                contentChat(recipient);
+
+                $("#chat-message").val("");
+
+                const chatLinks = document.querySelectorAll('.chat-list');
+                chatLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-id') === recipient) {
+                        link.classList.add('active');
+                    }
+                });
+
+                listChat();
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
     }
 </script>
 @endsection
