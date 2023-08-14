@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('color');
             $table->integer('quantity');
             $table->decimal('total', 11, 2)->nullable();
+            $table->string('status')->nullable();
             $table->string('review', 4)->nullable();
             $table->timestamps();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');

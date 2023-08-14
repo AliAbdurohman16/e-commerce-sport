@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
-use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +43,7 @@ class HistoryController extends Controller
     {
         $order_id = $request->order_id;
 
-        $order = Order::where('id', $order_id);
+        $order = OrderDetail::where('order_id', $order_id);
         $order->update([
             'status' => 'Pesanan Diterima',
         ]);

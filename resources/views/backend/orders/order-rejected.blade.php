@@ -67,7 +67,7 @@
                                         <td class="p-3">Rp {{ number_format($detail->total, 0, ',', '.') }}</td>
                                         <td class="p-3">
                                             <div class="badge bg-soft-danger rounded px-3 py-1">
-                                                {{ $detail->order->status }}
+                                                {{ $detail->status }}
                                             </div>
                                         </td>
                                         <td class="p-3">

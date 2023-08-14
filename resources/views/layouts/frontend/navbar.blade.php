@@ -57,7 +57,7 @@
                             // get order details data for the logged in user
                             $order_details = App\Models\OrderDetail::whereHas('order', function ($query) {
                                 $query->where('user_id', Auth::user()->id)
-                                ->where('status', 'Belum Checkout');
+                                ->where('is_checkout', null);
                             })->get();
 
                             $total = 0;

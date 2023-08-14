@@ -52,7 +52,7 @@
                                         <td class="p-3">Rp {{ number_format($detail->order->shippings->first()->cost, 0, ',', '.') }}</td>
                                         <td class="p-3">
                                             <div class="badge bg-soft-info rounded px-3 py-1">
-                                                {{ $detail->order->status }}
+                                                {{ $detail->status }}
                                             </div>
                                         </td>
                                         <td class="p-3">

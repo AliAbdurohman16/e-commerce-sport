@@ -12,7 +12,7 @@ class Order extends Model
     protected $keyType = 'string';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['id', 'user_id', 'status', 'subtotal'];
+    protected $fillable = ['id', 'user_id', 'subtotal', 'is_checkout'];
 
     protected static function boot()
     {

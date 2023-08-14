@@ -32,7 +32,7 @@ class CheckoutController extends Controller
         // get order details data for the logged in user
         $order_details = OrderDetail::whereHas('order', function ($query) {
             $query->where('user_id', Auth::user()->id)
-            ->where('status', 'Belum Checkout');
+            ->where('is_checkout', null);
         })->get();
 
         if (!$order_details->count() >0 ) {
@@ -104,9 +104,9 @@ class CheckoutController extends Controller
         ]);
 
         // Update status order by order_id
-        $order = Order::where('id', $request->order_id)->first();
-        $order->status = 'Belum Bayar';
-        $order->save();
+        $order = Order::where('id', $request->order_id)
+                        ->where('is_checkout', null)
+                        ->first();
 
         // Update stock of products in the order
         foreach ($order->orderDetails as $orderDetail) {
@@ -151,7 +151,7 @@ class CheckoutController extends Controller
         // get order details data for the logged in user
         $order_details = OrderDetail::whereHas('order', function ($query) {
             $query->where('user_id', Auth::user()->id)
-            ->where('status', 'Belum Bayar');
+            ->where('is_checkout', null);
         })->get();
 
 
@@ -184,7 +184,7 @@ class CheckoutController extends Controller
 
         // Update status order by order_id
         $order = Order::where('id', $transaction->order_id)->first();
-        $order->status = 'Sudah Bayar';
+        $order->is_checkout = true;
         $order->save();
 
         return redirect('payment-history')->with('success', 'Konfirmasi anda berhasil!');
@@ -201,6 +201,11 @@ class CheckoutController extends Controller
 
         // Update status order by order_id
         $order = Order::where('id', $transaction->order_id)->first();
+        $order->is_checkout = false;
+        $order->save();
+
+        // Update status order detail by order_id
+        $order = OrderDetail::where('order_id', $transaction->order_id)->first();
         $order->status = 'Dibatalkan';
         $order->save();
 

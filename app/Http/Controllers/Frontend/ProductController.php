@@ -70,12 +70,9 @@ class ProductController extends Controller
                             ->take(10)
                             ->get();
 
-        // get the currently logged in user
-        $user = Auth::user();
-
         // find or create order
         $order = Order::where('user_id', $user->id)
-                        ->where('status', 'Belum Checkout')
+                        ->where('is_checkout', null)
                         ->first();
 
         return view('frontend.products.detail', compact('product', 'rating', 'reviews', 'relatedProducts', 'order'));
@@ -155,7 +152,7 @@ class ProductController extends Controller
         // find or create order
         $order = Order::where('id', $request->order_id)
                         ->where('user_id', $user->id)
-                        ->where('status', 'Belum Checkout')
+                        ->where('is_checkout',null)
                         ->first();
 
         if (!$order) {
@@ -168,7 +165,6 @@ class ProductController extends Controller
             $order->save();
             $order->refresh();
         }
-
 
         // find existing order detail with the same product, size, and color
         $orderDetail = $order->orderDetails()

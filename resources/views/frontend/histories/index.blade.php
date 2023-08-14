@@ -73,13 +73,13 @@
 
                                                 </td>
                                                 <td>{{ date('d-m-Y', strtotime($transaction->created_at)) }}</td>
-                                                <td class="{{ $transaction->order->status == 'Dalam Pengiriman' ? 'text-success' : ($transaction->order->status == 'Pesanan Diterima' ? 'text-primary' : ($transaction->order->status == 'Pesanan Gagal' ? 'text-danger' : 'text-muted')) }}">
-                                                    {{ $transaction->order->status }}
+                                                <td class="{{ $order->status == 'Dalam Pengiriman' ? 'text-success' : ($order->status == 'Pesanan Diterima' ? 'text-primary' : ($order->status == 'Pesanan Gagal' ? 'text-danger' : 'text-muted')) }}">
+                                                    {{ $order->status }}
                                                 </td>
                                                 <td>Rp {{ number_format($transaction->gross_amount, 0, ',', '.') }}</td>
                                                 <td>
                                                     <a href="javascript:void(0)" class="text-primary" data-bs-toggle="modal" data-bs-target="#detail{{ $order->product_id }}">Detail <i class="uil uil-arrow-right"></i></a><br>
-                                                    @if ($transaction->order->status == 'Pesanan Diterima')
+                                                    @if ($order->status == 'Pesanan Diterima')
                                                         @if ($order->review == null)
                                                             <a href="javascript:void(0)" class="text-primary" data-bs-toggle="modal" data-bs-target="#review{{ $order->product_id }}">Review <i class="uil uil-arrow-right"></i></a>
                                                         @endif
@@ -112,7 +112,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
-                                @if ($transaction->order->status == 'Dalam Pengiriman')
+                                @if ($order->status == 'Dalam Pengiriman')
                                     <div class="alert alert-primary">
                                         Estimasi pengiriman paket anda akan sampai pada tanggal {{ date('d-m-Y, H:i', strtotime($transaction->order->shippings->first()->estimation)) }}.
                                     </div>
@@ -143,7 +143,7 @@
                                             {{ date('H:i, d-m-Y', strtotime($transaction->created_at)) }}
                                         </div>
 
-                                        @if ($transaction->order->status != 'Dalam Proses' && $transaction->order->status != 'Pesanan Gagal' && $transaction->order->status != 'Dibatalkan')
+                                        @if ($order->status != 'Dalam Proses' && $order->status != 'Pesanan Gagal' && $order->status != 'Dibatalkan')
                                             <div class="col-4">
                                                 <label for="">No Resi</label>
                                             </div>
@@ -169,7 +169,7 @@
                                             </div>
                                         @endif
 
-                                        @if ($transaction->order->status == 'Pesanan Gagal')
+                                        @if ($order->status == 'Pesanan Gagal')
                                             <div class="col-4">
                                                 <label for="">Tanggal Gagal</label>
                                             </div>
@@ -179,7 +179,7 @@
                                             </div>
                                         @endif
 
-                                        @if ($transaction->order->status == 'Pesanan Diterima')
+                                        @if ($order->status == 'Pesanan Diterima')
                                             <div class="col-4">
                                                 <label for="">Tanggal Diterima</label>
                                             </div>
@@ -202,7 +202,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        @if ($transaction->order->status == 'Dalam Pengiriman')
+                        @if ($order->status == 'Dalam Pengiriman')
                             <form action="{{ route('received') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $transaction->order_id }}">

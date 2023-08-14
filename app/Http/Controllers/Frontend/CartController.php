@@ -26,7 +26,7 @@ class CartController extends Controller
         // get order details data for the logged in user
         $order_details = OrderDetail::whereHas('order', function ($query) {
             $query->where('user_id', Auth::user()->id)
-            ->where('status', 'Belum Checkout');
+            ->where('is_checkout', null);
         })->get();
 
         return view('frontend.cart.index', compact('order_details'));

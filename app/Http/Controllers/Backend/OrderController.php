@@ -14,9 +14,7 @@ class OrderController extends Controller
     {
         // get order details data with order
         $orderDetails = OrderDetail::with(['order.user', 'shippings', 'transactions'])
-                                    ->whereHas('order', function ($query) {
-                                        $query->where('status', 'Dalam Proses');
-                                    })
+                                    ->where('status', 'Dalam Proses')
                                     ->get();
 
         return view('backend.orders.index', compact('orderDetails'));
@@ -26,7 +24,7 @@ class OrderController extends Controller
     {
         // update status order
         $order_id = $request->order_id;
-        $order = Order::where('id', $order_id);
+        $order = OrderDetail::where('order_id', $order_id);
         $order->update(['status' => 'Dalam Pengiriman']);
 
         // insert shipping data
@@ -44,9 +42,7 @@ class OrderController extends Controller
     {
         // get order details data with order
         $orderDetails = OrderDetail::with(['order.user', 'shippings', 'transactions'])
-                                    ->whereHas('order', function ($query) {
-                                        $query->where('status', 'Dalam Pengiriman');
-                                    })
+                                    ->where('status', 'Dalam Pengiriman')
                                     ->get();
 
         return view('backend.orders.order-sent', compact('orderDetails'));
@@ -56,9 +52,7 @@ class OrderController extends Controller
     {
         // get order details data with order
         $orderDetails = OrderDetail::with(['order.user', 'shippings', 'transactions'])
-                                    ->whereHas('order', function ($query) {
-                                        $query->where('status', 'Pesanan Diterima');
-                                    })
+                                    ->where('status', 'Pesanan Diterima')
                                     ->get();
 
         return view('backend.orders.order-received', compact('orderDetails'));
@@ -68,10 +62,8 @@ class OrderController extends Controller
     {
         // Get order details data with order
         $orderDetails = OrderDetail::with(['order.user', 'shippings', 'transactions'])
-                                    ->whereHas('order', function ($query) {
-                                        $query->where('status', 'Pesanan Gagal')
-                                            ->orWhere('status', 'Dibatalkan');
-                                    })
+                                    ->where('status', 'Pesanan Gagal')
+                                    ->orWhere('status', 'Dibatalkan')
                                     ->get();
 
 
@@ -82,9 +74,9 @@ class OrderController extends Controller
     {
         // get order details data with order
         $orderDetail = OrderDetail::with(['order.user', 'shippings', 'transactions'])
+                                    ->where('status', 'Dalam Proses')
                                     ->whereHas('order', function ($query) use ($order_id) {
-                                        $query->where('id', $order_id)
-                                        ->where('status', 'Dalam Proses');
+                                        $query->where('id', $order_id);
                                     })
                                     ->first();
 

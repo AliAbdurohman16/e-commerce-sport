@@ -24,7 +24,7 @@
                         <div class="invoice-top pb-4 border-bottom">
                             <div class="row">
                                 <div class="col-xl-9 col-md-8">
-                                    <div class="logo-invoice mb-2"><img src="{{ asset('backend') }}/images/logo-dark.png" height="24" alt=""></div>
+                                    <div class="logo-invoice mb-2"><img src="{{ asset('frontend/images/logo.png') }}" height="50" alt="logo"></div>
                                 </div><!--end col-->
                             </div><!--end row-->
                         </div>
