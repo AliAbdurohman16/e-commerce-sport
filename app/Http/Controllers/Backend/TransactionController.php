@@ -49,17 +49,15 @@ class TransactionController extends Controller
         $transaction->save();
 
         if ($transaction) {
-            // Update status order by order_id
-            $order = OrderDetail::where('order_id', $order_id)->first();
-            $order->status = 'Pesanan Gagal';
-            $order->save();
+            // Update status order details by order_id
+            $orderDetail = OrderDetail::where('order_id', $order_id)->first();
+            $orderDetail->status = 'Pesanan Gagal';
+            $orderDetail->save();
 
             // Update stock of products in the order
-            foreach ($order->orderDetails as $orderDetail) {
-                $product = Product::findOrFail($orderDetail->product_id);
-                $product->stock += $orderDetail->quantity;
-                $product->save();
-            }
+            $product = Product::find($orderDetail->product_id);
+            $product->stock += $orderDetail->quantity;
+            $product->save();
         }
 
         return redirect()->back()->with('message', 'Transaksi berhasil ditolak!');
